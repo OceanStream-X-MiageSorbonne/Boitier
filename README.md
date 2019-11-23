@@ -4,8 +4,9 @@ Un projet en collaboration avec MIAGE-Sorbonne
 Contributeurs :
 
 Team OceanStream
-    - Adrien Landa
-    - Matthieu Hocquart
+
+    -Adrien Landa
+    -Matthieu Hocquart
 
 Team MiageSorbonne
 
