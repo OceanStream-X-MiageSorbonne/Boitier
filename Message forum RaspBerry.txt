@@ -1,0 +1,28 @@
+Bonjour à tous,
+
+Je travail sur un projet d'application java client installée sur de multiples Raspberry (plusieurs dizaines potentiellement). J'aimerais mener ce projet en intégration/déploiement continue.
+J'ai déjà vu qu'avec Jenkins je pouvais à chaque commit/push sur le répertoire git récupérer les sources, pour tester et build l'application.
+Mon problème réside dans la phase de déploiement. Je sais que Jenkins permet de déployer sur **un serveur** mais quand est-il pour déployer une application sur de **multiples Raspberry clients** ? J'ai entendu parler d'Ansible mais je ne vois pas comment l’intégrer à la chaine de déploiement continue.
+
+Autre contrainte, les Raspberry clients seront sur divers réseaux dont je n'ai pas la gestion (pas de redirection de port possible ?) les IP ne seront donc pas connus par avance et pourront potentiellement changer (pas de ssh ?).
+
+Si vous avec des idées pour réaliser le déploiement continue, ou de la documentation qui m'aiderait dans ma recherche je suis preneur !
+
+Merci d'avance pour vos réponses
+David
+
+
+Hello everyone,
+
+I am currently working on a java desktop application. It will be installed on multiple client (Rasbian). I would like to implement DevOps (continuous integration / continuous deployment) in my project.
+I already saw how to use Jenkins to pull source code every new commit to test it and to build it.
+
+My issue concerns the continuous deployment. I know Jenkin can deploy a build on **one server** but what about deploying Desktop app on **multiple clients** ? I eared a little about Ansible but I don't see how implementing it in my project.
+
+Moreover, my clients will be in different network with no possibility for me to parameter (no port forwarding ?) and the IPs won't be known in advanced (no SSH ?) .
+
+If you have any ideas or documentations that could help me solve my problem i would be very pleased.
+
+Thanks in advance,
+
+David
