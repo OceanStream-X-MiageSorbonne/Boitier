@@ -1,5 +1,5 @@
-- name : Hello World exeample
-  hosts: local
+---
+- hosts: local
   tasks:
     - name: create a file
       copy:
