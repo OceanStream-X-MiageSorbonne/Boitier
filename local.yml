@@ -1,0 +1,7 @@
+- name : Hello World exeample
+  hosts: local
+  tasks:
+    - name: create a file
+      copy:
+        content: Hello World
+        dest: /home/dev-ops/testfile.txt
