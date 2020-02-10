@@ -1,8 +1,8 @@
----
-- name: Hello World!
-  hosts: localhost
- 
+- hosts: all
   tasks:
- 
-  - name: Hello World!
-    shell: echo "Hi! Tower is working."
+  - name: Ansible create file if it doesn't exist example
+    file:
+      path: "/Users/mdtutorials2/Documents/Ansible/devops_server.txt"
+      state: touch
+
+output
