@@ -1,7 +1,8 @@
 ---
-- hosts: local
+- name: Hello World!
+  hosts: all
+ 
   tasks:
-    - name: create a file
-      copy:
-        content: Hello World
-        dest: /home/dev-ops/testfile.txt
+ 
+  - name: Hello World!
+    shell: echo "Hi! Tower is working."
