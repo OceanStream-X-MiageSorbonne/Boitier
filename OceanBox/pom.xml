@@ -12,7 +12,18 @@
     <developerConnection>scm:git:https://github.com/OceanStream-X-MiageSorbonne/Boitier.git</developerConnection>
   </scm>
 
+  <properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
   
+  <distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>Internal repo</name>
+      <url>https://github.com/OceanStream-X-MiageSorbonne/Boitier</url>
+    </repository>
+   </distributionManagement>
 
   <dependencies>
     <dependency>
