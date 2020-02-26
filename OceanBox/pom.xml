@@ -7,6 +7,13 @@
   <version>1.0-SNAPSHOT</version>
   <name>OceanBox</name>
   <url>http://maven.apache.org</url>
+
+  <scm>
+    <developerConnection>scm:git:https://github.com/OceanStream-X-MiageSorbonne/Boitier.git</developerConnection>
+  </scm>
+
+  
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
