@@ -2,6 +2,6 @@
   tasks:
   - name: Change the working directory to somedir/ before executing the command.
     shell:
-      cmd : sh update_latest_release.sh
+      cmd : sudo sh update_latest_release.sh
       chdir: /home/pi
 
