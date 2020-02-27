@@ -2,5 +2,6 @@
   tasks:
   - name: Change the working directory to somedir/ before executing the command.
     shell:
-      cmd : touch test.txt
-      chdir: home/ocean_box
+      cmd : sh update_latest_release.sh
+      chdir: /home/pi
+
