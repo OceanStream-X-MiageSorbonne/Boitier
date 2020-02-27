@@ -1,7 +1,6 @@
 - hosts: localhost
   tasks:
   - name: Change the working directory to somedir/ before executing the command.
-    shell:
-      cmd : sudo sh update_lakotest_release.sh
-      chdir: /home/pi
+    script: /home/pi/update_latest-release.sh
+
 
