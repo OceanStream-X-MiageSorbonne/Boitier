@@ -11,7 +11,22 @@
   <scm>
     <developerConnection>scm:git:https://github.com/OceanStream-X-MiageSorbonne/Boitier.git</developerConnection>
   </scm>
+  
+ <distributionManagement>
+  <repository>
+    <name>OceanBox Releases</name>
+    <id>OceanBoxReleases</id>
+    <url>http://176.158.51.172:8081/nexus/content/repositories/OceanBoxReleases</url>
+  </repository>
 
+   <snapshotRepository>
+    <name>OceanBox Snapshots</name>
+    <id>OceanBoxSnap</id>
+    <url>http://176.158.51.172:8081/nexus/content/repositories/OceanBoxSnap</url>
+  </snapshotRepository>
+
+ </distributionManagement>
+  
   <properties>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
@@ -26,3 +41,32 @@
     </dependency>
   </dependencies>
 </project>
+
+<plugin>
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-deploy-plugin</artifactId>
+   <version>${maven-deploy-plugin.version}</version>
+   <configuration>
+      <skip>true</skip>
+   </configuration>
+</plugin>
+
+<plugin>
+   <groupId>org.sonatype.plugins</groupId>
+   <artifactId>nexus-staging-maven-plugin</artifactId>
+   <version>1.5.1</version>
+   <executions>
+      <execution>
+         <id>default-deploy</id>
+         <phase>deploy</phase>
+         <goals>
+            <goal>deploy</goal>
+         </goals>
+      </execution>
+   </executions>
+   <configuration>
+      <serverId>nexus</serverId>
+      <nexusUrl>http://localhost:8081/nexus/</nexusUrl>
+      <skipStaging>true</skipStaging>
+   </configuration>
+</plugin>
