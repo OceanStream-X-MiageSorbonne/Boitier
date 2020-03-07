@@ -16,19 +16,6 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
-  
-  <distributionManagement>
-    <snapshotRepository>
-        <id>InternalSnapshots</id>
-        <name>Internal Snapshots</name>
-        <url>http://localhost:8081/nexus/content/repositories/OceanBoxReleases/</url>
-    </snapshotRepository>
-    <repository>
-        <id>InternalReleases</id>
-        <name>Internal Releases</name>
-        <url>http://localhost:8081/nexus/content/repositories/OceanBoxSnap/</url>
-    </repository>
-</distributionManagement>
 
   <dependencies>
     <dependency>
