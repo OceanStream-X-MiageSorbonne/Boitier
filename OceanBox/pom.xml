@@ -8,25 +8,6 @@
   <name>OceanBox</name>
   <url>http://maven.apache.org</url>
 
-  <scm>
-    <developerConnection>scm:git:https://github.com/OceanStream-X-MiageSorbonne/Boitier.git</developerConnection>
-  </scm>
-  
- <distributionManagement>
-  <repository>
-    <name>OceanBox Releases</name>
-    <id>OceanBoxReleases</id>
-    <url>http://176.158.51.172:8081/nexus/content/repositories/OceanBoxReleases</url>
-  </repository>
-
-   <snapshotRepository>
-    <name>OceanBox Snapshots</name>
-    <id>OceanBoxSnap</id>
-    <url>http://176.158.51.172:8081/nexus/content/repositories/OceanBoxSnap</url>
-  </snapshotRepository>
-
- </distributionManagement>
-  
   <properties>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
@@ -40,35 +21,34 @@
       <scope>test</scope>
       </dependency>
   </dependencies>
-   <build>
+
+
+  <build>
+  <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
-     <groupId>org.apache.maven.plugins</groupId>
-     <artifactId>maven-deploy-plugin</artifactId>
-     <configuration>
-        <skip>true</skip>
-     </configuration>
-    </plugin>
-    <plugin>
-     <groupId>org.sonatype.plugins</groupId>
-     <artifactId>nexus-staging-maven-plugin</artifactId>
-     <version>1.5.1</version>
-     <executions>
-        <execution>
-           <id>default-deploy</id>
-           <phase>deploy</phase>
-           <goals>
-              <goal>deploy</goal>
-           </goals>
-        </execution>
-     </executions>
-     <configuration>
-        <serverId>nexus</serverId>
-        <nexusUrl>http://localhost:8081/nexus/</nexusUrl>
-        <skipStaging>true</skipStaging>
-     </configuration>
-    </plugin>
-  </plugins>
- </build>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+      </plugin>
+    </plugins>
+</build>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>OceanBoxSnap</id>
+      <url>http://localhost:8081/nexus/content/repositories/OceanBoxSnap/</url>
+    </snapshotRepository>
+    <repository>
+      <id>OceanBoxReleases</id>
+      <url>http://localhost:8081/nexus/content/repositories/OceanBoxReleases/</url>
+    </repository>
+  </distributionManagement>
 
 </project>
