@@ -40,7 +40,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-</project>
+
 
 <plugin>
    <groupId>org.apache.maven.plugins</groupId>
@@ -70,3 +70,4 @@
       <skipStaging>true</skipStaging>
    </configuration>
 </plugin>
+</project>
