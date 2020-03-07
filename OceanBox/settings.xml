@@ -1,0 +1,7 @@
+<servers>
+   <server>
+      <id>nexus-snapshots</id>
+      <username>david_ekchajzer</username>
+      <password>OceanBox</password>
+   </server>
+</servers>
