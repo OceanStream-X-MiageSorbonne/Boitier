@@ -1,6 +1,11 @@
 <servers>
    <server>
-      <id>nexus-snapshots</id>
+      <id>OceanBoxReleases</id>
+      <username>david_ekchajzer</username>
+      <password>OceanBox</password>
+   </server>
+    <server>
+      <id>OceanBoxSnap</id>
       <username>david_ekchajzer</username>
       <password>OceanBox</password>
    </server>
