@@ -1,6 +1,1 @@
-- hosts: localhost
-  tasks:
-  - name: Change the working directory to somedir/ before executing the command.
-    script: /home/pi/update_latest-release.sh
-
 
