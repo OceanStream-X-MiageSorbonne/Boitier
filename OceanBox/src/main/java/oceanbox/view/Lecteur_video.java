@@ -21,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Lecteur_video extends StackPane implements Observer {
