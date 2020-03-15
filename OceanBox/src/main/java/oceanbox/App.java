@@ -6,10 +6,8 @@ import oceanbox.model.AbstractModel;
 import oceanbox.model.Model;
 import oceanbox.view.Lecteur_video;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -25,14 +23,8 @@ public class App extends Application {
 		model.addObserver(lecteur);
 
 		Scene primaryScene = new Scene(lecteur);
+		primaryScene.setCursor(Cursor.NONE);
 		primaryStage.setScene(primaryScene);
-		primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.ESCAPE)
-					primaryStage.close();
-			}
-		});
 		primaryStage.show();
 		lecteur.getVideo().play();
 	}
