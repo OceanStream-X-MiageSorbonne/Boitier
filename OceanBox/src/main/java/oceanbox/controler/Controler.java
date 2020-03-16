@@ -1,15 +1,16 @@
 package oceanbox.controler;
 
+import javafx.stage.Stage;
 import oceanbox.model.AbstractModel;
 
 public class Controler extends AbstractControler {
 
-	public Controler(AbstractModel model) {
-		super(model);
+	public Controler(Stage stage, AbstractModel model) {
+		super(stage, model);
 	}
 
 	@Override
-	void control() {
-		// TODO Auto-generated method stub
+	public void control(int max) {
+		// TODO Auto-generated method stub	
 	}
 }

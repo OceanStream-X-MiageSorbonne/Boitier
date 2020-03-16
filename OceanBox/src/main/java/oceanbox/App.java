@@ -18,15 +18,15 @@ public class App extends Application {
 		primaryStage.setFullScreen(true);
 
 		AbstractModel model = new Model();
-		AbstractControler controler = new Controler(model);
+		AbstractControler controler = new Controler(primaryStage, model);
 		Lecteur_video lecteur = new Lecteur_video(primaryStage, controler, "video-test.mp4");
 		model.addObserver(lecteur);
 
 		Scene primaryScene = new Scene(lecteur);
 		primaryScene.setCursor(Cursor.NONE);
 		primaryStage.setScene(primaryScene);
+		lecteur.getTimer().start();
 		primaryStage.show();
-		lecteur.getVideo().play();
 	}
 
 	public static void main(String[] args) {
