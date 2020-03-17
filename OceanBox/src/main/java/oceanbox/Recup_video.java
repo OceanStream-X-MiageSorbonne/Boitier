@@ -7,7 +7,7 @@ public class Recup_video {
 	private Media video;
 
 	public Recup_video(String fileName) {
-		this.setVideo(new Media(this.getClass().getResource("content/" + fileName).toExternalForm()));
+		this.setVideo(new Media(Recup_video.class.getClassLoader().getResource("content/"+fileName).toString()));
 	}
 
 	public Media getVideo() {
