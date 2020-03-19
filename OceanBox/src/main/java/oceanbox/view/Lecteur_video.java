@@ -25,11 +25,13 @@ import javafx.util.Duration;
 
 public class Lecteur_video extends StackPane implements Observer {
 
+	private AbstractControler controler;
 	private MediaPlayer video;
 	private Label timeInfo = new Label();
 	private Thread timer;
 
 	public Lecteur_video(Stage stage, AbstractControler controler, String fileName) {
+		this.controler = controler;
 		BorderPane container = new BorderPane();
 
 		this.video = new MediaPlayer(new Recup_video(fileName).getVideo());
@@ -99,12 +101,12 @@ public class Lecteur_video extends StackPane implements Observer {
 		});
 
 		this.getChildren().add(this.timeInfo);
-
+		
 		stage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.SPACE)
-					controler.control(20);
+				getChildren().remove(controler.getCloseInfo());
+				controler.control(20);
 			}
 		});
 	}
@@ -118,7 +120,7 @@ public class Lecteur_video extends StackPane implements Observer {
 	}
 
 	@Override
-	public void update(String time) {
-		// TODO Auto-generated method stub
+	public void update() {
+		this.getChildren().add(this.controler.getCloseInfo());
 	}
 }

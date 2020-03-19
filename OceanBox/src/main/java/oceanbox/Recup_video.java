@@ -7,7 +7,9 @@ public class Recup_video {
 	private Media video;
 
 	public Recup_video(String fileName) {
-		this.setVideo(new Media(this.getClass().getResource("content/" + fileName).toExternalForm()));
+		// ici il faut mettre votre propre chemin absolu jusqu'à la vidéo
+		String specificPath = "file:/Users/abdelbenamara/Movies/OceanBox/";
+		this.setVideo(new Media(specificPath + fileName));
 	}
 
 	public Media getVideo() {

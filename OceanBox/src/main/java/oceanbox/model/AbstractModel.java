@@ -12,9 +12,9 @@ public abstract class AbstractModel implements Observable {
 		this.listObserver.add(obs);
 	}
 
-	public void notifyObserver(String time) {
+	public void notifyObserver() {
 		for (Observer obs : listObserver)
-			obs.update(time);
+			obs.update();
 	}
 
 	public void removeObserver() {
