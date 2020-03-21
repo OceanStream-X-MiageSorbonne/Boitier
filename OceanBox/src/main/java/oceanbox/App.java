@@ -4,7 +4,13 @@ import oceanbox.controler.AbstractControler;
 import oceanbox.controler.Controler;
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Model;
+import oceanbox.model.propreties.ClientPropreties;
+import oceanbox.model.propreties.SystemPropreties;
 import oceanbox.view.Lecteur_video;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -19,7 +25,7 @@ public class App extends Application {
 
 		AbstractModel model = new Model();
 		AbstractControler controler = new Controler(primaryStage, model);
-		Lecteur_video lecteur = new Lecteur_video(primaryStage, controler, "video-test.mp4");
+		Lecteur_video lecteur = new Lecteur_video(primaryStage, controler, SystemPropreties.getPropertie("videoName"));
 		model.addObserver(lecteur);
 
 		Scene primaryScene = new Scene(lecteur);
@@ -29,7 +35,13 @@ public class App extends Application {
 		primaryStage.show();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		SystemPropreties.initSystemProperties();
+		SystemPropreties.setPropertie("videoPath", "/Users/daekc/OneDrive/Bureau/video/");
+		SystemPropreties.setPropertie("videoName", "video-test.mp4");
+		
+		//ClientPropreties.initSystemProperties();
+		
 		Application.launch(args);
 	}
 }
