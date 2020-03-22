@@ -19,8 +19,26 @@ public class SystemPropreties {
 	private static void initDefaultSystemProperties() {
 		defaultProperties = new HashMap<String, String>();
 		
+		//video settings
 		defaultProperties.put("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 		defaultProperties.put("videoName", "video-test.mp4");
+		
+		//FTP settings
+		defaultProperties.put("ftpIP", "ftpIP");
+		defaultProperties.put("ftpUser", "ftpUser");
+		defaultProperties.put("ftpPasswd", "ftpPasswd");
+		defaultProperties.put("ftpPort", "ftpPort");
+		
+		//Database settings
+		defaultProperties.put("dbIP", "dbIP");
+		defaultProperties.put("dbUser", "dbUser");
+		defaultProperties.put("dbPasswd", "dbPasswd");
+		defaultProperties.put("dbPort", "dbPort");
+		
+		
+		//OceanBox settings
+		defaultProperties.put("oceanBoxNumber", "oceanBoxNumber");
+		
 	}
 
 	public static void initSystemProperties() throws FileNotFoundException, IOException {

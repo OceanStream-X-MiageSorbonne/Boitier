@@ -18,6 +18,13 @@ public class ClientPropreties {
 
 	private static void initDefaultSystemProperties() {
 		defaultProperties = new HashMap<String, String>();
+		
+		defaultProperties.put("userName", "x");
+		defaultProperties.put("userType", "x");
+		
+		defaultProperties.put("VideoFluxNumber", "1");
+		defaultProperties.put("HDebutFlux", "12");
+		
 	}
 
 	public static void initSystemProperties() throws FileNotFoundException, IOException {

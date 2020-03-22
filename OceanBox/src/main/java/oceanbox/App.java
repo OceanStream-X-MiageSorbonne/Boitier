@@ -37,10 +37,10 @@ public class App extends Application {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		SystemPropreties.initSystemProperties();
+		ClientPropreties.initSystemProperties();
+		
 		SystemPropreties.setPropertie("videoPath", "/Users/daekc/OneDrive/Bureau/video/");
 		SystemPropreties.setPropertie("videoName", "video-test.mp4");
-		
-		//ClientPropreties.initSystemProperties();
 		
 		Application.launch(args);
 	}
