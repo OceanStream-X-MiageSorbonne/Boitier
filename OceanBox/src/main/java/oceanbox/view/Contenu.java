@@ -11,9 +11,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import oceanbox.Recup_video;
 
-public class Contenu {
+public class Contenu extends BorderPane {
 
-	private BorderPane container = new BorderPane();
 	private MediaPlayer video;
 
 	public Contenu(Stage stage, String fileName) {
@@ -52,10 +51,6 @@ public class Contenu {
 		mediaView.setFitWidth(stage.getWidth());
 		mediaView.setFitHeight(stage.getHeight());
 
-		container.getChildren().add(mediaView);
-	}
-
-	public BorderPane getContainer() {
-		return container;
+		this.getChildren().add(mediaView);
 	}
 }

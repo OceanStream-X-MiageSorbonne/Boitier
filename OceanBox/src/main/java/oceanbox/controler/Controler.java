@@ -14,15 +14,24 @@ public class Controler extends AbstractControler {
 	@Override
 	public void control(int max) {
 		this.pauseBeforeClose.setOnFinished(null);
-		this.alertBeforeClose.setOnFinished(null);
+		this.pauseBeforeCloseAlert.setOnFinished(null);
+		this.pauseBeforeShowUpInfo.setOnFinished(null);
+		this.pauseBeforeRemoveInfo.setOnFinished(null);
 
 		this.pauseBeforeClose = new PauseTransition(Duration.seconds(20));
 		this.pauseBeforeClose.setOnFinished(this.closeApp);
 
-		this.alertBeforeClose = new PauseTransition(Duration.seconds(14));
-		this.alertBeforeClose.setOnFinished(this.closeAlert);
+		this.pauseBeforeCloseAlert = new PauseTransition(Duration.seconds(14));
+		this.pauseBeforeCloseAlert.setOnFinished(this.closeAlert);
 
+		this.pauseBeforeShowUpInfo = new PauseTransition(Duration.seconds(8));
+		this.pauseBeforeShowUpInfo.setOnFinished(this.basicInfoShowUp);
+		
+		this.pauseBeforeRemoveInfo = new PauseTransition(Duration.seconds(5));
+		this.pauseBeforeRemoveInfo.setOnFinished(this.infoRemove);
+		
 		this.pauseBeforeClose.play();
-		this.alertBeforeClose.play();
+		this.pauseBeforeCloseAlert.play();
+		this.pauseBeforeShowUpInfo.play();
 	}
 }
