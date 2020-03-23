@@ -14,12 +14,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import oceanbox.controler.AbstractControler;
 
 public class Horloge extends Label {
 
 	private SimpleDateFormat affichage = new SimpleDateFormat("dd-MM-yyyy" + "\n" + "HH:mm:ss");
 
-	public Horloge(Stage stage) {
+	public Horloge(Stage stage, AbstractControler controler) {
 
 		this.setFont(new Font(40));
 		this.setTextAlignment(TextAlignment.RIGHT);
@@ -31,10 +32,9 @@ public class Horloge extends Label {
 			this.setText(affichage.format(new Date()));
 		});
 		Timeline horloge = new Timeline(update);
-		horloge.setCycleCount(6);
+		horloge.setCycleCount(7);
 		horloge.setOnFinished(event -> {
-			this.setManaged(false);
-			this.setVisible(false);
+			controler.getModel().notifyObserver(this, false);
 		});
 		horloge.play();
 	}

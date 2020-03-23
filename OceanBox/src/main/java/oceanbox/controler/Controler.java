@@ -12,7 +12,7 @@ public class Controler extends AbstractControler {
 	}
 
 	@Override
-	public void control(int max) {
+	public void control() {
 		this.pauseBeforeClose.setOnFinished(null);
 		this.pauseBeforeCloseAlert.setOnFinished(null);
 		this.pauseBeforeShowUpInfo.setOnFinished(null);
