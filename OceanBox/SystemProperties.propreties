@@ -1,0 +1,14 @@
+#Mon Mar 23 15:42:57 CET 2020
+videoPath=/Users/abdelbenamara/Movies/OceanBox/
+videoName=video-test.mp4
+oceanBoxIP=0.0.0.0
+oceanBoxNumber=oceanBoxNumber
+ftpPasswd=ftpPasswd
+ftpIP=ftpIP
+dbIP=dbIP
+dbPasswd=dbPasswd
+downloadHour=4
+ftpPort=ftpPort
+dbPort=dbPort
+ftpUser=ftpUser
+dbUser=dbUser
