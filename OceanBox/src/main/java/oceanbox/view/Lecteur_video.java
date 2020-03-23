@@ -24,7 +24,7 @@ public class Lecteur_video extends StackPane implements Observer {
 			}
 		});
 
-		Horloge horloge = new Horloge(stage);
+		Horloge horloge = new Horloge(stage, controler);
 
 		this.getChildren().add(contenu);
 
