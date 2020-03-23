@@ -1,6 +1,7 @@
 package oceanbox;
 
 import javafx.scene.media.Media;
+import oceanbox.propreties.SystemPropreties;
 
 public class Recup_video {
 
@@ -8,7 +9,7 @@ public class Recup_video {
 
 	public Recup_video(String fileName) {
 		// ici il faut mettre votre propre chemin absolu jusqu'à la vidéo
-		String specificPath = "file:/Users/abdelbenamara/Movies/OceanBox/";
+		String specificPath = "file:"+SystemPropreties.getPropertie("videoPath");
 		this.setVideo(new Media(specificPath + fileName));
 	}
 
