@@ -4,8 +4,8 @@ import oceanbox.controler.AbstractControler;
 import oceanbox.controler.Controler;
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Model;
-import oceanbox.model.propreties.ClientPropreties;
-import oceanbox.model.propreties.SystemPropreties;
+import oceanbox.propreties.ClientPropreties;
+import oceanbox.propreties.SystemPropreties;
 import oceanbox.view.Lecteur_video;
 
 import java.io.FileNotFoundException;
@@ -36,8 +36,8 @@ public class App extends Application {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		SystemPropreties.initSystemProperties();
-		ClientPropreties.initSystemProperties();
+		SystemPropreties.initProperties();
+		ClientPropreties.initProperties();
 		
 		SystemPropreties.setPropertie("videoPath", "/Users/daekc/OneDrive/Bureau/video/");
 		SystemPropreties.setPropertie("videoName", "video-test.mp4");

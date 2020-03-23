@@ -1,4 +1,4 @@
-package oceanbox.model.propreties;
+package oceanbox.propreties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,18 +16,16 @@ public class SystemPropreties {
 	protected static Map<String, String> defaultProperties;
 	protected static String path = "SystemProperties.propreties";
 
-	private static void initDefaultSystemProperties() {
+	private static void initDefaultProperties() {
 		defaultProperties = new HashMap<String, String>();
-		
-		//video settings
-		defaultProperties.put("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		defaultProperties.put("videoName", "video-test.mp4");
+
 		
 		//FTP settings
 		defaultProperties.put("ftpIP", "ftpIP");
 		defaultProperties.put("ftpUser", "ftpUser");
 		defaultProperties.put("ftpPasswd", "ftpPasswd");
 		defaultProperties.put("ftpPort", "ftpPort");
+		defaultProperties.put("downloadHour", "4");
 		
 		//Database settings
 		defaultProperties.put("dbIP", "dbIP");
@@ -38,10 +36,12 @@ public class SystemPropreties {
 		
 		//OceanBox settings
 		defaultProperties.put("oceanBoxNumber", "oceanBoxNumber");
+		defaultProperties.put("oceanBoxIP", "0.0.0.0");
+
 		
 	}
 
-	public static void initSystemProperties() throws FileNotFoundException, IOException {
+	public static void initProperties() throws FileNotFoundException, IOException {
 		props = new Properties();
 
 		if (!propretiesFileExist()) {
@@ -66,14 +66,14 @@ public class SystemPropreties {
 	}
 
 	private static void createProperties() {
-		initDefaultSystemProperties();
+		initDefaultProperties();
 		for (String p : defaultProperties.keySet()) {
 			props.setProperty(p, defaultProperties.get(p));
 		}
 	}
 
 	public static String getPropertie(String key) {
-		return (String) props.get(key);
+		return  (String) props.get(key);
 	}
 
 	public static void setPropertie(String key, String value) throws FileNotFoundException, IOException {
