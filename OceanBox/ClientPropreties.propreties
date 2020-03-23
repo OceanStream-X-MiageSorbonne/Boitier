@@ -1,5 +1,11 @@
-#Sun Mar 22 13:31:14 CET 2020
-VideoFluxNumber=1
-userName=x
-HDebutFlux=12
+#Mon Mar 23 10:56:10 CET 2020
+videoPath=/Users/abdelbenamara/Movies/OceanBox/
+videoName=video-test.mp4
+VideoFlux=default
+HReveil=8.5
+standby=true
 userType=x
+activate=true
+infos=true
+userName=x
+minuteBeforeStandby=10

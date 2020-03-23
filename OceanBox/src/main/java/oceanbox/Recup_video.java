@@ -1,7 +1,7 @@
 package oceanbox;
 
 import javafx.scene.media.Media;
-import oceanbox.model.propreties.SystemPropreties;
+import oceanbox.propreties.SystemPropreties;
 
 public class Recup_video {
 
