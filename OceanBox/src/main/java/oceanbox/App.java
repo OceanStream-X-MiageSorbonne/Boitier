@@ -8,6 +8,7 @@ import oceanbox.view.Lecteur_video;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -23,9 +24,10 @@ public class App extends Application {
 		model.addObserver(lecteur);
 
 		Scene primaryScene = new Scene(lecteur);
+		primaryScene.setFill(Color.BLACK);
+		primaryScene.setFill(Color.ALICEBLUE);
 		primaryScene.setCursor(Cursor.NONE);
 		primaryStage.setScene(primaryScene);
-		lecteur.getTimer().start();
 		primaryStage.show();
 	}
 
