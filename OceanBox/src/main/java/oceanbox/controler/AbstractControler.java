@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -31,17 +30,13 @@ public abstract class AbstractControler {
 		model.notifyObserver(closeInfoControler, true);
 	};
 
-	protected HBox infoControler;
-	protected PauseTransition pauseBeforeRemoveInfo = new PauseTransition(Duration.seconds(5));
-	protected EventHandler<ActionEvent> infoRemove = event -> {
-		model.notifyObserver(infoControler, false);
-	};
+	protected Barre_info infoControler;
 	protected PauseTransition pauseBeforeShowUpInfo = new PauseTransition(Duration.seconds(8));
 	protected EventHandler<ActionEvent> basicInfoShowUp = event -> {
-		infoControler = new Barre_info(new Bandeau_deroulant(
-				new BasicInfo("Ceci est une information qui apparaît à l'écran")));
+		infoControler = new Barre_info(new Bandeau_deroulant(new BasicInfo(
+				"Ceci est une treeeeeeeeeeeeeeeeeeeeeeeeeeeees loooooooooooooooooooooooooooooongue information qui apparaît à l'écran")));
 		model.notifyObserver(infoControler, true);
-		pauseBeforeRemoveInfo.play();
+		controlInfo();
 	};
 
 	public AbstractControler(Stage stage, AbstractModel model) {
@@ -59,4 +54,6 @@ public abstract class AbstractControler {
 	}
 
 	public abstract void control();
+	
+	public abstract void controlInfo();
 }
