@@ -33,16 +33,21 @@ public class Controler extends AbstractControler {
 
 	@Override
 	public void controlInfo() {
-		PauseTransition[] defilement = new PauseTransition[110];
-		for (int i = 0; i < 110; i++) {
+		PauseTransition[] defilement = new PauseTransition[120];
+		for (int i = 0; i < 120; i++) {
 			defilement[i] = new PauseTransition(Duration.seconds(0.05));
-			if (i == 109)
+			if (i == 119)
 				defilement[i].setOnFinished(event -> {
 					infoControler.getbDeroulant().setHvalue(infoControler.getbDeroulant().getHvalue() + 0.01);
 					model.notifyObserver(infoControler, false);
 				});
-			else {
-				int pos[] = {i};
+			else if (i < 10) {
+				int pos[] = { i };
+				defilement[i].setOnFinished(event -> {
+					defilement[pos[0] + 1].play();
+				});
+			} else {
+				int pos[] = { i };
 				defilement[i].setOnFinished(event -> {
 					infoControler.getbDeroulant().setHvalue(infoControler.getbDeroulant().getHvalue() + 0.01);
 					defilement[pos[0] + 1].play();
