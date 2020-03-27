@@ -9,7 +9,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import oceanbox.Recup_video;
+import oceanbox.propreties.ClientPropreties;
 
 public class Contenu extends BorderPane {
 
@@ -19,38 +21,50 @@ public class Contenu extends BorderPane {
 
 		this.video = new MediaPlayer(new Recup_video(fileName).getVideo());
 
-		LocalDateTime currently = LocalDateTime.now();
-		if (currently.getSecond() == 0 || currently.getSecond() == 18 || currently.getSecond() == 35
-				|| currently.getSecond() == 52)
-			this.video.setStartTime(Duration.ZERO);
-		else {
-			int repere = 0;
-			if (currently.getSecond() > 52)
-				repere = 52;
-			else if (currently.getSecond() > 35)
-				repere = 35;
-			else if (currently.getSecond() > 18)
-				repere = 18;
-			this.video.setStartTime(Duration.seconds(currently.getSecond() - repere));
-		}
-
-		KeyFrame update = new KeyFrame(Duration.seconds(0.5), event -> {
-			this.video.setAutoPlay(true);
-			this.video.setOnEndOfMedia(new Runnable() {
-				public void run() {
-					video.setStartTime(Duration.ZERO);
-					video.seek(Duration.ZERO);
-					video.play();
-				}
-			});
+		video.setOnReady(() -> {
+			video.stop();
+			video.setStartTime(repereForDiffusion());
+			video.play();
 		});
-		Timeline diffusion = new Timeline(update);
-		diffusion.play();
 
-		MediaView mediaView = new MediaView(this.video);
+		Timeline diffusion = timelineForDiffusion();
+
+		MediaView mediaView = new MediaView(video);
 		mediaView.setFitWidth(stage.getWidth());
 		mediaView.setFitHeight(stage.getHeight());
 
 		this.getChildren().add(mediaView);
+
+		diffusion.play();
+	}
+
+	public Duration repereForDiffusion() {
+
+		int timeVideo = (int) video.getMedia().getDuration().toSeconds();
+
+		int currently = (LocalDateTime.now().getHour() * 3600) + (LocalDateTime.now().getMinute() * 60)
+				+ LocalDateTime.now().getSecond();
+
+		String[] times = ClientPropreties.getPropertie("heureDeReveil").split(":");
+
+		int base = (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
+				
+		return Duration.seconds((currently - base) % timeVideo);
+	}
+
+	public Timeline timelineForDiffusion() {
+
+		KeyFrame update = new KeyFrame(Duration.seconds(0.5), event -> {
+			video.setAutoPlay(true);
+			video.setOnEndOfMedia(() -> {
+				video.setStartTime(Duration.ZERO);
+				video.seek(Duration.ZERO);
+				video.play();
+			});
+		});
+
+		Timeline diffusion = new Timeline(update);
+
+		return diffusion;
 	}
 }

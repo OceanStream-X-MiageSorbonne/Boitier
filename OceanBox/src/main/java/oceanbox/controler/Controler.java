@@ -1,9 +1,13 @@
 package oceanbox.controler;
 
+import java.util.List;
+
 import javafx.animation.PauseTransition;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import oceanbox.model.AbstractModel;
+import oceanbox.propreties.ClientPropreties;
 
 public class Controler extends AbstractControler {
 
@@ -13,47 +17,41 @@ public class Controler extends AbstractControler {
 
 	@Override
 	public void control() {
-		this.pauseBeforeClose.setOnFinished(null);
-		this.pauseBeforeCloseAlert.setOnFinished(null);
-		this.pauseBeforeShowUpInfo.setOnFinished(null);
 
-		this.pauseBeforeClose = new PauseTransition(Duration.seconds(20));
-		this.pauseBeforeClose.setOnFinished(this.closeApp);
+		pauseBeforeClose.setOnFinished(null);
+		pauseBeforeCloseAlert.setOnFinished(null);
+		pauseBeforeShowUpInfo.setOnFinished(null);
 
-		this.pauseBeforeCloseAlert = new PauseTransition(Duration.seconds(14));
-		this.pauseBeforeCloseAlert.setOnFinished(this.closeAlert);
+		if (ClientPropreties.getPropertie("activateStandby").equals("true")) {
 
-		this.pauseBeforeShowUpInfo = new PauseTransition(Duration.seconds(8));
-		this.pauseBeforeShowUpInfo.setOnFinished(this.basicInfoShowUp);
+			pauseBeforeClose = new PauseTransition(Duration.seconds(secondsBeforeClose));
+			pauseBeforeClose.setOnFinished(this.closeApp);
 
-		this.pauseBeforeClose.play();
-		this.pauseBeforeCloseAlert.play();
-		this.pauseBeforeShowUpInfo.play();
+			pauseBeforeCloseAlert = new PauseTransition(Duration.seconds(secondsBeforeClose - 6));
+			pauseBeforeCloseAlert.setOnFinished(this.closeAlert);
+
+			pauseBeforeClose.play();
+			pauseBeforeCloseAlert.play();
+		}
+
+		if (ClientPropreties.getPropertie("infos").equals("true")) {
+
+			pauseBeforeShowUpInfo = new PauseTransition(Duration.seconds(10));
+			pauseBeforeShowUpInfo.setOnFinished(this.basicInfoShowUp);
+			pauseBeforeShowUpInfo.play();
+		}
 	}
 
 	@Override
 	public void controlInfo() {
-		PauseTransition[] defilement = new PauseTransition[120];
-		for (int i = 0; i < 120; i++) {
-			defilement[i] = new PauseTransition(Duration.seconds(0.05));
-			if (i == 119)
-				defilement[i].setOnFinished(event -> {
-					infoControler.getbDeroulant().setHvalue(infoControler.getbDeroulant().getHvalue() + 0.01);
-					model.notifyObserver(infoControler, false);
-				});
-			else if (i < 10) {
-				int pos[] = { i };
-				defilement[i].setOnFinished(event -> {
-					defilement[pos[0] + 1].play();
-				});
-			} else {
-				int pos[] = { i };
-				defilement[i].setOnFinished(event -> {
-					infoControler.getbDeroulant().setHvalue(infoControler.getbDeroulant().getHvalue() + 0.01);
-					defilement[pos[0] + 1].play();
-				});
-			}
-		}
-		defilement[0].play();
+
+		List<PauseTransition> defilement = infoControler.getBandeauDeroulant().getDefilement();
+
+		defilement.get(defilement.size() - 1).setOnFinished(event -> {
+
+			model.notifyObserver(infoControler, false);
+		});
+		
+		defilement.get(0).play();
 	}
 }

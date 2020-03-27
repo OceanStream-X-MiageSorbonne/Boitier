@@ -2,27 +2,23 @@ package oceanbox.view;
 
 import oceanbox.controler.AbstractControler;
 import oceanbox.observer.Observer;
+import oceanbox.propreties.ClientPropreties;
 
-import javafx.event.EventHandler;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Lecteur_video extends StackPane implements Observer {
 
-	public Lecteur_video(Stage stage, AbstractControler controler, String fileName) {
+	public Lecteur_video(Stage stage, AbstractControler controler, String fileName)
+			throws FileNotFoundException, IOException {
 
 		Contenu contenu = new Contenu(stage, fileName);
 
-		stage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.ESCAPE)
-					stage.close();
-			}
-		});
+		ClientPropreties.setPropertie("onStandby", "false");
 
 		Horloge horloge = new Horloge(stage, controler);
 
@@ -33,6 +29,7 @@ public class Lecteur_video extends StackPane implements Observer {
 
 	@Override
 	public void update(Node node, boolean add) {
+
 		if (add)
 			this.getChildren().add(node);
 		else
