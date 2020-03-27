@@ -6,19 +6,20 @@ import javafx.scene.layout.HBox;
 
 public class Barre_info extends HBox {
 
-	private Bandeau_deroulant bDeroulant;
+	private Bandeau_deroulant bandeauDeroulant;
 
-	public Barre_info(Bandeau_deroulant bDeroulant) {
+	public Barre_info(Bandeau_deroulant bandeauDeroulant) {
 
-		this.bDeroulant = bDeroulant;
-		this.setMaxHeight(this.bDeroulant.getInfo().getHeight());
-		this.getChildren().add(this.bDeroulant);
+		this.bandeauDeroulant = bandeauDeroulant;
+
+		this.setMaxHeight(this.bandeauDeroulant.getInfo().getHeight());
+		this.getChildren().add(this.bandeauDeroulant);
 		this.setStyle("-fx-background-color: black;");
 		this.setAlignment(Pos.CENTER);
 		StackPane.setAlignment(this, Pos.BOTTOM_CENTER);
 	}
 
-	public Bandeau_deroulant getbDeroulant() {
-		return bDeroulant;
+	public Bandeau_deroulant getBandeauDeroulant() {
+		return bandeauDeroulant;
 	}
 }

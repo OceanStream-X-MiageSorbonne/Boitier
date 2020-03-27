@@ -28,14 +28,23 @@ public class Horloge extends Label {
 		this.setPadding(new Insets(30));
 		StackPane.setAlignment(this, Pos.BOTTOM_RIGHT);
 
+		Timeline horloge = timelineForHorloge(controler);
+
+		horloge.play();
+	}
+
+	public Timeline timelineForHorloge(AbstractControler controler) {
+
 		KeyFrame update = new KeyFrame(Duration.seconds(1), event -> {
 			this.setText(affichage.format(new Date()));
 		});
+		
 		Timeline horloge = new Timeline(update);
 		horloge.setCycleCount(7);
 		horloge.setOnFinished(event -> {
 			controler.getModel().notifyObserver(this, false);
 		});
-		horloge.play();
+
+		return horloge;
 	}
 }
