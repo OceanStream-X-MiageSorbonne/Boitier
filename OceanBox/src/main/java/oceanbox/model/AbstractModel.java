@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 import javafx.scene.Node;
 
+/**
+ * Cette classe permet de mettre à jour des éléments visibles et non visibles de
+ * l'application
+ */
 public abstract class AbstractModel implements Observable {
 
 	private ArrayList<Observer> listObserver = new ArrayList<Observer>();

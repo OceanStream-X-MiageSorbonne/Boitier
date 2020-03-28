@@ -2,8 +2,6 @@ package oceanbox.view;
 
 import oceanbox.controler.AbstractControler;
 import oceanbox.observer.Observer;
-import oceanbox.propreties.ClientPropreties;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -17,8 +15,6 @@ public class Lecteur_video extends StackPane implements Observer {
 			throws FileNotFoundException, IOException {
 
 		Contenu contenu = new Contenu(stage, fileName);
-
-		ClientPropreties.setPropertie("onStandby", "false");
 
 		Horloge horloge = new Horloge(stage, controler);
 

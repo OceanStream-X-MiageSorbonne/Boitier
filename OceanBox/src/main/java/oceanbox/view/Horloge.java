@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import oceanbox.controler.AbstractControler;
 
+/**
+ * Cette classe définit l'horloge qui apparaît en bas à droite de l'écran durant
+ * les 5 premières secondes après le lancement de l'application
+ */
 public class Horloge extends Label {
 
 	private SimpleDateFormat affichage = new SimpleDateFormat("dd-MM-yyyy" + "\n" + "HH:mm:ss");
@@ -33,12 +37,19 @@ public class Horloge extends Label {
 		horloge.play();
 	}
 
+	/**
+	 * Cette méthode permet de spécifier les paramètres de la timeline dans laquelle
+	 * est affichée et mise à jour l'horloge
+	 * 
+	 * @param controler : qui permet de mettre à jour l'horloge à l'écran
+	 * @return la timeline qui affiche l'horloge
+	 */
 	public Timeline timelineForHorloge(AbstractControler controler) {
 
 		KeyFrame update = new KeyFrame(Duration.seconds(1), event -> {
 			this.setText(affichage.format(new Date()));
 		});
-		
+
 		Timeline horloge = new Timeline(update);
 		horloge.setCycleCount(7);
 		horloge.setOnFinished(event -> {

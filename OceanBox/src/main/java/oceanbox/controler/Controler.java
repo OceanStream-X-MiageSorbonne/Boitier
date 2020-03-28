@@ -9,6 +9,9 @@ import javafx.util.Duration;
 import oceanbox.model.AbstractModel;
 import oceanbox.propreties.ClientPropreties;
 
+/**
+ * Cette classe implémente les méthodes control() et controlInfo()
+ */
 public class Controler extends AbstractControler {
 
 	public Controler(Stage stage, AbstractModel model) {
