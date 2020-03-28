@@ -13,6 +13,9 @@ import javafx.util.Duration;
 import oceanbox.Recup_video;
 import oceanbox.propreties.ClientPropreties;
 
+/**
+ * Cette classe contient la vidéo qui sera affichée à l'écran
+ */
 public class Contenu extends BorderPane {
 
 	private MediaPlayer video;
@@ -38,6 +41,12 @@ public class Contenu extends BorderPane {
 		diffusion.play();
 	}
 
+	/**
+	 * Cette méthode permet d'initialiser le temps auquel débute la vidéo en
+	 * fonction de l'heure de réveil définie dans les propriétés du client
+	 * 
+	 * @return la temps relatif en secondes auquel doit débuter la vidéo
+	 */
 	public Duration repereForDiffusion() {
 
 		int timeVideo = (int) video.getMedia().getDuration().toSeconds();
@@ -48,10 +57,16 @@ public class Contenu extends BorderPane {
 		String[] times = ClientPropreties.getPropertie("heureDeReveil").split(":");
 
 		int base = (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
-				
+
 		return Duration.seconds((currently - base) % timeVideo);
 	}
 
+	/**
+	 * Cette méthode permet de spécifier les paramètres de la timeline dans laquelle
+	 * est jouée la vidéo
+	 * 
+	 * @return la timeline qui diffuse la vidéo
+	 */
 	public Timeline timelineForDiffusion() {
 
 		KeyFrame update = new KeyFrame(Duration.seconds(0.5), event -> {

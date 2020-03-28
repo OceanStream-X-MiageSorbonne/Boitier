@@ -16,6 +16,9 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Cette classe contient la méthode main qui lance l'application
+ */
 public class App extends Application {
 
 	@Override

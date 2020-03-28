@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.util.Duration;
 
+/**
+ * Cette classe définit le bandeau déroulant d'informations du bas de l'écran
+ */
 public class Bandeau_deroulant extends ScrollPane {
 
 	private Label info;
@@ -27,10 +30,22 @@ public class Bandeau_deroulant extends ScrollPane {
 		initDefilement();
 	}
 
+	/**
+	 * Cette méthode permet d'obtenir le nombre de caractères dans le texte de
+	 * l'information
+	 * 
+	 * @return le nombre de caractères
+	 */
 	public int nbCharInInfo() {
 		return info.getText().length();
 	}
 
+	/**
+	 * Cette méthode permet de paramétrer une vitesse de défilement relative au
+	 * nombre de caractères qui composent le texte de l'information
+	 * 
+	 * @return la vitesse de défilement du bandeau d'informations
+	 */
 	public double vitesseDefilement() {
 
 		int longueurNbCharInInfo = Integer.toString(nbCharInInfo()).length();
@@ -42,6 +57,10 @@ public class Bandeau_deroulant extends ScrollPane {
 		return vitesse;
 	}
 
+	/**
+	 * Cette méthode initialise des timer secrets qui font défiler petit à petit le
+	 * texte de l'information dans le bandeau
+	 */
 	public void initDefilement() {
 
 		defilement.add(new PauseTransition(Duration.seconds(2)));

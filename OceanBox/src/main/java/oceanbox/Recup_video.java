@@ -3,6 +3,9 @@ package oceanbox;
 import javafx.scene.media.Media;
 import oceanbox.propreties.SystemPropreties;
 
+/**
+ * Cette classe permet de récupérer la vidéo qui sera diffusée à l'écran
+ */
 public class Recup_video {
 
 	private Media video;

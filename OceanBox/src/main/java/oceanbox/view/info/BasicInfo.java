@@ -9,6 +9,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * Cette classe définit un objet type d'information textuelle destinée à
+ * apparaître dans le bandeau d'informations
+ */
 public class BasicInfo extends Label {
 
 	public BasicInfo(String texte) {
