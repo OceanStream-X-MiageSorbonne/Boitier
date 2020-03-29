@@ -9,10 +9,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * Cette classe définit un objet type d'information textuelle destinée à
+ * apparaître dans le bandeau d'informations
+ */
 public class BasicInfo extends Label {
 
 	public BasicInfo(String texte) {
-		
+
 		this.setText(texte);
 		this.setFont(new Font(40));
 		this.setTextAlignment(TextAlignment.CENTER);
@@ -20,6 +24,8 @@ public class BasicInfo extends Label {
 		this.setTextFill(Color.WHITE);
 		this.setPadding(new Insets(10));
 		this.setAlignment(Pos.CENTER);
+		this.setStyle("-fx-background-color: black;");
+		this.setHeight(this.getFont().getSize() + this.getPadding().getTop() + this.getPadding().getBottom());
 		HBox.setHgrow(this, Priority.ALWAYS);
 	}
 }
