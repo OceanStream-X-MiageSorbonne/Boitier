@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import oceanbox.model.AbstractModel;
 import oceanbox.propreties.ClientPropreties;
+import oceanbox.propreties.SystemPropreties;
 import oceanbox.view.Alerte;
 import oceanbox.view.info.Bandeau_deroulant;
 import oceanbox.view.info.Barre_info;
@@ -63,6 +64,10 @@ public abstract class AbstractControler {
 
 		controlInfo();
 	};
+
+	public AbstractControler() {
+		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
+	}
 
 	public AbstractControler(Stage stage, AbstractModel model) {
 
@@ -127,13 +132,15 @@ public abstract class AbstractControler {
 			if (event.getCode() == KeyCode.ESCAPE) {
 				sleepMode(true);
 				stage.close();
+			} else {
+				model.notifyObserver(closeInfoControler, false);
+				control();
 			}
 		});
 
-		stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-
-			model.notifyObserver(closeInfoControler, false);
-			control();
+		stage.setOnHiding(event -> {
+			ClientPropreties.deletePropertiesFile();
+			SystemPropreties.deletePropertiesFile();
 		});
 	}
 

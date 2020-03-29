@@ -51,7 +51,7 @@ public class App extends Application {
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
 		ClientPropreties.setPropertie("infos", "true");
 		ClientPropreties.setPropertie("activateStandby", "true");
-		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:20");
+		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:30");
 
 		Application.launch(args);
 	}

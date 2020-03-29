@@ -14,6 +14,10 @@ import oceanbox.propreties.ClientPropreties;
  */
 public class Controler extends AbstractControler {
 
+	public Controler() {
+		super();
+	}
+
 	public Controler(Stage stage, AbstractModel model) {
 		super(stage, model);
 	}
@@ -23,7 +27,6 @@ public class Controler extends AbstractControler {
 
 		pauseBeforeClose.setOnFinished(null);
 		pauseBeforeCloseAlert.setOnFinished(null);
-		pauseBeforeShowUpInfo.setOnFinished(null);
 
 		if (ClientPropreties.getPropertie("activateStandby").equals("true")) {
 
@@ -37,6 +40,10 @@ public class Controler extends AbstractControler {
 			pauseBeforeCloseAlert.play();
 		}
 
+		// -----------------------------------------------------------------------------------------
+
+		pauseBeforeShowUpInfo.setOnFinished(null);
+
 		if (ClientPropreties.getPropertie("infos").equals("true")) {
 
 			pauseBeforeShowUpInfo = new PauseTransition(Duration.seconds(10));
@@ -48,13 +55,20 @@ public class Controler extends AbstractControler {
 	@Override
 	public void controlInfo() {
 
-		List<PauseTransition> defilement = infoControler.getBandeauDeroulant().getDefilement();
-
-		defilement.get(defilement.size() - 1).setOnFinished(event -> {
+		if (infoControler.getBandeauDeroulant().nbCharInInfo() == 0) {
 
 			model.notifyObserver(infoControler, false);
-		});
-		
-		defilement.get(0).play();
+
+		} else {
+
+			List<PauseTransition> defilement = infoControler.getBandeauDeroulant().getDefilement();
+
+			defilement.get(defilement.size() - 1).setOnFinished(event -> {
+
+				model.notifyObserver(infoControler, false);
+			});
+
+			defilement.get(0).play();
+		}
 	}
 }
