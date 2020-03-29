@@ -12,39 +12,33 @@ import java.util.Map;
 import java.util.Properties;
 
 public class ClientPropreties {
+
 	protected static Properties props;
 	protected static Map<String, String> defaultProperties;
 	protected static String path = "ClientPropreties.propreties";
 
 	private static void initDefaultProperties() {
+
 		defaultProperties = new HashMap<String, String>();
-		
-		
-		//video settings
-		defaultProperties.put("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		defaultProperties.put("videoName", "video-test.mp4");
-		defaultProperties.put("VideoFlux", "default");
-		defaultProperties.put("HReveil", "8.5");
-		defaultProperties.put("infos", "true");
-		
-		//standby settings
-		defaultProperties.put("standby", "true");
-		defaultProperties.put("minuteBeforeStandby", "10");
 
-
-		
-		defaultProperties.put("activate", "true");
-		
-		
-		//User settings
+		// User settings
 		defaultProperties.put("userName", "x");
 		defaultProperties.put("userType", "x");
-		
-		
-		
+
+		// Video settings
+		defaultProperties.put("VideoFlux", "default");
+		defaultProperties.put("heureDeReveil", "06:00:00");
+		defaultProperties.put("infos", "true");
+
+		// Standby settings
+		defaultProperties.put("onStandby", "true");
+		defaultProperties.put("activateStandby", "true");
+		defaultProperties.put("timeBeforeStandby", "00:10:00");
+
 	}
 
 	public static void initProperties() throws FileNotFoundException, IOException {
+
 		props = new Properties();
 
 		if (!propretiesFileExist()) {
@@ -61,15 +55,26 @@ public class ClientPropreties {
 	}
 
 	private static boolean propretiesFileExist() {
+
 		File f = new File(path);
-		if (!f.exists()) {
+
+		if (!f.exists())
 			return false;
-		}
 		return true;
 	}
 
+	public static void deletePropertiesFile() {
+
+		if (propretiesFileExist()) {
+			File f = new File(path);
+			f.delete();
+		}
+	}
+
 	private static void createProperties() {
+
 		initDefaultProperties();
+
 		for (String p : defaultProperties.keySet()) {
 			props.setProperty(p, defaultProperties.get(p));
 		}
@@ -80,6 +85,7 @@ public class ClientPropreties {
 	}
 
 	public static void setPropertie(String key, String value) throws FileNotFoundException, IOException {
+
 		props.setProperty(key, value);
 		try (OutputStream writer = new FileOutputStream(path)) {
 			props.store(writer, null);

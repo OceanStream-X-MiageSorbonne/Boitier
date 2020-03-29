@@ -14,13 +14,16 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * Cette classe contient la méthode main qui lance l'application
+ */
 public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+
 		primaryStage.setTitle("A real ocean");
 		primaryStage.setFullScreen(true);
 
@@ -30,20 +33,26 @@ public class App extends Application {
 		model.addObserver(lecteur);
 
 		Scene primaryScene = new Scene(lecteur);
-		primaryScene.setFill(Color.BLACK);
-		primaryScene.setFill(Color.ALICEBLUE);
 		primaryScene.setCursor(Cursor.NONE);
 		primaryStage.setScene(primaryScene);
 		primaryStage.show();
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
+
 		SystemPropreties.initProperties();
 		ClientPropreties.initProperties();
-		
-		SystemPropreties.setPropertie("videoPath", "/Users/daekc/OneDrive/Bureau/video/");
+
+		// Modifiez les 2 lignes ci-dessous si vous avez un autre path ou nom de video
+		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 		SystemPropreties.setPropertie("videoName", "video-test.mp4");
-		
+
+		// Les 4 properties ci-dessous influent directement sur l'application
+		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
+		ClientPropreties.setPropertie("infos", "true");
+		ClientPropreties.setPropertie("activateStandby", "true");
+		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:30");
+
 		Application.launch(args);
 	}
 }
