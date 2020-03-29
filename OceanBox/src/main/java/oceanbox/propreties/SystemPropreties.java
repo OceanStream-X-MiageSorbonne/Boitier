@@ -37,8 +37,8 @@ public class SystemPropreties {
 		// OceanBox settings
 		defaultProperties.put("oceanBoxNumber", "oceanBoxNumber");
 		defaultProperties.put("oceanBoxIP", "0.0.0.0");
-		
-		// Video settings 
+
+		// Video settings
 		defaultProperties.put("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 		defaultProperties.put("videoName", "video-test.mp4");
 
@@ -68,6 +68,14 @@ public class SystemPropreties {
 		if (!f.exists())
 			return false;
 		return true;
+	}
+
+	public static void deletePropertiesFile() {
+
+		if (propretiesFileExist()) {
+			File f = new File(path);
+			f.delete();
+		}
 	}
 
 	private static void createProperties() {

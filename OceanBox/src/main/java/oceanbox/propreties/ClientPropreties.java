@@ -63,6 +63,14 @@ public class ClientPropreties {
 		return true;
 	}
 
+	public static void deletePropertiesFile() {
+
+		if (propretiesFileExist()) {
+			File f = new File(path);
+			f.delete();
+		}
+	}
+
 	private static void createProperties() {
 
 		initDefaultProperties();

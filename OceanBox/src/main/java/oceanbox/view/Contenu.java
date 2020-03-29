@@ -19,6 +19,12 @@ import oceanbox.propreties.ClientPropreties;
 public class Contenu extends BorderPane {
 
 	private MediaPlayer video;
+	private int durationOfVideo;
+
+	public Contenu(int secondsForTest) {
+		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
+		this.durationOfVideo = secondsForTest;
+	}
 
 	public Contenu(Stage stage, String fileName) {
 
@@ -26,6 +32,7 @@ public class Contenu extends BorderPane {
 
 		video.setOnReady(() -> {
 			video.stop();
+			durationOfVideo = (int) video.getMedia().getDuration().toSeconds();
 			video.setStartTime(repereForDiffusion());
 			video.play();
 		});
@@ -49,8 +56,6 @@ public class Contenu extends BorderPane {
 	 */
 	public Duration repereForDiffusion() {
 
-		int timeVideo = (int) video.getMedia().getDuration().toSeconds();
-
 		int currently = (LocalDateTime.now().getHour() * 3600) + (LocalDateTime.now().getMinute() * 60)
 				+ LocalDateTime.now().getSecond();
 
@@ -58,7 +63,7 @@ public class Contenu extends BorderPane {
 
 		int base = (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
 
-		return Duration.seconds((currently - base) % timeVideo);
+		return Duration.seconds((currently - base) % durationOfVideo);
 	}
 
 	/**

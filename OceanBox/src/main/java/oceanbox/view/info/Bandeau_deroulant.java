@@ -48,12 +48,17 @@ public class Bandeau_deroulant extends ScrollPane {
 	 */
 	public double vitesseDefilement() {
 
+		if (nbCharInInfo() == 0)
+			return 1.0;
+
 		int longueurNbCharInInfo = Integer.toString(nbCharInInfo()).length();
 
 		double ajustement = 1.0 * (longueurNbCharInInfo - 2) + (nbCharInInfo() / Math.pow(10, longueurNbCharInInfo));
 
 		double vitesse = ((double) nbCharInInfo() / (nbCharInInfo() * nbCharInInfo())) / ajustement;
 
+		if (vitesse <= 0.0)
+			return 1.0;
 		return vitesse;
 	}
 
@@ -82,6 +87,18 @@ public class Bandeau_deroulant extends ScrollPane {
 			defilement.get(i).setOnFinished(event -> {
 
 				this.setHvalue(this.getHvalue() + vitesseDefilement());
+				defilement.get(pos[0] + 1).play();
+			});
+
+			i++;
+		}
+
+		if (defilement.size() < 10) {
+			defilement.add(new PauseTransition(Duration.seconds(5)));
+
+			int pos[] = { i };
+			defilement.get(i).setOnFinished(event -> {
+
 				defilement.get(pos[0] + 1).play();
 			});
 
