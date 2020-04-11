@@ -29,7 +29,7 @@ public class App extends Application {
 
 		AbstractModel model = new Model();
 		AbstractControler controler = new Controler(primaryStage, model);
-		Lecteur_video lecteur = new Lecteur_video(primaryStage, controler, SystemPropreties.getPropertie("videoName"));
+		Lecteur_video lecteur = new Lecteur_video(primaryStage, controler);
 		model.addObserver(lecteur);
 
 		Scene primaryScene = new Scene(lecteur);
@@ -51,7 +51,7 @@ public class App extends Application {
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
 		ClientPropreties.setPropertie("infos", "true");
 		ClientPropreties.setPropertie("activateStandby", "true");
-		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:30");
+		ClientPropreties.setPropertie("timeBeforeStandby", "00:05:00");
 
 		Application.launch(args);
 	}
