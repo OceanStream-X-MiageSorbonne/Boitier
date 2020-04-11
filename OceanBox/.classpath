@@ -25,5 +25,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="/home/mathieuridet/Downloads/Libraries/jar_files/guava-annotations-r03.jar"/>
+	<classpathentry kind="lib" path="/home/mathieuridet/Downloads/Libraries/jar_files/guava-base-r03.jar"/>
+	<classpathentry kind="lib" path="/home/mathieuridet/Downloads/Libraries/commons-net-3.6-bin/commons-net-3.6/commons-net-3.6.jar"/>
+	<classpathentry kind="lib" path="/home/mathieuridet/Downloads/Libraries/commons-net-3.6-bin/commons-net-3.6/commons-net-3.6-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

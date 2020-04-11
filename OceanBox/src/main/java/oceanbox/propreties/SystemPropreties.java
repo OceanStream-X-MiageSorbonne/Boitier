@@ -22,12 +22,13 @@ public class SystemPropreties {
 		defaultProperties = new HashMap<String, String>();
 
 		// FTP settings
-		defaultProperties.put("ftpIP", "ftpIP");
-		defaultProperties.put("ftpUser", "ftpUser");
-		defaultProperties.put("ftpPasswd", "ftpPasswd");
-		defaultProperties.put("ftpPort", "ftpPort");
+		defaultProperties.put("ftpIP", "37.187.107.122");
+		defaultProperties.put("ftpUser", "ocean_ftp");
+		defaultProperties.put("ftpPasswd", "Stream2020");
+		defaultProperties.put("ftpPort", "21");
 		defaultProperties.put("downloadHour", "4");
-
+		defaultProperties.put("ftpVideoPath", "/default_video/");
+		
 		// Database settings
 		defaultProperties.put("dbIP", "dbIP");
 		defaultProperties.put("dbUser", "dbUser");
@@ -39,9 +40,9 @@ public class SystemPropreties {
 		defaultProperties.put("oceanBoxIP", "0.0.0.0");
 
 		// Video settings
-		defaultProperties.put("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+		defaultProperties.put("videoPath", "/home/mathieuridet/Videos/OceanBox/");
 		defaultProperties.put("videoName", "video-test.mp4");
-
+		defaultProperties.put("nbPaquets", "0");
 	}
 
 	public static void initProperties() throws FileNotFoundException, IOException {
