@@ -29,19 +29,15 @@ public class RecupVideoFromServer {
 	 */
 	public static void ftpConnection() {
 
-		//String host = SystemPropreties.getPropertie("ftpIP");
-		//String login = SystemPropreties.getPropertie("ftpUser");
-		//String mdp = SystemPropreties.getPropertie("ftpPasswd");
-		//int port = SystemPropreties.getPropertie("ftpPort");
-		String host = "37.187.107.122";
-		String login = "ocean_ftp"; 
-		String mdp = "Stream2020";
-		int port= 21;
+		String host = SystemPropreties.getPropertie("ftpIP");
+		String login = SystemPropreties.getPropertie("ftpUser");
+		String mdp = SystemPropreties.getPropertie("ftpPasswd");
+		String port = SystemPropreties.getPropertie("ftpPort");
 		
 		ftpsClient = new FTPSClient();
 		
 		try {
-			ftpsClient.connect(host, port);
+			ftpsClient.connect(host, Integer.valueOf(port));
 			ftpsClient.login(login, mdp);
 			ftpsClient.execPBSZ(0);
 			ftpsClient.execPROT("P");
