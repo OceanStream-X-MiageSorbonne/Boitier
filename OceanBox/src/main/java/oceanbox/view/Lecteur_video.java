@@ -11,10 +11,9 @@ import javafx.stage.Stage;
 
 public class Lecteur_video extends StackPane implements Observer {
 
-	public Lecteur_video(Stage stage, AbstractControler controler, String fileName)
-			throws FileNotFoundException, IOException {
+	public Lecteur_video(Stage stage, AbstractControler controler) throws FileNotFoundException, IOException {
 
-		Contenu contenu = new Contenu(stage, fileName);
+		Contenu contenu = new Contenu(stage);
 
 		Horloge horloge = new Horloge(stage, controler);
 

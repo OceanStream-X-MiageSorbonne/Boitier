@@ -41,8 +41,7 @@ public class SystemPropreties {
 
 		// Video settings
 		defaultProperties.put("videoPath", "/home/mathieuridet/Videos/OceanBox/");
-		defaultProperties.put("videoName", "video-test.mp4");
-		defaultProperties.put("nbPaquets", "0");
+		defaultProperties.put("nbPaquets", "6");
 	}
 
 	public static void initProperties() throws FileNotFoundException, IOException {
