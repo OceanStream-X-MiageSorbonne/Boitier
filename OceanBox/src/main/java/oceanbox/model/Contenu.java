@@ -1,4 +1,4 @@
-package oceanbox.view;
+package oceanbox.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,8 +13,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import oceanbox.model.Recup_video;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
@@ -25,12 +23,13 @@ public class Contenu extends BorderPane {
 
 	private List<Media> videos = new ArrayList<Media>();
 	private Iterator<Media> it;
-	private int durationOfVideo = 0;
+	private int[] durationOfVideo = new int[Integer.valueOf(SystemPropreties.getPropertie("nbPaquets"))];
+	private int totalDurationOfVideo = 0;
 	private MediaView mediaView = new MediaView();
 
 	public Contenu(int secondsForTest) {
 		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
-		this.durationOfVideo = secondsForTest;
+		this.totalDurationOfVideo = secondsForTest;
 	}
 
 	public Contenu(Stage stage) {
@@ -50,14 +49,31 @@ public class Contenu extends BorderPane {
 	public void initVideos() {
 
 		videos = new ArrayList<Media>();
+		totalDurationOfVideo = 0;
 
-		for (int i = 1; i <= Integer.valueOf(SystemPropreties.getPropertie("nbPaquets")); i++) {
+		for (int i = 1; i <= durationOfVideo.length; i++) {
 			String regex = i + ".mp4";
 			Media video = new Recup_video(regex).getVideo();
+
+			if (i != durationOfVideo.length) {
+				MediaPlayer player = new MediaPlayer(video);
+				int[] pos = { i - 1 };
+				player.setOnReady(() -> {
+					durationOfVideo[pos[0]] = (int) player.getMedia().getDuration().toSeconds();
+					totalDurationOfVideo += durationOfVideo[pos[0]];
+				});
+			}
+
 			videos.add(video);
 		}
 
-		timelineForDiffusion().play();
+		MediaPlayer player = new MediaPlayer(videos.get(videos.size() - 1));
+		player.setOnReady(() -> {
+			durationOfVideo[durationOfVideo.length - 1] = (int) player.getMedia().getDuration().toSeconds();
+			totalDurationOfVideo += durationOfVideo[durationOfVideo.length - 1];
+
+			timelineForDiffusion().play();
+		});
 	}
 
 	/**
@@ -66,7 +82,7 @@ public class Contenu extends BorderPane {
 	 * 
 	 * @return la temps relatif en secondes auquel doit débuter la diffusion
 	 */
-	public Duration repereForDiffusion() {
+	public int repereForDiffusion() {
 
 		int currently = (LocalDateTime.now().getHour() * 3600) + (LocalDateTime.now().getMinute() * 60)
 				+ LocalDateTime.now().getSecond();
@@ -75,7 +91,7 @@ public class Contenu extends BorderPane {
 
 		int base = (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
 
-		return Duration.seconds((currently - base) % durationOfVideo);
+		return (currently - base) % totalDurationOfVideo;
 	}
 
 	/**
@@ -88,8 +104,17 @@ public class Contenu extends BorderPane {
 
 		it = videos.iterator();
 
+		int[] start = { repereForDiffusion() };
+
+		for (int timeVideo : durationOfVideo) {
+			while (start[0] > timeVideo) {
+				start[0] -= timeVideo;
+				it.next();
+			}
+		}
+
 		KeyFrame updates = new KeyFrame(Duration.seconds(0.5), event -> {
-			customPlay(it.next());
+			customPlay(it.next(), start[0]);
 		});
 
 		return new Timeline(updates);
@@ -100,15 +125,17 @@ public class Contenu extends BorderPane {
 	 * 
 	 * @param nextVideo
 	 */
-	private void customPlay(Media nextVideo) {
+	private void customPlay(Media nextVideo, int begin) {
 		Media media = nextVideo;
 		MediaPlayer player = new MediaPlayer(media);
+		player.setStartTime((begin < 0) ? Duration.ZERO : Duration.seconds(begin));
 		mediaView.setMediaPlayer(player);
 		player.play();
 		player.setOnEndOfMedia(() -> {
 			player.stop();
+			player.setStartTime(Duration.ZERO);
 			if (it.hasNext())
-				customPlay(it.next());
+				customPlay(it.next(), -1);
 			else
 				initVideos();
 		});

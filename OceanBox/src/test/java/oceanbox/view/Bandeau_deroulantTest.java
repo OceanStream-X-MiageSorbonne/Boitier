@@ -1,4 +1,4 @@
-package oceanbox.view.info;
+package oceanbox.view;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
+import oceanbox.view.info.Bandeau_deroulant;
 
 public class Bandeau_deroulantTest {
 
