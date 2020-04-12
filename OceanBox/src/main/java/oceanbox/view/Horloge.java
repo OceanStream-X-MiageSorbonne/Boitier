@@ -12,8 +12,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import oceanbox.controler.AbstractControler;
 
 /**
@@ -24,7 +24,7 @@ public class Horloge extends Label {
 
 	private SimpleDateFormat affichage = new SimpleDateFormat("dd-MM-yyyy" + "\n" + "HH:mm:ss");
 
-	public Horloge(Stage stage, AbstractControler controler) {
+	public Horloge(AbstractControler controler) {
 
 		this.setFont(new Font(40));
 		this.setTextAlignment(TextAlignment.RIGHT);

@@ -1,5 +1,6 @@
 package oceanbox.model;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,8 +12,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import oceanbox.controler.AbstractControler;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
@@ -21,25 +23,27 @@ import oceanbox.propreties.SystemPropreties;
  */
 public class Contenu extends BorderPane {
 
-	private List<Media> videos = new ArrayList<Media>();
+	private AbstractControler controler;
+	private List<Media> videos;
 	private Iterator<Media> it;
-	private int[] durationOfVideo = new int[Integer.valueOf(SystemPropreties.getPropertie("nbPaquets"))];
+	private int[] durationOfVideo;
 	private int totalDurationOfVideo = 0;
-	private MediaView mediaView = new MediaView();
+	private MediaView mediaView;
 
 	public Contenu(int secondsForTest) {
 		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
 		this.totalDurationOfVideo = secondsForTest;
 	}
 
-	public Contenu(Stage stage) {
+	public Contenu(AbstractControler controler) {
+
+		this.controler = controler;
+		this.durationOfVideo = new int[new File(SystemPropreties.getPropertie("videoPath")).listFiles().length - 1];
+		this.mediaView = new MediaView();
 
 		initVideos();
 
-		mediaView.setFitWidth(stage.getWidth());
-		mediaView.setFitHeight(stage.getHeight());
-
-		this.getChildren().add(mediaView);
+		this.setCenter(mediaView);
 	}
 
 	/**
@@ -71,6 +75,11 @@ public class Contenu extends BorderPane {
 		player.setOnReady(() -> {
 			durationOfVideo[durationOfVideo.length - 1] = (int) player.getMedia().getDuration().toSeconds();
 			totalDurationOfVideo += durationOfVideo[durationOfVideo.length - 1];
+
+			if (controler.isSleep()) {
+				controler.getModel().notifyObserver(controler.getVeille(), false);
+				controler.getModel().notifyObserver(this, true);
+			}
 
 			timelineForDiffusion().play();
 		});
@@ -107,9 +116,12 @@ public class Contenu extends BorderPane {
 		int[] start = { repereForDiffusion() };
 
 		for (int timeVideo : durationOfVideo) {
-			while (start[0] > timeVideo) {
+			while (start[0] >= timeVideo) {
 				start[0] -= timeVideo;
-				it.next();
+				if (it.hasNext())
+					it.next();
+				else
+					it = videos.iterator();
 			}
 		}
 

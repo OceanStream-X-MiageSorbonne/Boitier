@@ -29,7 +29,7 @@ public class App extends Application {
 
 		AbstractModel model = new Model();
 		AbstractControler controler = new Controler(primaryStage, model);
-		Lecteur_video lecteur = new Lecteur_video(primaryStage, controler);
+		Lecteur_video lecteur = new Lecteur_video(controler);
 		model.addObserver(lecteur);
 
 		Scene primaryScene = new Scene(lecteur);

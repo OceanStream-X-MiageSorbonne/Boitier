@@ -28,7 +28,7 @@ public class SystemPropreties {
 		defaultProperties.put("ftpPort", "21");
 		defaultProperties.put("downloadHour", "4");
 		defaultProperties.put("ftpVideoPath", "/default_video/");
-		
+
 		// Database settings
 		defaultProperties.put("dbIP", "dbIP");
 		defaultProperties.put("dbUser", "dbUser");
@@ -41,7 +41,7 @@ public class SystemPropreties {
 
 		// Video settings
 		defaultProperties.put("videoPath", "/home/mathieuridet/Videos/OceanBox/");
-		defaultProperties.put("nbPaquets", "6");
+		defaultProperties.put("nbPaquets", "0");
 	}
 
 	public static void initProperties() throws FileNotFoundException, IOException {

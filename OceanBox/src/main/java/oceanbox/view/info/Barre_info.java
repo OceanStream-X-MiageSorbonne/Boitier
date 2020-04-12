@@ -17,7 +17,7 @@ public class Barre_info extends HBox {
 
 		this.setMaxHeight(this.bandeauDeroulant.getInfo().getHeight());
 		this.getChildren().add(this.bandeauDeroulant);
-		this.setStyle("-fx-background-color: black;");
+		this.setStyle("-fx-background-color: #5F9EA0;");
 		this.setAlignment(Pos.CENTER);
 		StackPane.setAlignment(this, Pos.BOTTOM_CENTER);
 	}
