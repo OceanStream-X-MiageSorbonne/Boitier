@@ -18,13 +18,13 @@ public class BasicInfo extends Label {
 	public BasicInfo(String texte) {
 
 		this.setText(texte);
-		this.setFont(new Font(40));
+		this.setFont(new Font(30));
 		this.setTextAlignment(TextAlignment.CENTER);
 		this.setWrapText(true);
-		this.setTextFill(Color.WHITE);
-		this.setPadding(new Insets(10));
+		this.setTextFill(Color.BLACK);
+		this.setPadding(new Insets(10, 10, 20, 10));
 		this.setAlignment(Pos.CENTER);
-		this.setStyle("-fx-background-color: black;");
+		this.setStyle("-fx-background-color: #5F9EA0;");
 		this.setHeight(this.getFont().getSize() + this.getPadding().getTop() + this.getPadding().getBottom());
 		HBox.setHgrow(this, Priority.ALWAYS);
 	}

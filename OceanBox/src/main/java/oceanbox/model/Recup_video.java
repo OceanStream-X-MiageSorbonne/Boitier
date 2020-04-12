@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 import javafx.scene.media.Media;
+
 import oceanbox.propreties.SystemPropreties;
 
 /**
@@ -15,7 +16,8 @@ public class Recup_video {
 
 	public Recup_video(String regex) {
 
-		File dir = new File(SystemPropreties.getPropertie("videoPath"));
+		File videosDirectory = new File(SystemPropreties.getPropertie("videoPath"));
+		
 		FilenameFilter filter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -23,9 +25,9 @@ public class Recup_video {
 			}
 		};
 
-		String[] children = dir.list(filter);
+		String[] children = videosDirectory.list(filter);
 
-		this.video = new Media("file:" + dir.getAbsolutePath() + "/" + children[0]);
+		this.video = new Media("file:" + videosDirectory.getAbsolutePath() + "/" + children[0]);
 	}
 
 	public Media getVideo() {
