@@ -1,4 +1,4 @@
-package oceanbox.view;
+package oceanbox.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javafx.util.Duration;
+import oceanbox.model.Contenu;
 import oceanbox.propreties.ClientPropreties;
 
 public class ContenuTest {

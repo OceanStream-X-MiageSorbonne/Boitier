@@ -1,6 +1,7 @@
 package oceanbox.view;
 
 import oceanbox.controler.AbstractControler;
+import oceanbox.model.Contenu;
 import oceanbox.observer.Observer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
