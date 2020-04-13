@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
+
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
@@ -74,30 +76,41 @@ public class RecupVideoFromServer {
 		
 		int nbPaquets = -1;
 		
+		String preffixeNomVideo = LocalDateTime.now().getDayOfMonth()+"-"+LocalDateTime.now().getMonthValue()+"-"+LocalDateTime.now().getYear()+"_";
+		String suffixeNomVideo = ".mp4";
+		
 		try {									
 			// On récupère le dossier où se trouve les paquets pour tous les télécharger
 			// dans le dossier local
 			FTPFile[] paquets = ftpsClient.listFiles(cheminDistant);
 			nbPaquets = paquets.length;
 						
-			for(int i = 0 ; i < nbPaquets ; i++) {
+			int numVideo = 0;
+			for(FTPFile f : paquets) {
+				numVideo++;
+				
 				// Nom du paquet courant sur le serveur
-				String nomPaquet = paquets[i].getName();
+				String nomPaquet = f.getName();
 				
-				// On récupére le fichier local ...
-				File fichierlocal = new File(cheminLocal+nomPaquet);
-				// ... on le crée s'il n'existe pas
-				fichierlocal.createNewFile();
+				// On s'occupe que des vid�os du jour, pas celle du jour suivant
+				String nomVideoVoulu = preffixeNomVideo+numVideo+suffixeNomVideo;
 				
-				OutputStream outputStream = new BufferedOutputStream(
-						new FileOutputStream(fichierlocal, false));
-				
-				LOGGER.info(" *** Début du téléchargement du fichier : " + nomPaquet + " ***");
-				ftpsClient.retrieveFile(cheminDistant+nomPaquet, outputStream);
-				LOGGER.info(" *** Fin du téléchargement du fichier : " + nomPaquet + " ***");
-				
-				// Téléchargement du paquet terminé, on ferme les flux
-				outputStream.close();
+				if(nomPaquet.equals(nomVideoVoulu)) {
+					// On récupére le fichier local ...
+					File fichierlocal = new File(cheminLocal+nomPaquet);
+					// ... on le crée s'il n'existe pas
+					fichierlocal.createNewFile();
+					
+					OutputStream outputStream = new BufferedOutputStream(
+							new FileOutputStream(fichierlocal, false));
+					
+					LOGGER.info(" *** Début du téléchargement du fichier : " + nomPaquet + " ***");
+					ftpsClient.retrieveFile(cheminDistant+nomPaquet, outputStream);
+					LOGGER.info(" *** Fin du téléchargement du fichier : " + nomPaquet + " ***");
+					
+					// Téléchargement du paquet terminé, on ferme les flux
+					outputStream.close();
+				}
 			}
 			
 			// On stock le nombre de paquets sur le serveur
