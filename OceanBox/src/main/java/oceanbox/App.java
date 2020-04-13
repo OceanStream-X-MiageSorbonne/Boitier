@@ -36,6 +36,11 @@ public class App extends Application {
 		primaryScene.setCursor(Cursor.NONE);
 		primaryStage.setScene(primaryScene);
 		primaryStage.show();
+
+		primaryStage.setOnHiding(event -> {
+			ClientPropreties.deletePropertiesFile();
+			SystemPropreties.deletePropertiesFile();
+		});
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
