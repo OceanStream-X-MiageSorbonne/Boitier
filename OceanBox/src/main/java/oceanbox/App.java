@@ -37,10 +37,10 @@ public class App extends Application {
 		primaryStage.setScene(primaryScene);
 		primaryStage.show();
 
-		primaryStage.setOnHiding(event -> {
-			ClientPropreties.deletePropertiesFile();
-			SystemPropreties.deletePropertiesFile();
-		});
+//		primaryStage.setOnHiding(event -> {
+//			ClientPropreties.deletePropertiesFile();
+//			SystemPropreties.deletePropertiesFile();
+//		});
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
@@ -49,8 +49,8 @@ public class App extends Application {
 		ClientPropreties.initProperties();
 
 		// Modifiez les 2 lignes ci-dessous si vous avez un autre path ou nom de video
-		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		SystemPropreties.setPropertie("videoName", "video-test.mp4");
+//		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+//		SystemPropreties.setPropertie("videoName", "video-test.mp4");
 
 		// Les 4 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
