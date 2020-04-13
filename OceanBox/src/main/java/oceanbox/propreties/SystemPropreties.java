@@ -40,7 +40,7 @@ public class SystemPropreties {
 		defaultProperties.put("oceanBoxIP", "0.0.0.0");
 
 		// Video settings
-		defaultProperties.put("videoPath", "/");
+		defaultProperties.put("videoPath", "/home/pi/partage");
 		defaultProperties.put("nbPaquets", "0");
 	}
 
