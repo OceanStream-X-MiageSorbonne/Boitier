@@ -44,7 +44,7 @@ public class App extends Application {
 		ClientPropreties.initProperties();
 
 		// Modifiez les 2 lignes ci-dessous si vous avez un autre path ou nom de video
-		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+		SystemPropreties.setPropertie("videoPath", "C:/Users/mathi/Desktop/Importants/L3/Sorbonne/Cours/Projet Commun/");
 		SystemPropreties.setPropertie("videoName", "video-test.mp4");
 
 		// Les 4 properties ci-dessous influent directement sur l'application

@@ -156,10 +156,12 @@ public abstract class AbstractControler {
 			}
 		});
 
+		/*
 		stage.setOnHiding(event -> {
 			ClientPropreties.deletePropertiesFile();
 			SystemPropreties.deletePropertiesFile();
 		});
+		*/
 	}
 
 	public boolean isSleep() {
