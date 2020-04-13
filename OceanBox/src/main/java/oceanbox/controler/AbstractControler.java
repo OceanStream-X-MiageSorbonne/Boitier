@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Contenu;
 import oceanbox.propreties.ClientPropreties;
-import oceanbox.propreties.SystemPropreties;
 import oceanbox.view.Alerte;
 import oceanbox.view.Veille;
 import oceanbox.view.info.Bandeau_deroulant;
@@ -154,11 +153,6 @@ public abstract class AbstractControler {
 				model.notifyObserver(new Contenu(this), true);
 				control();
 			}
-		});
-
-		stage.setOnHiding(event -> {
-			ClientPropreties.deletePropertiesFile();
-			SystemPropreties.deletePropertiesFile();
 		});
 	}
 
