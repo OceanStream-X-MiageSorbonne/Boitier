@@ -54,6 +54,7 @@ public class App extends Application {
 
 		SystemPropreties.setPropertie("downloadHour", "17:24:40");
 
+
 		// Les 4 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
 		ClientPropreties.setPropertie("infos", "true");

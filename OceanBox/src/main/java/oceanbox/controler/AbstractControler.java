@@ -164,6 +164,11 @@ public abstract class AbstractControler {
 				control();
 			}
 		});
+
+		stage.setOnHiding(event -> {
+			ClientPropreties.deletePropertiesFile();
+			SystemPropreties.deletePropertiesFile();
+		});
 	}
 
 	/**
