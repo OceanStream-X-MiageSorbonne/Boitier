@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.TimerTask;
 import java.time.LocalDateTime;
 
 import org.apache.commons.net.PrintCommandListener;
@@ -17,27 +18,23 @@ import org.slf4j.LoggerFactory;
 
 import oceanbox.propreties.SystemPropreties;
 
-public class RecupVideoFromServer {
+public class RecupVideoFromServer extends TimerTask {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(RecupVideoFromServer.class);
-	private static FTPSClient ftpsClient;
+	private FTPSClient ftpsClient;
 
-	private RecupVideoFromServer() {
-	    throw new IllegalStateException("FTP Connection & Download class");
-	}
-	
 	/**
 	 * Connexion FTP
 	 */
-	public static void ftpConnection() {
+	public void ftpConnection() {
 
 		String host = SystemPropreties.getPropertie("ftpIP");
 		String login = SystemPropreties.getPropertie("ftpUser");
 		String mdp = SystemPropreties.getPropertie("ftpPasswd");
 		String port = SystemPropreties.getPropertie("ftpPort");
-		
+
 		ftpsClient = new FTPSClient();
-		
+
 		try {
 			ftpsClient.connect(host, Integer.valueOf(port));
 			ftpsClient.login(login, mdp);
@@ -53,11 +50,11 @@ public class RecupVideoFromServer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Déconnexion FTP
 	 */
-	public static void ftpDeconnection() {
+	public void ftpDeconnection() {
 		try {
 			ftpsClient.logout();
 			ftpsClient.disconnect();
@@ -67,69 +64,72 @@ public class RecupVideoFromServer {
 			e.printStackTrace();
 		}
 	}
-	
 
-	public static void ftpDownloadFile() {
-		
+	public void ftpDownloadFile() {
+
+		ftpConnection();
+
 		String cheminDistant = SystemPropreties.getPropertie("ftpVideoPath");
 		String cheminLocal = SystemPropreties.getPropertie("videoPath");
-		
+
 		int nbPaquets = -1;
-		
-		String preffixeNomVideo = LocalDateTime.now().getDayOfMonth()+"-"+LocalDateTime.now().getMonthValue()+"-"+LocalDateTime.now().getYear()+"_";
+
+		String preffixeNomVideo = LocalDateTime.now().getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-"
+				+ LocalDateTime.now().getYear() + "_";
 		String suffixeNomVideo = ".mp4";
-		
-		try {									
+
+		try {
 			// On récupère le dossier où se trouve les paquets pour tous les télécharger
 			// dans le dossier local
 			FTPFile[] paquets = ftpsClient.listFiles(cheminDistant);
 			nbPaquets = paquets.length;
-						
+
 			int numVideo = 0;
-			for(FTPFile f : paquets) {
+			for (FTPFile f : paquets) {
 				numVideo++;
-				
+
 				// Nom du paquet courant sur le serveur
 				String nomPaquet = f.getName();
-				
-				// On s'occupe que des vid�os du jour, pas celle du jour suivant
-				String nomVideoVoulu = preffixeNomVideo+numVideo+suffixeNomVideo;
-				
-				if(nomPaquet.equals(nomVideoVoulu)) {
-					// On récupére le fichier local ...
-					File fichierlocal = new File(cheminLocal+nomPaquet);
+
+				// On s'occupe que des vidéos du jour, pas celle du jour suivant
+				String nomVideoVoulu = preffixeNomVideo + numVideo + suffixeNomVideo;
+
+				if (nomPaquet.equals(nomVideoVoulu)) {
+					// On récupère le fichier local ...
+					File fichierlocal = new File(cheminLocal + nomPaquet);
 					// ... on le crée s'il n'existe pas
 					fichierlocal.createNewFile();
-					
-					OutputStream outputStream = new BufferedOutputStream(
-							new FileOutputStream(fichierlocal, false));
-					
+
+					OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(fichierlocal, false));
+
 					LOGGER.info(" *** Début du téléchargement du fichier : " + nomPaquet + " ***");
-					ftpsClient.retrieveFile(cheminDistant+nomPaquet, outputStream);
+					ftpsClient.retrieveFile(cheminDistant + nomPaquet, outputStream);
 					LOGGER.info(" *** Fin du téléchargement du fichier : " + nomPaquet + " ***");
-					
+
 					// Téléchargement du paquet terminé, on ferme les flux
 					outputStream.close();
 				}
 			}
-			
+
 			// On stock le nombre de paquets sur le serveur
 			SystemPropreties.setPropertie("nbPaquets", String.valueOf(nbPaquets));
-			
+
 			// On ferme la connexion FTP
-			RecupVideoFromServer.ftpDeconnection();
-						
+			ftpDeconnection();
+
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if (ftpsClient.isConnected()) {
 				// On ferme la connexion FTP
-				RecupVideoFromServer.ftpDeconnection();
+				ftpDeconnection();
 			}
 		}
 	}
-	
 
+	@Override
+	public void run() {
+		ftpDownloadFile();
+	}
 }
-

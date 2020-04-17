@@ -2,6 +2,12 @@ package oceanbox.controler;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.Timer;
 
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -13,7 +19,9 @@ import javafx.stage.Stage;
 
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Contenu;
+import oceanbox.model.ftp.RecupVideoFromServer;
 import oceanbox.propreties.ClientPropreties;
+import oceanbox.propreties.SystemPropreties;
 import oceanbox.view.Alerte;
 import oceanbox.view.Veille;
 import oceanbox.view.info.Bandeau_deroulant;
@@ -76,6 +84,8 @@ public abstract class AbstractControler {
 		this.model = model;
 		this.stage = stage;
 		this.sleep = false;
+		
+		initDowloadVideos();
 
 		initStageProperties();
 
@@ -159,6 +169,32 @@ public abstract class AbstractControler {
 			ClientPropreties.deletePropertiesFile();
 			SystemPropreties.deletePropertiesFile();
 		});
+	}
+
+	/**
+	 * Cette méthode initialise au lancement de l'application les téléchargements
+	 * réguliers de vidéos
+	 */
+	public void initDowloadVideos() {
+
+		LocalTime currentTime = LocalTime.now();
+
+		LocalTime downloadTime = LocalTime.parse(SystemPropreties.getPropertie("downloadHour"));
+
+		Timer dowloadTimer = new Timer();
+		LocalDateTime firstTimeDownload = null;
+
+		if (currentTime.compareTo(downloadTime) < 0) {
+			firstTimeDownload = LocalDateTime.now().withHour(downloadTime.getHour())
+					.withMinute(downloadTime.getMinute()).withSecond(downloadTime.getSecond());
+		} else {
+			firstTimeDownload = LocalDateTime.now().with(LocalDateTime.now().plus(1, ChronoUnit.DAYS))
+					.withHour(downloadTime.getHour()).withMinute(downloadTime.getMinute())
+					.withSecond(downloadTime.getSecond());
+		}
+
+		dowloadTimer.schedule(new RecupVideoFromServer(),
+				Date.from(firstTimeDownload.atZone(ZoneId.systemDefault()).toInstant()), (long) 1000 * 3600 * 24);
 	}
 
 	public boolean isSleep() {
