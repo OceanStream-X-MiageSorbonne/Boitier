@@ -26,7 +26,7 @@ public class SystemPropreties {
 		defaultProperties.put("ftpUser", "ocean_ftp");
 		defaultProperties.put("ftpPasswd", "Stream2020");
 		defaultProperties.put("ftpPort", "21");
-		defaultProperties.put("downloadHour", "4");
+		defaultProperties.put("downloadHour", "04:00:00");
 		defaultProperties.put("ftpVideoPath", "/default_video/");
 
 		// Database settings
@@ -40,7 +40,7 @@ public class SystemPropreties {
 		defaultProperties.put("oceanBoxIP", "0.0.0.0");
 
 		// Video settings
-		defaultProperties.put("videoPath", "/home/pi/partage");
+		defaultProperties.put("videoPath", "/home/pi/");
 		defaultProperties.put("nbPaquets", "0");
 	}
 
