@@ -17,7 +17,7 @@ public class Recup_video {
 	public Recup_video(String regex) {
 
 		File videosDirectory = new File(SystemPropreties.getPropertie("videoPath"));
-		
+
 		FilenameFilter filter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
