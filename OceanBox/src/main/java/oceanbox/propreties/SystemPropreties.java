@@ -29,6 +29,9 @@ public class SystemPropreties {
 		defaultProperties.put("downloadHour", "04:00:00");
 		defaultProperties.put("ftpVideoPath", "/default_video/");
 
+		// Log settings
+		defaultProperties.put("relativeLogPath", "allAboutFtp.log");
+
 		// Database settings
 		defaultProperties.put("dbIP", "dbIP");
 		defaultProperties.put("dbUser", "dbUser");

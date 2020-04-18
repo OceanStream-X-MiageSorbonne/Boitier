@@ -5,10 +5,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -16,20 +17,51 @@ import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.log4j.Appender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+
+import javafx.application.Platform;
+
+import javafx.scene.layout.BorderPane;
+
+import oceanbox.controler.AbstractControler;
+
+import oceanbox.model.Contenu;
+import oceanbox.model.Telechargement;
 
 import oceanbox.propreties.SystemPropreties;
 
-public class RecupVideoFromServer extends TimerTask {
+public class RecupVideoFromServer {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(RecupVideoFromServer.class);
+	private final static Logger LOGGER = Logger.getLogger(RecupVideoFromServer.class.getName());;
 	private FTPSClient ftpsClient;
+	private AbstractControler controler;
+	private Telechargement telechargement;
+
+	public RecupVideoFromServer(Telechargement telechargement, AbstractControler controler) {
+		this.controler = controler;
+		this.telechargement = telechargement;
+
+		// Initialisation du Logger
+		Appender fh = null;
+		try {
+			fh = new FileAppender(new SimpleLayout(), SystemPropreties.getPropertie("relativeLogPath"));
+			LOGGER.addAppender(fh);
+			fh.setLayout(new SimpleLayout());
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Connexion FTP
 	 */
-	public void ftpConnection() {
+	private void ftpConnection() {
 
 		String host = SystemPropreties.getPropertie("ftpIP");
 		String login = SystemPropreties.getPropertie("ftpUser");
@@ -43,10 +75,11 @@ public class RecupVideoFromServer extends TimerTask {
 			ftpsClient.login(login, mdp);
 			ftpsClient.execPBSZ(0);
 			ftpsClient.execPROT("P");
-			ftpsClient.addProtocolCommandListener(new PrintCommandListener((PrintStream) LOGGER));
+			LOGGER.info("FTP Connection OK");
+			ftpsClient.addProtocolCommandListener(new PrintCommandListener(
+					new PrintWriter(new FileOutputStream(SystemPropreties.getPropertie("relativeLogPath")))));
 			ftpsClient.enterLocalPassiveMode();
 			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
-			LOGGER.info("FTP Connection OK");
 		} catch (IOException e) {
 			LOGGER.error("FTP Connection KO");
 			System.out.println(e.getMessage());
@@ -57,7 +90,7 @@ public class RecupVideoFromServer extends TimerTask {
 	/**
 	 * Déconnexion FTP
 	 */
-	public void ftpDeconnection() {
+	private void ftpDeconnection() {
 		try {
 			ftpsClient.logout();
 			ftpsClient.disconnect();
@@ -70,14 +103,26 @@ public class RecupVideoFromServer extends TimerTask {
 
 	public void ftpDownloadFile() {
 
+		// Si le boîtier n'est pas en veille alors on réinitialise le contenu à l'écran
+		Platform.runLater(() -> {
+			if (!controler.isSleep()) {
+				controler.setDownload(true);
+				BorderPane remplacement = new BorderPane();
+				remplacement.setCenter(telechargement.getMediaViewBonus());
+				controler.getModel().notifyObserver(controler.getVeille(), false);
+				controler.setInfoControler(null);
+				controler.getModel().notifyObserver(remplacement, true);
+				controler.control();
+			}
+		});
+
 		ftpConnection();
 
 		String cheminDistant = SystemPropreties.getPropertie("ftpVideoPath");
 		String cheminLocal = SystemPropreties.getPropertie("videoPath");
 
-		String prefixeNomVideo = LocalDateTime.now().plus(1, ChronoUnit.DAYS).getDayOfMonth() + "-"
-				+ LocalDateTime.now().plus(1, ChronoUnit.DAYS).getMonthValue() + "-"
-				+ LocalDateTime.now().plus(1, ChronoUnit.DAYS).getYear() + "_";
+		String prefixeNomVideo = LocalDateTime.now().getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-"
+				+ LocalDateTime.now().getYear() + "_";
 		String suffixeNomVideo = ".mp4";
 
 		try {
@@ -118,11 +163,31 @@ public class RecupVideoFromServer extends TimerTask {
 
 					// Téléchargement du paquet terminé, on ferme les flux
 					outputStream.close();
+
+					// Suppression du paquet correspondant J-1
+					String ancienPrefixeNomVideo = LocalDateTime.now().minus(1, ChronoUnit.DAYS).getDayOfMonth() + "-"
+							+ LocalDateTime.now().minus(1, ChronoUnit.DAYS).getMonthValue() + "-"
+							+ LocalDateTime.now().minus(1, ChronoUnit.DAYS).getYear() + "_";
+
+					for (String nomVideo : new File(cheminLocal).list()) {
+						if (nomVideo.startsWith(ancienPrefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
+							new File(cheminLocal + nomVideo).delete();
+					}
 				}
 			}
 
 			// On ferme la connexion FTP
 			ftpDeconnection();
+
+			// Si le boîtier n'est pas en veille alors on réinitialise le contenu à l'écran
+			Platform.runLater(() -> {
+				if (!controler.isSleep()) {
+					controler.getModel().notifyObserver(controler.getVeille(), false);
+					controler.getModel().notifyObserver(new Contenu(controler), true);
+					controler.control();
+				}
+				controler.setDownload(false);
+			});
 
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
@@ -133,10 +198,5 @@ public class RecupVideoFromServer extends TimerTask {
 				ftpDeconnection();
 			}
 		}
-	}
-
-	@Override
-	public void run() {
-		ftpDownloadFile();
 	}
 }

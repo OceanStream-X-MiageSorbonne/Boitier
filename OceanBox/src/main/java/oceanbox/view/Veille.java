@@ -19,7 +19,7 @@ public class Veille extends BorderPane {
 		message.setTextFill(Color.WHITE);
 
 		this.setCenter(message);
-		
+
 		this.setStyle("-fx-background-color: #000000;");
 	}
 }

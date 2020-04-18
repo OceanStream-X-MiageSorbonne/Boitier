@@ -55,7 +55,7 @@ public class Contenu extends BorderPane {
 		videos = new ArrayList<Media>();
 		totalDurationOfVideo = 0;
 
-		for (int i = 1; i <= durationOfVideo.length; i++) {
+		for (int i = 1; i <= durationOfVideo.length - 1; i++) {
 			String regex = i + ".mp4";
 			Media video = new Recup_video(regex).getVideo();
 
