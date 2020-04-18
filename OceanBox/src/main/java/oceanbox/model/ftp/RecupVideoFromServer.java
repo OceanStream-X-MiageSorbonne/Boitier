@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
@@ -105,8 +104,8 @@ public class RecupVideoFromServer {
 
 		// Si le boîtier n'est pas en veille alors on réinitialise le contenu à l'écran
 		Platform.runLater(() -> {
+			controler.setDownload(true);
 			if (!controler.isSleep()) {
-				controler.setDownload(true);
 				BorderPane remplacement = new BorderPane();
 				remplacement.setCenter(telechargement.getMediaViewBonus());
 				controler.getModel().notifyObserver(controler.getVeille(), false);
@@ -164,13 +163,10 @@ public class RecupVideoFromServer {
 					// Téléchargement du paquet terminé, on ferme les flux
 					outputStream.close();
 
-					// Suppression du paquet correspondant J-1
-					String ancienPrefixeNomVideo = LocalDateTime.now().minus(1, ChronoUnit.DAYS).getDayOfMonth() + "-"
-							+ LocalDateTime.now().minus(1, ChronoUnit.DAYS).getMonthValue() + "-"
-							+ LocalDateTime.now().minus(1, ChronoUnit.DAYS).getYear() + "_";
+					// Suppression de l'ancien paquet
 
 					for (String nomVideo : new File(cheminLocal).list()) {
-						if (nomVideo.startsWith(ancienPrefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
+						if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
 							new File(cheminLocal + nomVideo).delete();
 					}
 				}
@@ -184,6 +180,7 @@ public class RecupVideoFromServer {
 				if (!controler.isSleep()) {
 					controler.getModel().notifyObserver(controler.getVeille(), false);
 					controler.getModel().notifyObserver(new Contenu(controler), true);
+					controler.setInfoControler(null);
 					controler.control();
 				}
 				controler.setDownload(false);
