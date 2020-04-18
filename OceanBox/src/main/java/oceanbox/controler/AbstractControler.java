@@ -2,14 +2,17 @@ package oceanbox.controler;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+
 import java.util.Date;
 import java.util.Timer;
 
 import javafx.animation.PauseTransition;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -19,9 +22,11 @@ import javafx.stage.Stage;
 
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Contenu;
-import oceanbox.model.ftp.RecupVideoFromServer;
+import oceanbox.model.Telechargement;
+
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
+
 import oceanbox.view.Alerte;
 import oceanbox.view.Veille;
 import oceanbox.view.info.Bandeau_deroulant;
@@ -44,6 +49,8 @@ public abstract class AbstractControler {
 	protected Barre_info infoControler;
 	protected boolean sleep;
 	protected Veille veille;
+	protected boolean download;
+	protected Telechargement telechargement;
 
 	/**
 	 * Cet événement ferme l'application
@@ -84,7 +91,8 @@ public abstract class AbstractControler {
 		this.model = model;
 		this.stage = stage;
 		this.sleep = false;
-		
+		this.download = false;
+
 		initDowloadVideos();
 
 		initStageProperties();
@@ -145,22 +153,37 @@ public abstract class AbstractControler {
 		});
 
 		stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+
 			if (event.getCode() == KeyCode.ESCAPE) {
 				stage.hide();
+
 			} else if (!isSleep()) {
+
 				if (event.getCode() == KeyCode.SPACE) {
 					sleepMode(true);
 					model.notifyObserver(veille, true);
 					controlVeille();
+
 				} else {
+
 					if (closeInfoControler != null)
 						model.notifyObserver(closeInfoControler, false);
 					control();
 				}
-			} else {
+
+			} else if (!isDownload()) {
+
 				sleepMode(false);
 				veille.getChildren().removeAll(veille.getChildren());
+				model.notifyObserver(veille, false);
 				model.notifyObserver(new Contenu(this), true);
+				control();
+
+			} else {
+
+				sleepMode(false);
+				veille.getChildren().removeAll(veille.getChildren());
+				veille.setCenter(telechargement.getMediaViewBonus());
 				control();
 			}
 		});
@@ -188,13 +211,17 @@ public abstract class AbstractControler {
 			firstTimeDownload = LocalDateTime.now().withHour(downloadTime.getHour())
 					.withMinute(downloadTime.getMinute()).withSecond(downloadTime.getSecond());
 		} else {
-			firstTimeDownload = LocalDateTime.now().with(LocalDateTime.now().plus(1, ChronoUnit.DAYS))
-					.withHour(downloadTime.getHour()).withMinute(downloadTime.getMinute())
-					.withSecond(downloadTime.getSecond());
+			firstTimeDownload = LocalDateTime.now().plus(1, ChronoUnit.DAYS).withHour(downloadTime.getHour())
+					.withMinute(downloadTime.getMinute()).withSecond(downloadTime.getSecond());
 		}
 
-		dowloadTimer.schedule(new RecupVideoFromServer(),
-				Date.from(firstTimeDownload.atZone(ZoneId.systemDefault()).toInstant()), (long) 1000 * 3600 * 24);
+		telechargement = new Telechargement(this);
+		dowloadTimer.schedule(telechargement, Date.from(firstTimeDownload.atZone(ZoneId.systemDefault()).toInstant()),
+				(long) 1000 * 3600 * 24);
+	}
+
+	public void setInfoControler(Barre_info infoControler) {
+		this.infoControler = infoControler;
 	}
 
 	public boolean isSleep() {
@@ -207,6 +234,14 @@ public abstract class AbstractControler {
 
 	public Veille getVeille() {
 		return veille;
+	}
+
+	public boolean isDownload() {
+		return download;
+	}
+
+	public void setDownload(boolean download) {
+		this.download = download;
 	}
 
 	/**

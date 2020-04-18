@@ -11,7 +11,8 @@ import oceanbox.propreties.ClientPropreties;
 import oceanbox.view.Veille;
 
 /**
- * Cette classe implémente les méthodes control(), controlInfo() et controlVeille()
+ * Cette classe implémente les méthodes control(), controlInfo() et
+ * controlVeille()
  */
 public class Controler extends AbstractControler {
 
@@ -83,11 +84,11 @@ public class Controler extends AbstractControler {
 
 	@Override
 	public void controlVeille() {
-		
+
 		pauseBeforeClose.setOnFinished(null);
 		pauseBeforeCloseAlert.setOnFinished(null);
 		pauseBeforeShowUpInfo.setOnFinished(null);
-		
+
 		infoControler = null;
 	}
 }

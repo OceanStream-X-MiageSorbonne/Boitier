@@ -52,8 +52,7 @@ public class App extends Application {
 		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 		SystemPropreties.setPropertie("videoName", "video-test.mp4");
 
-		SystemPropreties.setPropertie("downloadHour", "21:02:00");
-
+		SystemPropreties.setPropertie("downloadHour", "16:39:00");
 
 		// Les 4 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
