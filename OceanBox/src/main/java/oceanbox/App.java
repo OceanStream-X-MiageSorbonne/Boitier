@@ -4,6 +4,7 @@ import oceanbox.controler.AbstractControler;
 import oceanbox.controler.Controler;
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Model;
+import oceanbox.model.bdd.DatabaseLoader;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 import oceanbox.view.Lecteur_video;
@@ -48,18 +49,18 @@ public class App extends Application {
 		SystemPropreties.initProperties();
 		ClientPropreties.initProperties();
 
-		// Modifiez les 2 lignes ci-dessous si vous avez un autre path ou nom de video
+		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video
 		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		SystemPropreties.setPropertie("videoName", "video-test.mp4");
 
-		SystemPropreties.setPropertie("downloadHour", "19:04:00");
 
-		// Les 4 properties ci-dessous influent directement sur l'application
+		// Les 5 properties ci-dessous influent directement sur l'application
+		ClientPropreties.setPropertie("downloadHour", "19:04:00");
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
 		ClientPropreties.setPropertie("infos", "true");
 		ClientPropreties.setPropertie("activateStandby", "true");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:05:00");
-
-		Application.launch(args);
+		
+		DatabaseLoader.setPropertiesFromDatabase();
+		//Application.launch(args);
 	}
 }

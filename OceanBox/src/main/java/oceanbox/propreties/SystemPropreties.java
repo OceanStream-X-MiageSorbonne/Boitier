@@ -26,25 +26,24 @@ public class SystemPropreties {
 		defaultProperties.put("ftpUser", "ocean_ftp");
 		defaultProperties.put("ftpPasswd", "Stream2020");
 		defaultProperties.put("ftpPort", "21");
-		defaultProperties.put("downloadHour", "04:00:00");
+
 		defaultProperties.put("ftpVideoPath", "/default_video/");
 
 		// Log settings
 		defaultProperties.put("relativeLogPath", "allAboutFtp.log");
 
 		// Database settings
-		defaultProperties.put("dbIP", "dbIP");
-		defaultProperties.put("dbUser", "dbUser");
-		defaultProperties.put("dbPasswd", "dbPasswd");
-		defaultProperties.put("dbPort", "dbPort");
+		defaultProperties.put("dbIP", "37.187.107.122");
+		defaultProperties.put("dbUser", "ocean_bdd");
+		defaultProperties.put("dbPasswd", "OceanBox2020");
+		defaultProperties.put("dbPort", "3306");
 
 		// OceanBox settings
-		defaultProperties.put("oceanBoxNumber", "oceanBoxNumber");
+		defaultProperties.put("oceanBoxNumber", "1");
 		defaultProperties.put("oceanBoxIP", "0.0.0.0");
 
 		// Video settings
 		defaultProperties.put("videoPath", "/home/pi/");
-		defaultProperties.put("nbPaquets", "0");
 	}
 
 	public static void initProperties() throws FileNotFoundException, IOException {
