@@ -109,6 +109,8 @@ public class RecupVideoFromServer {
 				BorderPane remplacement = new BorderPane();
 				remplacement.setCenter(telechargement.getMediaViewBonus());
 				controler.getModel().notifyObserver(controler.getVeille(), false);
+				controler.getContenu().setDiffusion(null);
+				controler.setContenu(null);
 				controler.setInfoControler(null);
 				controler.getModel().notifyObserver(remplacement, true);
 				controler.control();
@@ -179,7 +181,8 @@ public class RecupVideoFromServer {
 			Platform.runLater(() -> {
 				if (!controler.isSleep()) {
 					controler.getModel().notifyObserver(controler.getVeille(), false);
-					controler.getModel().notifyObserver(new Contenu(controler), true);
+					controler.setContenu(new Contenu(controler));
+					controler.getModel().notifyObserver(controler.getContenu(), true);
 					controler.setInfoControler(null);
 					controler.control();
 				}

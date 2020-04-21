@@ -16,6 +16,8 @@ import oceanbox.view.Veille;
  */
 public class Controler extends AbstractControler {
 
+	private List<PauseTransition> defilementInfo;
+
 	public Controler() {
 		super();
 	}
@@ -29,19 +31,19 @@ public class Controler extends AbstractControler {
 
 		veille = new Veille();
 
-		pauseBeforeClose.setOnFinished(null);
-		pauseBeforeCloseAlert.setOnFinished(null);
+		pauseBeforeVeille.setOnFinished(null);
+		pauseBeforeVeilleAlert.setOnFinished(null);
 
 		if (ClientPropreties.getPropertie("activateStandby").equals("true")) {
 
-			pauseBeforeClose = new PauseTransition(Duration.seconds(secondsBeforeClose));
-			pauseBeforeClose.setOnFinished(this.closeApp);
+			pauseBeforeVeille = new PauseTransition(Duration.seconds(secondsBeforeClose));
+			pauseBeforeVeille.setOnFinished(this.veilleApp);
 
-			pauseBeforeCloseAlert = new PauseTransition(Duration.seconds(secondsBeforeClose - 6));
-			pauseBeforeCloseAlert.setOnFinished(this.closeAlert);
+			pauseBeforeVeilleAlert = new PauseTransition(Duration.seconds(secondsBeforeClose - 6));
+			pauseBeforeVeilleAlert.setOnFinished(this.veilleAlert);
 
-			pauseBeforeClose.play();
-			pauseBeforeCloseAlert.play();
+			pauseBeforeVeille.play();
+			pauseBeforeVeilleAlert.play();
 		}
 
 		// -----------------------------------------------------------------------------------------
@@ -65,9 +67,9 @@ public class Controler extends AbstractControler {
 
 		} else {
 
-			List<PauseTransition> defilement = infoControler.getBandeauDeroulant().getDefilement();
+			defilementInfo = infoControler.getBandeauDeroulant().getDefilement();
 
-			defilement.get(defilement.size() - 1).setOnFinished(event -> {
+			defilementInfo.get(defilementInfo.size() - 1).setOnFinished(event -> {
 
 				model.notifyObserver(infoControler, false);
 
@@ -78,17 +80,18 @@ public class Controler extends AbstractControler {
 				pauseBeforeShowUpInfo.play();
 			});
 
-			defilement.get(0).play();
+			defilementInfo.get(0).play();
 		}
 	}
 
 	@Override
 	public void controlVeille() {
 
-		pauseBeforeClose.setOnFinished(null);
-		pauseBeforeCloseAlert.setOnFinished(null);
+		pauseBeforeVeille.setOnFinished(null);
+		pauseBeforeVeilleAlert.setOnFinished(null);
 		pauseBeforeShowUpInfo.setOnFinished(null);
 
+		defilementInfo = null;
 		infoControler = null;
 	}
 }

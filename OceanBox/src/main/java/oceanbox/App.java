@@ -38,6 +38,8 @@ public class App extends Application {
 		primaryStage.setScene(primaryScene);
 		primaryStage.show();
 
+		// Pour le développement on supprime les properties à chaque fermeture de
+		// l'application
 		primaryStage.setOnHiding(event -> {
 			ClientPropreties.deletePropertiesFile();
 			SystemPropreties.deletePropertiesFile();
@@ -49,18 +51,18 @@ public class App extends Application {
 		SystemPropreties.initProperties();
 		ClientPropreties.initProperties();
 
+		DatabaseLoader.setPropertiesFromDatabase();
+
 		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video
 		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 
-
 		// Les 5 properties ci-dessous influent directement sur l'application
-		ClientPropreties.setPropertie("downloadHour", "19:04:00");
+		ClientPropreties.setPropertie("downloadHour", "15:11:10");
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
 		ClientPropreties.setPropertie("infos", "true");
 		ClientPropreties.setPropertie("activateStandby", "true");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:05:00");
-		
-		DatabaseLoader.setPropertiesFromDatabase();
-		//Application.launch(args);
+
+		Application.launch(args);
 	}
 }
