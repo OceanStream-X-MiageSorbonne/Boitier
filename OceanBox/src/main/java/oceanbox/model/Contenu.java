@@ -29,6 +29,7 @@ public class Contenu extends BorderPane {
 	private int[] durationOfVideo;
 	private int totalDurationOfVideo = 0;
 	private MediaView mediaView;
+	private Timeline diffusion;
 
 	public Contenu(int secondsForTest) {
 		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
@@ -81,7 +82,8 @@ public class Contenu extends BorderPane {
 				controler.getModel().notifyObserver(this, true);
 			}
 
-			timelineForDiffusion().play();
+			diffusion = timelineForDiffusion();
+			diffusion.play();
 		});
 	}
 
@@ -151,5 +153,9 @@ public class Contenu extends BorderPane {
 			else
 				initVideos();
 		});
+	}
+
+	public void setDiffusion(Timeline diffusion) {
+		this.diffusion = diffusion;
 	}
 }

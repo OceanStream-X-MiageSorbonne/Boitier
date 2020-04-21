@@ -9,15 +9,14 @@ import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
 public class DatabaseLoader {
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	
-	//  Database credentials
+
+	// Database credentials
 	private static final String USER = SystemPropreties.getPropertie("dbUser");
 	static final String PASS = SystemPropreties.getPropertie("dbPasswd");
 	static final String HOST = SystemPropreties.getPropertie("dbIP");
@@ -25,29 +24,28 @@ public class DatabaseLoader {
 	private static Statement stmt = null;
 	private static PreparedStatement preparedStatement = null;
 	private static Connection conn = null;
-	
-	public static void setPropertiesFromDatabase(){
-		try{
+
+	public static void setPropertiesFromDatabase() {
+		try {
 			String forName = "com.mysql.cj.jdbc.Driver";
 			try {
 				Class.forName(forName);
 				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Loaded Successfully");
-				
+
 			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Failed To Load Successfully");			
+				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Failed To Load Successfully");
 				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, ex.getMessage());
 			}
 
-			//STEP 3: Open a connection
+			// STEP 3: Open a connection
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connecting to a selected database...");
-			   conn = DriverManager
-				       .getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/oceandatabase",USER,PASS);
+			conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/oceandatabase", USER, PASS);
 
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connected database successfully...");
 
 			stmt = conn.createStatement();
 			ResultSet resultat = stmt.executeQuery("SELECT * FROM ftptable, dbtable");
-			while(resultat.next()){				
+			while (resultat.next()) {
 				String ftpIP = resultat.getString("ftpIP");
 				String ftpUser = resultat.getString("ftpUser");
 				String ftpPasswd = resultat.getString("ftpPasswd");
@@ -66,19 +64,20 @@ public class DatabaseLoader {
 				SystemPropreties.setPropertie("dbUser", dbUser);
 				SystemPropreties.setPropertie("dbPasswd", dbPasswd);
 				SystemPropreties.setPropertie("dbPort", dbPort);
-				
+
 			}
-			preparedStatement = conn.prepareStatement("SELECT * FROM clientsproperties, oceanboxproperties WHERE oceanBoxNumber= ? AND clientsproperties.idClient = oceanboxproperties.idClient");
+			preparedStatement = conn.prepareStatement(
+					"SELECT * FROM clientsproperties, oceanboxproperties WHERE oceanBoxNumber= ? AND clientsproperties.idClient = oceanboxproperties.idClient");
 			preparedStatement.setString(1, SystemPropreties.getPropertie("oceanBoxNumber"));
 			resultat = preparedStatement.executeQuery();
 			resultat.next();
-			
+
 			String VideoFlux = resultat.getString("VideoFlux");
 			String infos = resultat.getString("infos");
 			String userName = resultat.getString("userName");
 			String userType = resultat.getString("userType");
-			String downloadHour= resultat.getString("downloadHour");
-			String activateStandby= resultat.getString("activateStandby");
+			String downloadHour = resultat.getString("downloadHour");
+			String activateStandby = resultat.getString("activateStandby");
 			String timeBeforeStandby = resultat.getString("timeBeforeStandby");
 			String heureDeReveil = resultat.getString("heureDeReveil");
 			ClientPropreties.setPropertie("VideoFlux", VideoFlux);
@@ -89,18 +88,16 @@ public class DatabaseLoader {
 			ClientPropreties.setPropertie("activateStandby", activateStandby);
 			ClientPropreties.setPropertie("timeBeforeStandby", timeBeforeStandby);
 			ClientPropreties.setPropertie("heureDeReveil", heureDeReveil);
-			
 
-		}catch(SQLException se){
-			//Handle errors for JDBC
+		} catch (SQLException se) {
+			// Handle errors for JDBC
 			se.printStackTrace();
-		}catch(Exception e){
-			//Handle errors for Class.forName
+		} catch (Exception e) {
+			// Handle errors for Class.forName
 			e.printStackTrace();
-		} finally{
+		} finally {
 			try {
 				conn.close();
-				
 			} catch (SQLException ex) {
 				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
 			}

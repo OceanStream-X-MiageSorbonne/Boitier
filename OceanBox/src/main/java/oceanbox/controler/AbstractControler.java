@@ -15,9 +15,11 @@ import javafx.animation.PauseTransition;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
 import javafx.stage.Stage;
 
 import oceanbox.model.AbstractModel;
@@ -25,7 +27,6 @@ import oceanbox.model.Contenu;
 import oceanbox.model.Telechargement;
 
 import oceanbox.propreties.ClientPropreties;
-import oceanbox.propreties.SystemPropreties;
 
 import oceanbox.view.Alerte;
 import oceanbox.view.Veille;
@@ -42,22 +43,25 @@ public abstract class AbstractControler {
 	protected Stage stage;
 	protected AbstractModel model;
 	protected int secondsBeforeClose;
-	protected PauseTransition pauseBeforeClose = new PauseTransition();
-	protected PauseTransition pauseBeforeCloseAlert = new PauseTransition();
+	protected PauseTransition pauseBeforeVeille = new PauseTransition();
+	protected PauseTransition pauseBeforeVeilleAlert = new PauseTransition();
 	protected PauseTransition pauseBeforeShowUpInfo = new PauseTransition();
-	protected Label closeInfoControler;
+	protected Label veilleInfoControler;
 	protected Barre_info infoControler;
 	protected boolean sleep;
 	protected Veille veille;
+	protected Contenu contenu;
 	protected boolean download;
 	protected Telechargement telechargement;
 
 	/**
 	 * Cet événement ferme l'application
 	 */
-	protected EventHandler<ActionEvent> closeApp = event -> {
+	protected EventHandler<ActionEvent> veilleApp = event -> {
 		sleepMode(true);
 		model.notifyObserver(veille, true);
+		contenu.setDiffusion(null);
+		contenu = null;
 		controlVeille();
 	};
 
@@ -65,9 +69,9 @@ public abstract class AbstractControler {
 	 * Cet événement alerte l'utilisateur que l'application va se fermer si le
 	 * capteur du boîtier ne détecte pas de mouvement
 	 */
-	protected EventHandler<ActionEvent> closeAlert = event -> {
-		closeInfoControler = new Alerte();
-		model.notifyObserver(closeInfoControler, true);
+	protected EventHandler<ActionEvent> veilleAlert = event -> {
+		veilleInfoControler = new Alerte();
+		model.notifyObserver(veilleInfoControler, true);
 	};
 
 	/**
@@ -90,6 +94,7 @@ public abstract class AbstractControler {
 
 		this.model = model;
 		this.stage = stage;
+		this.contenu = new Contenu(this);
 		this.sleep = false;
 		this.download = false;
 
@@ -100,10 +105,6 @@ public abstract class AbstractControler {
 		this.secondsBeforeClose = initSecondsBeforeClose();
 
 		control();
-	}
-
-	public AbstractModel getModel() {
-		return model;
 	}
 
 	/**
@@ -162,12 +163,14 @@ public abstract class AbstractControler {
 				if (event.getCode() == KeyCode.SPACE) {
 					sleepMode(true);
 					model.notifyObserver(veille, true);
+					contenu.setDiffusion(null);
+					contenu = null;
 					controlVeille();
 
 				} else {
 
-					if (closeInfoControler != null)
-						model.notifyObserver(closeInfoControler, false);
+					if (veilleInfoControler != null)
+						model.notifyObserver(veilleInfoControler, false);
 					control();
 				}
 
@@ -176,7 +179,8 @@ public abstract class AbstractControler {
 				sleepMode(false);
 				veille.getChildren().removeAll(veille.getChildren());
 				model.notifyObserver(veille, false);
-				model.notifyObserver(new Contenu(this), true);
+				contenu = new Contenu(this);
+				model.notifyObserver(contenu, true);
 				control();
 
 			} else {
@@ -186,11 +190,6 @@ public abstract class AbstractControler {
 				veille.setCenter(telechargement.getMediaViewBonus());
 				control();
 			}
-		});
-
-		stage.setOnHiding(event -> {
-			ClientPropreties.deletePropertiesFile();
-			SystemPropreties.deletePropertiesFile();
 		});
 	}
 
@@ -202,7 +201,7 @@ public abstract class AbstractControler {
 
 		LocalTime currentTime = LocalTime.now();
 
-		LocalTime downloadTime = LocalTime.parse(SystemPropreties.getPropertie("downloadHour"));
+		LocalTime downloadTime = LocalTime.parse(ClientPropreties.getPropertie("downloadHour"));
 
 		Timer dowloadTimer = new Timer();
 		LocalDateTime firstTimeDownload = null;
@@ -220,6 +219,10 @@ public abstract class AbstractControler {
 				(long) 1000 * 3600 * 24);
 	}
 
+	public AbstractModel getModel() {
+		return model;
+	}
+
 	public void setInfoControler(Barre_info infoControler) {
 		this.infoControler = infoControler;
 	}
@@ -234,6 +237,14 @@ public abstract class AbstractControler {
 
 	public Veille getVeille() {
 		return veille;
+	}
+
+	public Contenu getContenu() {
+		return contenu;
+	}
+
+	public void setContenu(Contenu contenu) {
+		this.contenu = contenu;
 	}
 
 	public boolean isDownload() {

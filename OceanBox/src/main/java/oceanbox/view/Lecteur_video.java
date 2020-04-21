@@ -1,7 +1,7 @@
 package oceanbox.view;
 
 import oceanbox.controler.AbstractControler;
-import oceanbox.model.Contenu;
+
 import oceanbox.observer.Observer;
 
 import java.io.FileNotFoundException;
@@ -14,11 +14,9 @@ public class Lecteur_video extends StackPane implements Observer {
 
 	public Lecteur_video(AbstractControler controler) throws FileNotFoundException, IOException {
 
-		Contenu contenu = new Contenu(controler);
-
 		Horloge horloge = new Horloge(controler);
 
-		this.getChildren().add(contenu);
+		this.getChildren().add(controler.getContenu());
 
 		this.getChildren().add(horloge);
 
