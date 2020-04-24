@@ -5,10 +5,9 @@ import java.io.IOException;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
-import java.util.Date;
+import java.util.Deque;
 import java.util.Timer;
 
 import javafx.animation.PauseTransition;
@@ -24,11 +23,11 @@ import javafx.stage.Stage;
 
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Contenu;
-import oceanbox.model.Telechargement;
 
 import oceanbox.propreties.ClientPropreties;
 
 import oceanbox.view.Alerte;
+import oceanbox.view.Horloge;
 import oceanbox.view.Veille;
 import oceanbox.view.info.Bandeau_deroulant;
 import oceanbox.view.info.Barre_info;
@@ -43,26 +42,23 @@ public abstract class AbstractControler {
 	protected Stage stage;
 	protected AbstractModel model;
 	protected int secondsBeforeClose;
-	protected PauseTransition pauseBeforeVeille = new PauseTransition();
-	protected PauseTransition pauseBeforeVeilleAlert = new PauseTransition();
-	protected PauseTransition pauseBeforeShowUpInfo = new PauseTransition();
+	protected PauseTransition pauseBeforeVeille;
+	protected PauseTransition pauseBeforeVeilleAlert;
+	protected PauseTransition pauseBeforeShowUpInfo;
 	protected Label veilleInfoControler;
 	protected Barre_info infoControler;
+	protected Deque<PauseTransition> defilementInfo;
+	protected Horloge horloge;
 	protected boolean sleep;
 	protected Veille veille;
 	protected Contenu contenu;
 	protected boolean download;
-	protected Telechargement telechargement;
 
 	/**
 	 * Cet événement ferme l'application
 	 */
 	protected EventHandler<ActionEvent> veilleApp = event -> {
-		sleepMode(true);
-		model.notifyObserver(veille, true);
-		contenu.setDiffusion(null);
-		contenu = null;
-		controlVeille();
+		goInVeille();
 	};
 
 	/**
@@ -94,7 +90,9 @@ public abstract class AbstractControler {
 
 		this.model = model;
 		this.stage = stage;
+		this.horloge = new Horloge(this);
 		this.contenu = new Contenu(this);
+		this.veille = new Veille();
 		this.sleep = false;
 		this.download = false;
 
@@ -159,44 +157,48 @@ public abstract class AbstractControler {
 				stage.hide();
 
 			} else if (!isSleep()) {
-
 				if (event.getCode() == KeyCode.SPACE) {
-					sleepMode(true);
-					model.notifyObserver(veille, true);
-					contenu.setDiffusion(null);
-					contenu = null;
-					controlVeille();
-
+					goInVeille();
 				} else {
-
 					if (veilleInfoControler != null)
 						model.notifyObserver(veilleInfoControler, false);
 					control();
 				}
-
-			} else if (!isDownload()) {
-
-				sleepMode(false);
-				veille.getChildren().removeAll(veille.getChildren());
-				model.notifyObserver(veille, false);
-				contenu = new Contenu(this);
-				model.notifyObserver(contenu, true);
-				control();
-
 			} else {
-
-				sleepMode(false);
-				veille.getChildren().removeAll(veille.getChildren());
-				veille.setCenter(telechargement.getMediaViewBonus());
-				control();
+				goOutOfVeille();
 			}
 		});
+	}
+
+	private void goInVeille() {
+		sleepMode(true);
+		model.notifyObserver(veille, true);
+		if (horloge.getMontre() != null) {
+			horloge.getMontre().stop();
+			horloge.setMontre(null);
+			model.notifyObserver(horloge, false);
+		}
+		if (infoControler != null) {
+			model.notifyObserver(infoControler, false);
+			defilementInfo.getFirst().stop();
+		}
+		contenu.stopDiffusion();
+		controlVeille();
+	}
+
+	private void goOutOfVeille() {
+
+		horloge.setMontre(horloge.timelineForHorloge(this));
+		horloge.getMontre().play();
+		contenu.initVideos();
+		control();
 	}
 
 	/**
 	 * Cette méthode initialise au lancement de l'application les téléchargements
 	 * réguliers de vidéos
 	 */
+	@SuppressWarnings("unused")
 	public void initDowloadVideos() {
 
 		LocalTime currentTime = LocalTime.now();
@@ -214,9 +216,7 @@ public abstract class AbstractControler {
 					.withMinute(downloadTime.getMinute()).withSecond(downloadTime.getSecond());
 		}
 
-		telechargement = new Telechargement(this);
-		dowloadTimer.schedule(telechargement, Date.from(firstTimeDownload.atZone(ZoneId.systemDefault()).toInstant()),
-				(long) 1000 * 3600 * 24);
+		// TODO
 	}
 
 	public AbstractModel getModel() {
@@ -237,6 +237,10 @@ public abstract class AbstractControler {
 
 	public Veille getVeille() {
 		return veille;
+	}
+
+	public Horloge getHorloge() {
+		return horloge;
 	}
 
 	public Contenu getContenu() {

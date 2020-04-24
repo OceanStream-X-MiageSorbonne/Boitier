@@ -1,11 +1,13 @@
 package oceanbox.view.info;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import javafx.animation.PauseTransition;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+
 import javafx.util.Duration;
 
 /**
@@ -14,7 +16,7 @@ import javafx.util.Duration;
 public class Bandeau_deroulant extends ScrollPane {
 
 	private Label info;
-	private List<PauseTransition> defilement;
+	private Deque<PauseTransition> defilement;
 
 	public Bandeau_deroulant(Label info) {
 
@@ -26,7 +28,7 @@ public class Bandeau_deroulant extends ScrollPane {
 		this.setStyle("-fx-background-color: transparent;");
 		this.setFitToHeight(true);
 
-		this.defilement = new ArrayList<PauseTransition>();
+		this.defilement = new ArrayDeque<PauseTransition>();
 		initDefilement();
 	}
 
@@ -70,47 +72,34 @@ public class Bandeau_deroulant extends ScrollPane {
 
 		defilement.add(new PauseTransition(Duration.seconds(2)));
 
-		defilement.get(0).setOnFinished(event -> {
+		defilement.getLast().setOnFinished(event -> {
 
-			defilement.get(1).play();
+			defilement.removeFirst();
+			defilement.getFirst().play();
 		});
 
 		double max = 0.0;
-		int i = 1;
 
 		while (max < 1.0) {
 
 			defilement.add(new PauseTransition(Duration.seconds(0.07)));
 
-			int pos[] = { i };
 			max += vitesseDefilement();
-			defilement.get(i).setOnFinished(event -> {
+
+			defilement.getLast().setOnFinished(event -> {
 
 				this.setHvalue(this.getHvalue() + vitesseDefilement());
-				defilement.get(pos[0] + 1).play();
+				defilement.removeFirst();
+				defilement.getFirst().play();
 			});
-
-			i++;
-		}
-
-		if (defilement.size() < 10) {
-			defilement.add(new PauseTransition(Duration.seconds(5)));
-
-			int pos[] = { i };
-			defilement.get(i).setOnFinished(event -> {
-
-				defilement.get(pos[0] + 1).play();
-			});
-
-			i++;
 		}
 
 		defilement.add(new PauseTransition(Duration.seconds(2)));
 
-		int pos[] = { i };
-		defilement.get(i).setOnFinished(event -> {
+		defilement.getLast().setOnFinished(event -> {
 
-			defilement.get(pos[0] + 1).play();
+			defilement.removeFirst();
+			defilement.getFirst().play();
 		});
 
 		defilement.add(new PauseTransition(Duration.seconds(0.07)));
@@ -121,7 +110,7 @@ public class Bandeau_deroulant extends ScrollPane {
 		return info;
 	}
 
-	public List<PauseTransition> getDefilement() {
+	public Deque<PauseTransition> getDefilement() {
 		return defilement;
 	}
 }

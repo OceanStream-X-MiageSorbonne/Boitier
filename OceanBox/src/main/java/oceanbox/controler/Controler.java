@@ -1,22 +1,20 @@
 package oceanbox.controler;
 
-import java.util.List;
-
 import javafx.animation.PauseTransition;
+
 import javafx.stage.Stage;
+
 import javafx.util.Duration;
 
 import oceanbox.model.AbstractModel;
+
 import oceanbox.propreties.ClientPropreties;
-import oceanbox.view.Veille;
 
 /**
  * Cette classe implémente les méthodes control(), controlInfo() et
  * controlVeille()
  */
 public class Controler extends AbstractControler {
-
-	private List<PauseTransition> defilementInfo;
 
 	public Controler() {
 		super();
@@ -28,11 +26,6 @@ public class Controler extends AbstractControler {
 
 	@Override
 	public void control() {
-
-		veille = new Veille();
-
-		pauseBeforeVeille.setOnFinished(null);
-		pauseBeforeVeilleAlert.setOnFinished(null);
 
 		if (ClientPropreties.getPropertie("activateStandby").equals("true")) {
 
@@ -47,8 +40,6 @@ public class Controler extends AbstractControler {
 		}
 
 		// -----------------------------------------------------------------------------------------
-
-		pauseBeforeShowUpInfo.setOnFinished(null);
 
 		if (ClientPropreties.getPropertie("infos").equals("true") && infoControler == null) {
 
@@ -69,7 +60,7 @@ public class Controler extends AbstractControler {
 
 			defilementInfo = infoControler.getBandeauDeroulant().getDefilement();
 
-			defilementInfo.get(defilementInfo.size() - 1).setOnFinished(event -> {
+			defilementInfo.getLast().setOnFinished(event -> {
 
 				model.notifyObserver(infoControler, false);
 
@@ -80,7 +71,7 @@ public class Controler extends AbstractControler {
 				pauseBeforeShowUpInfo.play();
 			});
 
-			defilementInfo.get(0).play();
+			defilementInfo.getFirst().play();
 		}
 	}
 
@@ -90,6 +81,10 @@ public class Controler extends AbstractControler {
 		pauseBeforeVeille.setOnFinished(null);
 		pauseBeforeVeilleAlert.setOnFinished(null);
 		pauseBeforeShowUpInfo.setOnFinished(null);
+
+		pauseBeforeVeille = null;
+		pauseBeforeVeilleAlert = null;
+		pauseBeforeShowUpInfo = null;
 
 		defilementInfo = null;
 		infoControler = null;

@@ -52,6 +52,6 @@ public class Bandeau_deroulantTest {
 
 	@Test
 	public final void testInitDefilement() {
-		assertEquals(bandeau.getDefilement().get(0).getDuration(), Duration.seconds(2));
+		assertEquals(bandeau.getDefilement().getFirst().getDuration(), Duration.seconds(2));
 	}
 }
