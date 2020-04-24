@@ -22,27 +22,14 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 
-import javafx.application.Platform;
-
-import javafx.scene.layout.BorderPane;
-
-import oceanbox.controler.AbstractControler;
-
-import oceanbox.model.Contenu;
-import oceanbox.model.Telechargement;
-
 import oceanbox.propreties.SystemPropreties;
 
 public class RecupVideoFromServer {
 
 	private final static Logger LOGGER = Logger.getLogger(RecupVideoFromServer.class.getName());;
 	private FTPSClient ftpsClient;
-	private AbstractControler controler;
-	private Telechargement telechargement;
 
-	public RecupVideoFromServer(Telechargement telechargement, AbstractControler controler) {
-		this.controler = controler;
-		this.telechargement = telechargement;
+	public RecupVideoFromServer() {
 
 		// Initialisation du Logger
 		Appender fh = null;
@@ -101,21 +88,6 @@ public class RecupVideoFromServer {
 	}
 
 	public void ftpDownloadFile() {
-
-		// Si le boîtier n'est pas en veille alors on réinitialise le contenu à l'écran
-		Platform.runLater(() -> {
-			controler.setDownload(true);
-			if (!controler.isSleep()) {
-				BorderPane remplacement = new BorderPane();
-				remplacement.setCenter(telechargement.getMediaViewBonus());
-				controler.getModel().notifyObserver(controler.getVeille(), false);
-				controler.getContenu().setDiffusion(null);
-				controler.setContenu(null);
-				controler.setInfoControler(null);
-				controler.getModel().notifyObserver(remplacement, true);
-				controler.control();
-			}
-		});
 
 		ftpConnection();
 
@@ -176,18 +148,6 @@ public class RecupVideoFromServer {
 
 			// On ferme la connexion FTP
 			ftpDeconnection();
-
-			// Si le boîtier n'est pas en veille alors on réinitialise le contenu à l'écran
-			Platform.runLater(() -> {
-				if (!controler.isSleep()) {
-					controler.getModel().notifyObserver(controler.getVeille(), false);
-					controler.setContenu(new Contenu(controler));
-					controler.getModel().notifyObserver(controler.getContenu(), true);
-					controler.setInfoControler(null);
-					controler.control();
-				}
-				controler.setDownload(false);
-			});
 
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());

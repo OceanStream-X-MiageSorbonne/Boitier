@@ -23,6 +23,7 @@ import oceanbox.controler.AbstractControler;
 public class Horloge extends Label {
 
 	private SimpleDateFormat affichage = new SimpleDateFormat("dd-MM-yyyy" + "\n" + "HH:mm:ss");
+	private Timeline montre;
 
 	public Horloge(AbstractControler controler) {
 
@@ -32,9 +33,9 @@ public class Horloge extends Label {
 		this.setPadding(new Insets(30));
 		StackPane.setAlignment(this, Pos.BOTTOM_RIGHT);
 
-		Timeline horloge = timelineForHorloge(controler);
+		montre = timelineForHorloge(controler);
 
-		horloge.play();
+		montre.play();
 	}
 
 	/**
@@ -54,8 +55,17 @@ public class Horloge extends Label {
 		horloge.setCycleCount(7);
 		horloge.setOnFinished(event -> {
 			controler.getModel().notifyObserver(this, false);
+			controler.getHorloge().setMontre(null);
 		});
 
 		return horloge;
+	}
+
+	public Timeline getMontre() {
+		return montre;
+	}
+
+	public void setMontre(Timeline montre) {
+		this.montre = montre;
 	}
 }

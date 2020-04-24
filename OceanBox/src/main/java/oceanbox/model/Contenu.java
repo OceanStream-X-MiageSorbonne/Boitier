@@ -1,19 +1,22 @@
 package oceanbox.model;
 
 import java.io.File;
+
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.util.Duration;
 
+import javafx.util.Duration;
 import oceanbox.controler.AbstractControler;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
@@ -23,12 +26,13 @@ import oceanbox.propreties.SystemPropreties;
  */
 public class Contenu extends BorderPane {
 
-	private AbstractControler controler;
 	private List<Media> videos;
 	private Iterator<Media> it;
 	private int[] durationOfVideo;
 	private int totalDurationOfVideo = 0;
+	private AbstractControler controler;
 	private MediaView mediaView;
+	private MediaPlayer customPlayer;
 	private Timeline diffusion;
 
 	public Contenu(int secondsForTest) {
@@ -76,11 +80,6 @@ public class Contenu extends BorderPane {
 		player.setOnReady(() -> {
 			durationOfVideo[durationOfVideo.length - 1] = (int) player.getMedia().getDuration().toSeconds();
 			totalDurationOfVideo += durationOfVideo[durationOfVideo.length - 1];
-
-			if (controler.isSleep()) {
-				controler.getModel().notifyObserver(controler.getVeille(), false);
-				controler.getModel().notifyObserver(this, true);
-			}
 
 			diffusion = timelineForDiffusion();
 			diffusion.play();
@@ -140,19 +139,31 @@ public class Contenu extends BorderPane {
 	 * @param nextVideo
 	 */
 	private void customPlay(Media nextVideo, int begin) {
-		Media media = nextVideo;
-		MediaPlayer player = new MediaPlayer(media);
-		player.setStartTime((begin < 0) ? Duration.ZERO : Duration.seconds(begin));
-		mediaView.setMediaPlayer(player);
-		player.play();
-		player.setOnEndOfMedia(() -> {
-			player.stop();
-			player.setStartTime(Duration.ZERO);
+
+		customPlayer = new MediaPlayer(nextVideo);
+		customPlayer.setStartTime((begin < 0) ? Duration.ZERO : Duration.seconds(begin));
+		mediaView.setMediaPlayer(customPlayer);
+		customPlayer.play();
+		customPlayer.setOnEndOfMedia(() -> {
+			customPlayer.stop();
+			customPlayer.setStartTime(Duration.ZERO);
 			if (it.hasNext())
 				customPlay(it.next(), -1);
 			else
 				initVideos();
 		});
+
+		if (controler.isSleep()) {
+			controler.getModel().notifyObserver(controler.getVeille(), false);
+			controler.getModel().notifyObserver(controler.getHorloge(), true);
+			controler.sleepMode(false);
+		}
+	}
+
+	public void stopDiffusion() {
+		diffusion.stop();
+		customPlayer.stop();
+		customPlayer.setStartTime(Duration.ZERO);
 	}
 
 	public void setDiffusion(Timeline diffusion) {
