@@ -5,10 +5,13 @@ import java.io.IOException;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
+import java.util.Date;
 import java.util.Deque;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.animation.PauseTransition;
 
@@ -96,8 +99,6 @@ public abstract class AbstractControler {
 		this.sleep = false;
 		this.download = false;
 
-		initDowloadVideos();
-
 		initStageProperties();
 
 		this.secondsBeforeClose = initSecondsBeforeClose();
@@ -173,15 +174,20 @@ public abstract class AbstractControler {
 	private void goInVeille() {
 		sleepMode(true);
 		model.notifyObserver(veille, true);
+		if (veilleInfoControler != null)
+			model.notifyObserver(veilleInfoControler, false);
+
 		if (horloge.getMontre() != null) {
 			horloge.getMontre().stop();
 			horloge.setMontre(null);
 			model.notifyObserver(horloge, false);
 		}
+
 		if (infoControler != null) {
 			model.notifyObserver(infoControler, false);
 			defilementInfo.getFirst().stop();
 		}
+
 		contenu.stopDiffusion();
 		controlVeille();
 	}
@@ -198,7 +204,6 @@ public abstract class AbstractControler {
 	 * Cette méthode initialise au lancement de l'application les téléchargements
 	 * réguliers de vidéos
 	 */
-	@SuppressWarnings("unused")
 	public void initDowloadVideos() {
 
 		LocalTime currentTime = LocalTime.now();
@@ -216,7 +221,18 @@ public abstract class AbstractControler {
 					.withMinute(downloadTime.getMinute()).withSecond(downloadTime.getSecond());
 		}
 
-		// TODO
+		dowloadTimer.schedule(new DownloadTask(),
+				Date.from(firstTimeDownload.atZone(ZoneId.systemDefault()).toInstant()),
+				contenu.getTotalDurationOfVideo() * 1000);
+	}
+
+	private class DownloadTask extends TimerTask {
+
+		@Override
+		public void run() {
+			setDownload(!isDownload());
+			System.out.println(isDownload());
+		}
 	}
 
 	public AbstractModel getModel() {
