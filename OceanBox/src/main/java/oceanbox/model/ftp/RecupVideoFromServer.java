@@ -87,7 +87,77 @@ public class RecupVideoFromServer {
 		}
 	}
 
-	public void ftpDownloadFile() {
+	public void ftpDownloadFile(int numVideo) {
+
+		ftpConnection();
+
+		String cheminDistant = SystemPropreties.getPropertie("ftpVideoPath");
+		String cheminLocal = SystemPropreties.getPropertie("videoPath");
+
+		String prefixeNomVideo = LocalDateTime.now().getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-"
+				+ LocalDateTime.now().getYear() + "_";
+		String suffixeNomVideo = ".mp4";
+
+		try {
+			// On récupère le dossier où se trouve les paquets pour tous les télécharger
+			// dans le dossier local
+			List<FTPFile> videosFiles = new ArrayList<FTPFile>();
+			for (FTPFile paquet : ftpsClient.listFiles(cheminDistant)) {
+				if (paquet.getName().startsWith(prefixeNomVideo)) {
+					videosFiles.add(paquet);
+					System.out.println(paquet.getName());
+				}
+			}
+
+			if (videosFiles.isEmpty())
+				System.out.println("Aucun nom fichier ne commence par : " + prefixeNomVideo);
+
+			for (FTPFile v : videosFiles) {
+
+				// Nom du paquet courant sur le serveur
+				String nomPaquet = v.getName();
+
+				// On s'occupe que des vidéos du jour, pas celle du jour suivant
+				String nomVideoVoulu = prefixeNomVideo + numVideo + suffixeNomVideo;
+
+				if (nomPaquet.equals(nomVideoVoulu)) {
+					// On récupère le fichier local ...
+					File fichierlocal = new File(cheminLocal + nomPaquet);
+					// ... on le crée s'il n'existe pas
+					fichierlocal.createNewFile();
+
+					OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(fichierlocal, false));
+
+					LOGGER.info(" *** Début du téléchargement du fichier : " + nomPaquet + " ***");
+					ftpsClient.retrieveFile(cheminDistant + nomPaquet, outputStream);
+					LOGGER.info(" *** Fin du téléchargement du fichier : " + nomPaquet + " ***");
+
+					// Téléchargement du paquet terminé, on ferme les flux
+					outputStream.close();
+
+					// Suppression de l'ancien paquet
+
+					for (String nomVideo : new File(cheminLocal).list()) {
+						if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
+							new File(cheminLocal + nomVideo).delete();
+					}
+				}
+			}
+			// On ferme la connexion FTP
+			ftpDeconnection();
+
+		} catch (IOException e) {
+			LOGGER.error(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if (ftpsClient.isConnected()) {
+				// On ferme la connexion FTP
+				ftpDeconnection();
+			}
+		}
+	}
+
+	public void ftpDownloadAllFile() {
 
 		ftpConnection();
 

@@ -17,7 +17,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
 import javafx.util.Duration;
+
 import oceanbox.controler.AbstractControler;
+
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
@@ -80,6 +82,8 @@ public class Contenu extends BorderPane {
 		player.setOnReady(() -> {
 			durationOfVideo[durationOfVideo.length - 1] = (int) player.getMedia().getDuration().toSeconds();
 			totalDurationOfVideo += durationOfVideo[durationOfVideo.length - 1];
+
+			controler.initDowloadVideos();
 
 			diffusion = timelineForDiffusion();
 			diffusion.play();
@@ -151,6 +155,10 @@ public class Contenu extends BorderPane {
 				customPlay(it.next(), -1);
 			else
 				initVideos();
+
+			if (controler.isDownload())
+				System.out.println(nextVideo.getSource().substring(nextVideo.getSource().length() - 5,
+						nextVideo.getSource().length() - 4));
 		});
 
 		if (controler.isSleep()) {
@@ -164,6 +172,10 @@ public class Contenu extends BorderPane {
 		diffusion.stop();
 		customPlayer.stop();
 		customPlayer.setStartTime(Duration.ZERO);
+	}
+
+	public int getTotalDurationOfVideo() {
+		return totalDurationOfVideo;
 	}
 
 	public void setDiffusion(Timeline diffusion) {
