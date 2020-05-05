@@ -7,10 +7,14 @@ import oceanbox.model.Model;
 import oceanbox.model.bdd.DatabaseLoader;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
+import oceanbox.videoplayer.JOmxPlayer;
+import oceanbox.videoplayer.Video;
+import oceanbox.videoplayer.VideosInfos;
 import oceanbox.view.Lecteur_video;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
 
 import javafx.application.Application;
 import javafx.scene.Cursor;
@@ -18,7 +22,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Cette classe contient la mÃ©thode main qui lance l'application
+ * Cette classe contient la méthode main qui lance l'application
  */
 public class App extends Application {
 
@@ -48,14 +52,16 @@ public class App extends Application {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
+		
+		
 		SystemPropreties.initProperties();
 		ClientPropreties.initProperties();
 
-		DatabaseLoader.setPropertiesFromDatabase();
+		//DatabaseLoader.setPropertiesFromDatabase();
 
 		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video
-		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-
+		SystemPropreties.setPropertie("videoPath", "/Users/daekc/OneDrive/Bureau/video/");
+	
 		// Les 5 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("downloadHour", "18:32:00");
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
@@ -63,6 +69,19 @@ public class App extends Application {
 		ClientPropreties.setPropertie("activateStandby", "true");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:05:00");
 
-		Application.launch(args);
+		
+		VideosInfos vInfos = new VideosInfos();
+	
+		JOmxPlayer player =  new JOmxPlayer();
+
+		Process processPlayer = player.play(vInfos.getVideosInfos().get(1).getPath(), "0");
+		try {
+			processPlayer.waitFor();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		
+//		Application.launch(args);
 	}
 }
