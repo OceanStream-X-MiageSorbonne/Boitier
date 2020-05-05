@@ -4,17 +4,14 @@ import oceanbox.controler.AbstractControler;
 import oceanbox.controler.Controler;
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Model;
-import oceanbox.model.bdd.DatabaseLoader;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 import oceanbox.videoplayer.JOmxPlayer;
-import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideosInfos;
 import oceanbox.view.Lecteur_video;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
 
 import javafx.application.Application;
 import javafx.scene.Cursor;
