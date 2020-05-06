@@ -1,55 +1,21 @@
 package oceanbox;
 
-import oceanbox.controler.AbstractControler;
-import oceanbox.controler.Controler;
-import oceanbox.model.AbstractModel;
-import oceanbox.model.Model;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
-import oceanbox.videoplayer.JOmxPlayer;
+
 import oceanbox.videoplayer.VideosInfos;
-import oceanbox.view.Lecteur_video;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javafx.application.Application;
-import javafx.scene.Cursor;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 /**
- * Cette classe contient la m�thode main qui lance l'application
+ * Cette classe contient la méthode main qui lance l'application
  */
-public class App extends Application {
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-
-		primaryStage.setTitle("A real ocean");
-		primaryStage.setFullScreen(true);
-
-		AbstractModel model = new Model();
-		AbstractControler controler = new Controler(primaryStage, model);
-		Lecteur_video lecteur = new Lecteur_video(controler);
-		model.addObserver(lecteur);
-
-		Scene primaryScene = new Scene(lecteur);
-		primaryScene.setCursor(Cursor.NONE);
-		primaryStage.setScene(primaryScene);
-		primaryStage.show();
-
-		// Pour le développement on supprime les properties à chaque fermeture de
-		// l'application
-		primaryStage.setOnHiding(event -> {
-			ClientPropreties.deletePropertiesFile();
-			SystemPropreties.deletePropertiesFile();
-		});
-	}
+public class App {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
-		
+		// TODO MVC
 		
 		SystemPropreties.initProperties();
 		ClientPropreties.initProperties();
@@ -66,18 +32,9 @@ public class App extends Application {
 		ClientPropreties.setPropertie("activateStandby", "true");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:05:00");
 
-		
+		// TODO
+		@SuppressWarnings("unused")
 		VideosInfos vInfos = new VideosInfos();
-	
-		JOmxPlayer player =  new JOmxPlayer();
-
-		Process processPlayer = player.play(vInfos.getVideosInfos().get(1).getPath(), "0");
-		try {
-			processPlayer.waitFor();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 		
 //		Application.launch(args);
 	}
