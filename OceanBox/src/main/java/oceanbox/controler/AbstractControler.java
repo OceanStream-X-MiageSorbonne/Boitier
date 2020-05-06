@@ -10,14 +10,15 @@ import java.time.temporal.ChronoUnit;
 
 import java.util.Date;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import oceanbox.model.AbstractModel;
 import oceanbox.model.Contenu;
+import oceanbox.model.ftp.DownloadTask;
 
 import oceanbox.propreties.ClientPropreties;
 
 import oceanbox.view.Veille;
+
 
 /**
  * Cette classe contient des attributs et des méthodes qui jouent sur ce qui
@@ -164,20 +165,11 @@ public abstract class AbstractControler {
 
 		// TODO enlever l'heure de download et le faire 12 heures après l'heure de
 		// réveil
-		dowloadTimer.schedule(new DownloadTask(),
+		dowloadTimer.schedule(new DownloadTask(this),
 				Date.from(firstTimeDownload.atZone(ZoneId.systemDefault()).toInstant()),
 				contenu.getTotalDurationOfVideo() * 1000);
 	}
 
-	// TODO peut-être créer une classe à part
-	private class DownloadTask extends TimerTask {
-
-		@Override
-		public void run() {
-			setDownload(!isDownload());
-			System.out.println(isDownload());
-		}
-	}
 
 	public AbstractModel getModel() {
 		return model;

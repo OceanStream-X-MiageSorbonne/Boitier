@@ -3,8 +3,6 @@ package oceanbox;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
-import oceanbox.videoplayer.VideosInfos;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -32,10 +30,7 @@ public class App {
 		ClientPropreties.setPropertie("activateStandby", "true");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:05:00");
 
-		// TODO
-		@SuppressWarnings("unused")
-		VideosInfos vInfos = new VideosInfos();
 		
-//		Application.launch(args);
+		
 	}
 }

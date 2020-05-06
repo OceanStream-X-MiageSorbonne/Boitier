@@ -1,4 +1,4 @@
-package oceanbox.controler;
+ package oceanbox.controler;
 
 import oceanbox.model.AbstractModel;
 

@@ -19,6 +19,7 @@ public class Contenu {
 	private Iterator<Integer> timelineIterator;
 	private int totalDurationOfVideo = 0;
 	private AbstractControler controler;
+	private Video videoPlaying;
 
 	public Contenu(int secondsForTest) {
 		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
@@ -84,7 +85,6 @@ public class Contenu {
 			}
 		}
 
-		// TODO peut-être appeler customPlay(videosInfos.get(startIndice), start)
 	}
 
 	/**
@@ -99,6 +99,7 @@ public class Contenu {
 		// Pseudo code : 
 		// à la fin de chaque video, lire la video suivante, sinon initVideos
 		// faire une boucle récursive pour optimiser le bouclage infini
+		// Maj videoPlaying
 		
 		// TODO peut-être implémenter ici le process etc...
 //		JOmxPlayer player =  new JOmxPlayer();
@@ -125,4 +126,14 @@ public class Contenu {
 	public int getTotalDurationOfVideo() {
 		return totalDurationOfVideo;
 	}
+	
+
+	public Video getVideoPlaying() {
+		return videoPlaying;
+	}
+
+	public void setVideoPlaying(Video videoPlaying) {
+		this.videoPlaying = videoPlaying;
+	}
+
 }
