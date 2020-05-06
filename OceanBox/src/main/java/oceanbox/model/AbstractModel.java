@@ -2,9 +2,8 @@ package oceanbox.model;
 
 import oceanbox.observer.Observable;
 import oceanbox.observer.Observer;
-import java.util.ArrayList;
 
-import javafx.scene.Node;
+import java.util.ArrayList;
 
 /**
  * Cette classe permet de mettre à jour des éléments visibles et non visibles de
@@ -18,9 +17,9 @@ public abstract class AbstractModel implements Observable {
 		this.listObserver.add(obs);
 	}
 
-	public void notifyObserver(Node node, boolean add) {
+	public void notifyObserver(Object object, boolean add) {
 		for (Observer obs : listObserver)
-			obs.update(node, add);
+			obs.update(object, add);
 	}
 
 	public void removeObserver() {

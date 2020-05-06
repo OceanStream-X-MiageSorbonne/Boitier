@@ -1,41 +1,24 @@
 package oceanbox.model;
 
-import java.io.File;
-
 import java.time.LocalDateTime;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-
-import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
-
-import javafx.util.Duration;
+import java.util.Map;
 
 import oceanbox.controler.AbstractControler;
 
 import oceanbox.propreties.ClientPropreties;
-import oceanbox.propreties.SystemPropreties;
+import oceanbox.videoplayer.Video;
 
 /**
  * Cette classe contient les vidéos qui seront affichées à l'écran
  */
-public class Contenu extends BorderPane {
+public class Contenu {
 
-	private List<Media> videos;
-	private Iterator<Media> it;
-	private int[] durationOfVideo;
+	private Map<Integer, Video> videosInfos;
+	private Iterator<Integer> timelineIterator;
 	private int totalDurationOfVideo = 0;
 	private AbstractControler controler;
-	private MediaView mediaView;
-	private MediaPlayer customPlayer;
-	private Timeline diffusion;
 
 	public Contenu(int secondsForTest) {
 		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
@@ -45,49 +28,17 @@ public class Contenu extends BorderPane {
 	public Contenu(AbstractControler controler) {
 
 		this.controler = controler;
-		this.durationOfVideo = new int[new File(SystemPropreties.getPropertie("videoPath")).listFiles().length - 1];
-		this.mediaView = new MediaView();
 
-		initVideos();
-
-		this.setCenter(mediaView);
+		initVideosInfos();
 	}
 
 	/**
 	 * Cette méthode permet de récupérer les différents paquets dans le répertoire
 	 * local et de planifier la lecture des videos les unes après les autres
 	 */
-	public void initVideos() {
+	public void initVideosInfos() {
 
-		videos = new ArrayList<Media>();
-		totalDurationOfVideo = 0;
-
-		for (int i = 1; i <= durationOfVideo.length - 1; i++) {
-			String regex = i + ".mp4";
-			Media video = new Recup_video(regex).getVideo();
-
-			if (i != durationOfVideo.length) {
-				MediaPlayer player = new MediaPlayer(video);
-				int[] pos = { i - 1 };
-				player.setOnReady(() -> {
-					durationOfVideo[pos[0]] = (int) player.getMedia().getDuration().toSeconds();
-					totalDurationOfVideo += durationOfVideo[pos[0]];
-				});
-			}
-
-			videos.add(video);
-		}
-
-		MediaPlayer player = new MediaPlayer(videos.get(videos.size() - 1));
-		player.setOnReady(() -> {
-			durationOfVideo[durationOfVideo.length - 1] = (int) player.getMedia().getDuration().toSeconds();
-			totalDurationOfVideo += durationOfVideo[durationOfVideo.length - 1];
-
-			controler.initDowloadVideos();
-
-			diffusion = timelineForDiffusion();
-			diffusion.play();
-		});
+		// TODO calcul de la somme des durées des vidéos + appel de VideosInfos etc...
 	}
 
 	/**
@@ -114,27 +65,26 @@ public class Contenu extends BorderPane {
 	 * 
 	 * @return la timeline qui diffuse les vidéos
 	 */
-	public Timeline timelineForDiffusion() {
+	// TODO il faut peut-être changer le type de la méthode, void a été mis au hasard
+	public void initDiffusion() {
 
-		it = videos.iterator();
+		timelineIterator = videosInfos.keySet().iterator();
 
-		int[] start = { repereForDiffusion() };
+		int start = repereForDiffusion();
 
-		for (int timeVideo : durationOfVideo) {
-			while (start[0] >= timeVideo) {
-				start[0] -= timeVideo;
-				if (it.hasNext())
-					it.next();
-				else
-					it = videos.iterator();
+		int timeVideo;
+		int startIndice;
+		while (timelineIterator.hasNext()) {
+			startIndice = timelineIterator.next();
+			timeVideo = videosInfos.get(startIndice).getDuration();
+			if (start >= timeVideo) {
+				start -= timeVideo;
+			} else {
+				break;
 			}
 		}
 
-		KeyFrame updates = new KeyFrame(Duration.seconds(0.5), event -> {
-			customPlay(it.next(), start[0]);
-		});
-
-		return new Timeline(updates);
+		// TODO peut-être appeler customPlay(videosInfos.get(startIndice), start)
 	}
 
 	/**
@@ -142,43 +92,37 @@ public class Contenu extends BorderPane {
 	 * 
 	 * @param nextVideo
 	 */
-	private void customPlay(Media nextVideo, int begin) {
+	@SuppressWarnings("unused")
+	private void customPlay(Video nextVideo, int begin) {
 
-		customPlayer = new MediaPlayer(nextVideo);
-		customPlayer.setStartTime((begin < 0) ? Duration.ZERO : Duration.seconds(begin));
-		mediaView.setMediaPlayer(customPlayer);
-		customPlayer.play();
-		customPlayer.setOnEndOfMedia(() -> {
-			customPlayer.stop();
-			customPlayer.setStartTime(Duration.ZERO);
-			if (it.hasNext())
-				customPlay(it.next(), -1);
-			else
-				initVideos();
-
-			if (controler.isDownload())
-				System.out.println(nextVideo.getSource().substring(nextVideo.getSource().length() - 5,
-						nextVideo.getSource().length() - 4));
-		});
+		// TODO 
+		// Pseudo code : 
+		// à la fin de chaque video, lire la video suivante, sinon initVideos
+		// faire une boucle récursive pour optimiser le bouclage infini
+		
+		// TODO peut-être implémenter ici le process etc...
+//		JOmxPlayer player =  new JOmxPlayer();
+//
+//		Process processPlayer = player.play(vInfos.getVideosInfos().get(1).getPath(), "0");
+		// TODO l'événement qui permet de passer en veille ou non 
+//		try {
+//			processPlayer.waitFor();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 
 		if (controler.isSleep()) {
 			controler.getModel().notifyObserver(controler.getVeille(), false);
-			controler.getModel().notifyObserver(controler.getHorloge(), true);
 			controler.sleepMode(false);
 		}
 	}
 
 	public void stopDiffusion() {
-		diffusion.stop();
-		customPlayer.stop();
-		customPlayer.setStartTime(Duration.ZERO);
+		
+		// TODO peut-être process.stop()
 	}
 
 	public int getTotalDurationOfVideo() {
 		return totalDurationOfVideo;
-	}
-
-	public void setDiffusion(Timeline diffusion) {
-		this.diffusion = diffusion;
 	}
 }
