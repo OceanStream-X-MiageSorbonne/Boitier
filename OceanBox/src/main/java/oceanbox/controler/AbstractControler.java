@@ -19,7 +19,6 @@ import oceanbox.propreties.ClientPropreties;
 
 import oceanbox.view.Veille;
 
-
 /**
  * Cette classe contient des attributs et des méthodes qui jouent sur ce qui
  * s'affiche à l'écran
@@ -34,11 +33,6 @@ public abstract class AbstractControler {
 	protected boolean download;
 
 	/**
-	 * Cet événement ferme l'application
-	 */
-	// TODO
-
-	/**
 	 * Cet événement alerte l'utilisateur que l'application va se fermer si le
 	 * capteur du boîtier ne détecte pas de mouvement
 	 */
@@ -51,16 +45,15 @@ public abstract class AbstractControler {
 	public AbstractControler(AbstractModel model) {
 
 		this.model = model;
-		this.contenu = new Contenu(this);
-		this.veille = new Veille();
 		this.sleep = false;
 		this.download = false;
+		this.secondsBeforeClose = initSecondsBeforeClose();
 
 		initStageProperties();
 
-		this.secondsBeforeClose = initSecondsBeforeClose();
-
 		control();
+		
+		this.contenu = new Contenu(this);
 	}
 
 	/**
@@ -127,18 +120,23 @@ public abstract class AbstractControler {
 //		});
 
 	}
+	
+	public void stopDiffusion() {
+
+		contenu.setStart(-1);
+		contenu.getVideoPlayer().stop();
+	}
 
 	@SuppressWarnings("unused")
 	private void goInVeille() {
 		sleepMode(true);
 		model.notifyObserver(veille, true);
-		contenu.stopDiffusion();
 		controlVeille();
 	}
 
 	@SuppressWarnings("unused")
 	private void goOutOfVeille() {
-		contenu.initVideosInfos();
+		contenu.initVideos();
 		control();
 	}
 
@@ -170,9 +168,12 @@ public abstract class AbstractControler {
 				contenu.getTotalDurationOfVideo() * 1000);
 	}
 
-
 	public AbstractModel getModel() {
 		return model;
+	}
+	
+	public int getSecondsBeforeClose() {
+		return secondsBeforeClose;
 	}
 
 	public boolean isSleep() {
