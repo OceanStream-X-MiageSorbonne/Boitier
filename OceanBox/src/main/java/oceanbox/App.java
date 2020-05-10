@@ -1,5 +1,10 @@
 package oceanbox;
 
+import oceanbox.controler.AbstractControler;
+import oceanbox.controler.Controler;
+import oceanbox.model.AbstractModel;
+import oceanbox.model.Model;
+
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
@@ -12,8 +17,6 @@ import java.io.IOException;
 public class App {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-
-		// TODO MVC
 		
 		SystemPropreties.initProperties();
 		ClientPropreties.initProperties();
@@ -21,16 +24,17 @@ public class App {
 		//DatabaseLoader.setPropertiesFromDatabase();
 
 		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video
-		SystemPropreties.setPropertie("videoPath", "/Users/daekc/OneDrive/Bureau/video/");
+		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 	
 		// Les 5 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("downloadHour", "18:32:00");
 		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
 		ClientPropreties.setPropertie("infos", "true");
 		ClientPropreties.setPropertie("activateStandby", "true");
-		ClientPropreties.setPropertie("timeBeforeStandby", "00:05:00");
+		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:10");
 
-		
-		
+		// TODO MVC
+		AbstractModel model = new Model();
+		AbstractControler controler = new Controler(model);
 	}
 }

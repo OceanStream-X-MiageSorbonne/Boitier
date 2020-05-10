@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Timer;
 
 import oceanbox.controler.AbstractControler;
 
 import oceanbox.propreties.ClientPropreties;
+import oceanbox.videoplayer.JOmxPlayer;
 import oceanbox.videoplayer.Video;
+import oceanbox.videoplayer.VideosInfos;
+import oceanbox.view.Veille;
 
 /**
  * Cette classe contient les vidéos qui seront affichées à l'écran
@@ -17,9 +21,14 @@ public class Contenu {
 
 	private Map<Integer, Video> videosInfos;
 	private Iterator<Integer> timelineIterator;
-	private int totalDurationOfVideo = 0;
+	private int totalDurationOfVideo;
+	@SuppressWarnings("unused")
 	private AbstractControler controler;
 	private Video videoPlaying;
+	private JOmxPlayer videoPlayer;
+	private Process processPlayer;
+	private int start;
+	private Timer timeBeforeVeille = new Timer();
 
 	public Contenu(int secondsForTest) {
 		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
@@ -29,17 +38,26 @@ public class Contenu {
 	public Contenu(AbstractControler controler) {
 
 		this.controler = controler;
-
-		initVideosInfos();
+		totalDurationOfVideo = 0;
+		videoPlayer = new JOmxPlayer();
+		start = -1;
+		timeBeforeVeille.schedule(new Veille(controler), controler.getSecondsBeforeClose() * 1000);
+		initVideos();
 	}
 
 	/**
 	 * Cette méthode permet de récupérer les différents paquets dans le répertoire
 	 * local et de planifier la lecture des videos les unes après les autres
 	 */
-	public void initVideosInfos() {
+	public void initVideos() {
 
-		// TODO calcul de la somme des durées des vidéos + appel de VideosInfos etc...
+		videosInfos = new VideosInfos().getVideosInfos();
+
+		for (int i : videosInfos.keySet()) {
+			totalDurationOfVideo += videosInfos.get(i).getDuration();
+		}
+
+		initDiffusion();
 	}
 
 	/**
@@ -66,15 +84,19 @@ public class Contenu {
 	 * 
 	 * @return la timeline qui diffuse les vidéos
 	 */
-	// TODO il faut peut-être changer le type de la méthode, void a été mis au hasard
+	// TODO il faut peut-être changer le type de la méthode, void a été mis au
+	// hasard
 	public void initDiffusion() {
 
 		timelineIterator = videosInfos.keySet().iterator();
 
-		int start = repereForDiffusion();
+		if (start < 0)
+			start = repereForDiffusion();
+		else
+			start = 0;
 
 		int timeVideo;
-		int startIndice;
+		int startIndice = 1;
 		while (timelineIterator.hasNext()) {
 			startIndice = timelineIterator.next();
 			timeVideo = videosInfos.get(startIndice).getDuration();
@@ -85,6 +107,7 @@ public class Contenu {
 			}
 		}
 
+		customPlay(videosInfos.get(startIndice), start);
 	}
 
 	/**
@@ -92,41 +115,34 @@ public class Contenu {
 	 * 
 	 * @param nextVideo
 	 */
-	@SuppressWarnings("unused")
 	private void customPlay(Video nextVideo, int begin) {
 
-		// TODO 
-		// Pseudo code : 
-		// à la fin de chaque video, lire la video suivante, sinon initVideos
-		// faire une boucle récursive pour optimiser le bouclage infini
-		// Maj videoPlaying
-		
-		// TODO peut-être implémenter ici le process etc...
-//		JOmxPlayer player =  new JOmxPlayer();
-//
-//		Process processPlayer = player.play(vInfos.getVideosInfos().get(1).getPath(), "0");
-		// TODO l'événement qui permet de passer en veille ou non 
-//		try {
-//			processPlayer.waitFor();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		System.out.println(begin);
 
-		if (controler.isSleep()) {
-			controler.getModel().notifyObserver(controler.getVeille(), false);
-			controler.sleepMode(false);
+		videoPlaying = nextVideo;
+
+		processPlayer = videoPlayer.playVLC(nextVideo.getPath(), begin);
+		try {
+			processPlayer.waitFor();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-	}
 
-	public void stopDiffusion() {
-		
-		// TODO peut-être process.stop()
+		if (timelineIterator.hasNext())
+			customPlay(videosInfos.get(timelineIterator.next()), 0);
+		else
+			initVideos();
+
+		// TODO réadapter le pattern observer
+//		if (controler.isSleep()) {
+//			controler.getModel().notifyObserver(controler.getVeille(), false);
+//			controler.sleepMode(false);
+//		}
 	}
 
 	public int getTotalDurationOfVideo() {
 		return totalDurationOfVideo;
 	}
-	
 
 	public Video getVideoPlaying() {
 		return videoPlaying;
@@ -135,5 +151,12 @@ public class Contenu {
 	public void setVideoPlaying(Video videoPlaying) {
 		this.videoPlaying = videoPlaying;
 	}
+	
+	public JOmxPlayer getVideoPlayer() {
+		return videoPlayer;
+	}
 
+	public void setStart(int start) {
+		this.start = start;
+	}
 }
