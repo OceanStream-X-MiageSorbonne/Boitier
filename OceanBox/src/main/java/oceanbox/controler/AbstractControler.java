@@ -120,12 +120,6 @@ public abstract class AbstractControler {
 //		});
 
 	}
-	
-	public void stopDiffusion() {
-
-		contenu.setStart(-1);
-		contenu.getVideoPlayer().stop();
-	}
 
 	@SuppressWarnings("unused")
 	private void goInVeille() {
