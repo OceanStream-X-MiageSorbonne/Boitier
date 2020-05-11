@@ -4,15 +4,17 @@ import java.time.LocalDateTime;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import oceanbox.controler.AbstractControler;
 
 import oceanbox.propreties.ClientPropreties;
+
 import oceanbox.videoplayer.JOmxPlayer;
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideosInfos;
-import oceanbox.view.Veille;
 
 /**
  * Cette classe contient les vidéos qui seront affichées à l'écran
@@ -22,13 +24,13 @@ public class Contenu {
 	private Map<Integer, Video> videosInfos;
 	private Iterator<Integer> timelineIterator;
 	private int totalDurationOfVideo;
-	@SuppressWarnings("unused")
 	private AbstractControler controler;
 	private Video videoPlaying;
 	private JOmxPlayer videoPlayer;
 	private Process processPlayer;
 	private int start;
-	private Timer timeBeforeVeille = new Timer();
+	private boolean showing;
+	private Timer timeBeforeVeille;
 
 	public Contenu(int secondsForTest) {
 		// Ceci est un constructeur qui n'est utile que pour les tests unitaires
@@ -40,9 +42,16 @@ public class Contenu {
 		this.controler = controler;
 		totalDurationOfVideo = 0;
 		videoPlayer = new JOmxPlayer();
+		timeBeforeVeille = new Timer();
 		start = -1;
-		timeBeforeVeille.schedule(new Veille(controler), controler.getSecondsBeforeClose() * 1000);
 		initVideos();
+	}
+
+	private class VeilleTask extends TimerTask {
+		@Override
+		public void run() {
+			stopDiffusion();
+		}
 	}
 
 	/**
@@ -56,6 +65,8 @@ public class Contenu {
 		for (int i : videosInfos.keySet()) {
 			totalDurationOfVideo += videosInfos.get(i).getDuration();
 		}
+
+		showing = true;
 
 		initDiffusion();
 	}
@@ -107,6 +118,8 @@ public class Contenu {
 			}
 		}
 
+		timeBeforeVeille.schedule(new VeilleTask(), controler.getSecondsBeforeClose() * 1000);
+
 		customPlay(videosInfos.get(startIndice), start);
 	}
 
@@ -128,10 +141,29 @@ public class Contenu {
 			e.printStackTrace();
 		}
 
-		if (timelineIterator.hasNext())
-			customPlay(videosInfos.get(timelineIterator.next()), 0);
-		else
+		if (showing) {
+			if (timelineIterator.hasNext())
+				customPlay(videosInfos.get(timelineIterator.next()), 0);
+			else
+				initVideos();
+		} else {
+			while (!showing) {
+				Thread t = new Thread(() -> {
+					@SuppressWarnings("resource")
+					Scanner sc = new Scanner(System.in);
+					sc.next();
+					showing = true;
+				});
+				t.run();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			start = -1;
 			initVideos();
+		}
 
 		// TODO réadapter le pattern observer
 //		if (controler.isSleep()) {
@@ -140,23 +172,18 @@ public class Contenu {
 //		}
 	}
 
+	public void stopDiffusion() {
+
+		start = -1;
+		showing = false;
+		processPlayer.destroy();
+	}
+
 	public int getTotalDurationOfVideo() {
 		return totalDurationOfVideo;
 	}
 
 	public Video getVideoPlaying() {
 		return videoPlaying;
-	}
-
-	public void setVideoPlaying(Video videoPlaying) {
-		this.videoPlaying = videoPlaying;
-	}
-	
-	public JOmxPlayer getVideoPlayer() {
-		return videoPlayer;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
 	}
 }
