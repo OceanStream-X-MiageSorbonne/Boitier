@@ -44,6 +44,7 @@ public class SystemPropreties {
 
 		// Video settings
 		defaultProperties.put("videoPath", "/home/pi/");
+
 	}
 
 	public static void initProperties() throws FileNotFoundException, IOException {

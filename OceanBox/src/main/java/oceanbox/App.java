@@ -4,19 +4,13 @@ import oceanbox.model.Contenu;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-/**
- * Cette classe contient la méthode main qui lance l'application
- */
 public class App {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
 		SystemPropreties.initProperties();
 		ClientPropreties.initProperties();
-
 		// DatabaseLoader.setPropertiesFromDatabase();
 
 		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video

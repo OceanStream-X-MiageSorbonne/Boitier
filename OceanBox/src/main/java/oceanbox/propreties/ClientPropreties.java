@@ -30,7 +30,6 @@ public class ClientPropreties {
 		defaultProperties.put("heureDeReveil", "06:00:00");
 		defaultProperties.put("infos", "true");
 		defaultProperties.put("downloadHour", "04:00:00");
-
 		// Standby settings
 		defaultProperties.put("onStandby", "true");
 		defaultProperties.put("activateStandby", "true");
