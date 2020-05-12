@@ -4,8 +4,8 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import oceanbox.model.Contenu;
 import oceanbox.propreties.ClientPropreties;
+import oceanbox.system.Contenu;
 
 public class VeilleScanner implements Veille {
 
@@ -17,6 +17,7 @@ public class VeilleScanner implements Veille {
 		this.contenu = c;
 		this.sleepMode = false;
 		Thread VeilleScannerThread = new Thread(() -> {
+			initVeille();
 			Scanner sc = new Scanner(System.in);
 			String entry = "x";
 			while (!entry.equals("exit")) {
@@ -25,9 +26,9 @@ public class VeilleScanner implements Veille {
 			}
 			sc.close();
 		});
-
+		
 		VeilleScannerThread.start();
-		System.out.println("test");
+		System.out.println("initVeille");
 	}
 
 	@Override
