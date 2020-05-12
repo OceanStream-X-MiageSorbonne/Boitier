@@ -1,4 +1,4 @@
-package oceanbox.model.ftp;
+package oceanbox.system.ftp;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

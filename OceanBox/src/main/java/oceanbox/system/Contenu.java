@@ -1,4 +1,4 @@
-package oceanbox.model;
+package oceanbox.system;
 
 import java.time.LocalDateTime;
 
@@ -30,7 +30,6 @@ public class Contenu {
 	public Contenu() {
 		veille = new VeilleScanner(this);
 		videoPlayer = new JVlcPlayer();
-		totalDurationOfVideo = 0;
 		start = -1;
 	}
 
@@ -40,6 +39,8 @@ public class Contenu {
 	 */
 	public void initVideos() {
 
+		totalDurationOfVideo = 0;
+		
 		videosInfos = new VideosInfos().getVideosInfos();
 
 		for (int i : videosInfos.keySet()) {
@@ -83,7 +84,7 @@ public class Contenu {
 			start = repereForDiffusion();
 		else
 			start = 0;
-
+		
 		int timeVideo;
 		int startIndice = 1;
 		while (timelineIterator.hasNext()) {
@@ -95,7 +96,6 @@ public class Contenu {
 				break;
 			}
 		}
-
 
 		customPlay(videosInfos.get(startIndice), start);
 	}
@@ -124,7 +124,7 @@ public class Contenu {
 		} else {
 			while(veille.isSleepMode()) {
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

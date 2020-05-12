@@ -1,10 +1,10 @@
-#Tue May 12 18:40:30 CEST 2020
+#Tue May 12 21:06:59 CEST 2020
 onStandby=true
-timeBeforeStandby=00\:00\:05
-heureDeReveil=08\:30\:00
 activateStandby=true
-downloadHour=18\:32\:00
+heureDeReveil=08\:30\:00
 VideoFlux=default
 userType=x
-userName=Julien
+downloadHour=18\:32\:00
+timeBeforeStandby=00\:00\:30
 infos=true
+userName=Julien
