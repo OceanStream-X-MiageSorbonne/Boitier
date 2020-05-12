@@ -37,7 +37,7 @@ public class VeilleDMV implements Veille {
 	}
 
 	@Override
-	public boolean getSleepMode() {
+	public boolean isSleepMode() {
 		// TODO Auto-generated method stub
 		return false;
 	}

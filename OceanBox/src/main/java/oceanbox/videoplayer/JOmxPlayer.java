@@ -30,19 +30,6 @@ public class JOmxPlayer implements VideoPlayer{
 		return omxPlayerProcess;
 	}
 
-//	public Process playVLC(String videoPath, int time) {
-//		cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
-//		cmd += " --start-time=" + time + " ";
-//		cmd += videoPath;
-//		ProcessBuilder playerBuilder = new ProcessBuilder("sh", "-c", cmd);
-//		try {
-//			omxPlayerProcess = playerBuilder.start();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return omxPlayerProcess;
-//	}
-
 	public void stopPlayerProcess() {
 		if (omxPlayerProcess != null) {
 			omxPlayerProcess.destroy();

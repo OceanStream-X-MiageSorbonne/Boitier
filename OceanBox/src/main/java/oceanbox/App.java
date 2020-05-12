@@ -1,5 +1,8 @@
 package oceanbox;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import oceanbox.model.Contenu;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;

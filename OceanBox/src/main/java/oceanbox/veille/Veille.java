@@ -7,6 +7,6 @@ public interface Veille {
 	public void goOutVeille();
 	public void pushVeille();
 	public void initVeille();
-	public boolean getSleepMode();
+	public boolean isSleepMode();
 
 }

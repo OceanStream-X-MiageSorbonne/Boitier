@@ -14,8 +14,8 @@ public class VeilleScanner implements Veille {
 	private Boolean sleepMode;
 
 	public VeilleScanner(Contenu c) {
-		contenu = c;
-		sleepMode = true;
+		this.contenu = c;
+		this.sleepMode = false;
 		Thread VeilleScannerThread = new Thread(() -> {
 			Scanner sc = new Scanner(System.in);
 			String entry = "x";
@@ -70,7 +70,7 @@ public class VeilleScanner implements Veille {
 
 	private long initMiliSecondsBeforeClose() {
 		String[] times = ClientPropreties.getPropertie("timeBeforeStandby").split(":");
-		return (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
+		return 1000*((Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]));
 	}
 
 	private class VeilleTask extends TimerTask {
@@ -81,7 +81,8 @@ public class VeilleScanner implements Veille {
 		}
 	}
 	
-	public boolean getSleepMode() {
+	@Override
+	public boolean isSleepMode() {
 		return sleepMode;
 	}
 

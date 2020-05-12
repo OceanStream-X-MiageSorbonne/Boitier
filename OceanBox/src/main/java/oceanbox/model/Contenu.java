@@ -116,13 +116,13 @@ public class Contenu {
 			e.printStackTrace();
 		}
 		
-		if (!veille.getSleepMode()){
+		if (!veille.isSleepMode()){
 			if (timelineIterator.hasNext())
 				customPlay(videosInfos.get(timelineIterator.next()), 0);
 			else
 				initVideos();
 		} else {
-			while(veille.getSleepMode()) {
+			while(veille.isSleepMode()) {
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {
