@@ -1,10 +1,6 @@
 package oceanbox;
 
-import oceanbox.controler.AbstractControler;
-import oceanbox.controler.Controler;
-import oceanbox.model.AbstractModel;
-import oceanbox.model.Model;
-
+import oceanbox.model.Contenu;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
@@ -24,7 +20,7 @@ public class App {
 		// DatabaseLoader.setPropertiesFromDatabase();
 
 		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video
-		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+		SystemPropreties.setPropertie("videoPath", "/Users/daekc/Desktop/video/");
 
 		// Les 5 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("downloadHour", "18:32:00");
@@ -33,9 +29,7 @@ public class App {
 		ClientPropreties.setPropertie("activateStandby", "true");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:05");
 
-		// TODO MVC
-		AbstractModel model = new Model();
-		@SuppressWarnings("unused")
-		AbstractControler controler = new Controler(model);
+		Contenu c = new Contenu();
+		c.initVideos();
 	}
 }

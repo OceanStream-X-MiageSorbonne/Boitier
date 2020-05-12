@@ -1,14 +1,14 @@
-#Mon May 11 16:57:50 CEST 2020
-videoPath=/Users/abdelbenamara/Movies/OceanBox/
-ftpVideoPath=/default_video/
-oceanBoxIP=0.0.0.0
+#Tue May 12 18:40:30 CEST 2020
 oceanBoxNumber=1
-ftpPasswd=Stream2020
-ftpIP=37.187.107.122
 dbIP=37.187.107.122
-dbPasswd=OceanBox2020
-relativeLogPath=allAboutFtp.log
-ftpPort=21
-dbPort=3306
 ftpUser=ocean_ftp
+dbPort=3306
+videoPath=/Users/daekc/Desktop/video/
+ftpVideoPath=/default_video/
+dbPasswd=OceanBox2020
+ftpPasswd=Stream2020
 dbUser=ocean_bdd
+oceanBoxIP=0.0.0.0
+ftpIP=37.187.107.122
+ftpPort=21
+relativeLogPath=allAboutFtp.log
