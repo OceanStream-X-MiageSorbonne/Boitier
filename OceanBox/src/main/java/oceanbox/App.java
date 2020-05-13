@@ -19,14 +19,12 @@ public class App {
 
 		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video
 		//SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+		SystemPropreties.setPropertie("videoPath", "/Users/daekc/Desktop/video/");
 
 		// Les 5 properties ci-dessous influent directement sur l'application
-		ClientPropreties.setPropertie("downloadHour", "18:32:00");
-		ClientPropreties.setPropertie("heureDeReveil", "08:30:00");
-		ClientPropreties.setPropertie("infos", "true");
-		ClientPropreties.setPropertie("activateStandby", "true");
-		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:30");
+		ClientPropreties.setPropertie("heureDeReveil", "19:31:00");
+		ClientPropreties.setPropertie("activateStandby", "false");
+		ClientPropreties.setPropertie("timeBeforeStandby", "00:10:00");
 
 		Contenu c = new Contenu();
 		Download d = new Download(c);

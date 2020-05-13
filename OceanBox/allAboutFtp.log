@@ -3,41 +3,7 @@ TYPE I
 SYST
 215 UNIX Type: L8
 PASV
-227 Entering Passive Mode (37,187,107,122,159,111).
+227 Entering Passive Mode (37,187,107,122,191,134).
 LIST /default_video/
 150 Here comes the directory listing.
 226 Directory send OK.
-PASV
-227 Entering Passive Mode (37,187,107,122,172,115).
-RETR /default_video/19-4-2020_1.mp4
-150 Opening BINARY mode data connection for /default_video/19-4-2020_1.mp4 (37672916 bytes).
-226 Transfer complete.
-PASV
-227 Entering Passive Mode (37,187,107,122,173,231).
-RETR /default_video/19-4-2020_2.mp4
-150 Opening BINARY mode data connection for /default_video/19-4-2020_2.mp4 (20064386 bytes).
-226 Transfer complete.
-PASV
-227 Entering Passive Mode (37,187,107,122,171,226).
-RETR /default_video/19-4-2020_3.mp4
-150 Opening BINARY mode data connection for /default_video/19-4-2020_3.mp4 (22258116 bytes).
-226 Transfer complete.
-PASV
-227 Entering Passive Mode (37,187,107,122,157,187).
-RETR /default_video/19-4-2020_4.mp4
-150 Opening BINARY mode data connection for /default_video/19-4-2020_4.mp4 (31710031 bytes).
-226 Transfer complete.
-PASV
-227 Entering Passive Mode (37,187,107,122,161,159).
-RETR /default_video/19-4-2020_5.mp4
-150 Opening BINARY mode data connection for /default_video/19-4-2020_5.mp4 (30718884 bytes).
-226 Transfer complete.
-PASV
-227 Entering Passive Mode (37,187,107,122,192,102).
-RETR /default_video/19-4-2020_6.mp4
-150 Opening BINARY mode data connection for /default_video/19-4-2020_6.mp4 (27617172 bytes).
-226 Transfer complete.
-QUIT
-221 Goodbye.
-éléchargement du fichier : 19-4-2020_6.mp4 ***
-INFO - FTP Deconnection OK

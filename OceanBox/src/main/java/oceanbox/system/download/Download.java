@@ -9,7 +9,7 @@ import java.util.TimerTask;
 
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.system.Contenu;
-import oceanbox.videoplayer.Video;
+import oceanbox.system.ftp.RecupVideoFromServer;
 import oceanbox.videoplayer.VideosInfos;
 
 public class Download {
@@ -50,13 +50,22 @@ public class Download {
 	}
 
 	private class DownloadTask extends TimerTask {
-		
-		private Video videoPlaying;
-		
+
 		@Override
 		public void run() {
-			// TODO
-			videoPlaying = contenu.getVideoPlaying();
+			RecupVideoFromServer r = new RecupVideoFromServer();
+			for (int i : r.getVideosFiles()) {
+				while (contenu.getVideoPlaying().getNumero() < i) {
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				r.ftpDownloadFile(i);
+				System.out.println(i);
+			}
+
 		}
 	}
 }
