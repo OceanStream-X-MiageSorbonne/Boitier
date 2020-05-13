@@ -18,6 +18,7 @@ import oceanbox.videoplayer.VideosInfos;
  */
 public class Contenu {
 
+	private VideosInfos objectVideosInfo;
 	private Map<Integer, Video> videosInfos;
 	private Iterator<Integer> timelineIterator;
 	private int totalDurationOfVideo;
@@ -28,7 +29,8 @@ public class Contenu {
 	private Veille veille;
 
 	public Contenu() {
-		veille = new VeilleScanner(this);
+		if (ClientPropreties.getPropertie("activateStandby").equals("true"))
+			veille = new VeilleScanner(this);
 		videoPlayer = new JVlcPlayer();
 		start = -1;
 	}
@@ -39,13 +41,10 @@ public class Contenu {
 	 */
 	public void initVideos() {
 
-		totalDurationOfVideo = 0;
-		
-		videosInfos = new VideosInfos().getVideosInfos();
+		objectVideosInfo = new VideosInfos();
+		videosInfos = objectVideosInfo.getVideosInfos();
 
-		for (int i : videosInfos.keySet()) {
-			totalDurationOfVideo += videosInfos.get(i).getDuration();
-		}
+		totalDurationOfVideo = objectVideosInfo.getTotalDurationOfVideos();
 		
 		initDiffusion();
 	}
@@ -84,7 +83,7 @@ public class Contenu {
 			start = repereForDiffusion();
 		else
 			start = 0;
-		
+
 		int timeVideo;
 		int startIndice = 1;
 		while (timelineIterator.hasNext()) {
@@ -115,14 +114,14 @@ public class Contenu {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		if (!veille.isSleepMode()){
+
+		if (!veille.isSleepMode()) {
 			if (timelineIterator.hasNext())
 				customPlay(videosInfos.get(timelineIterator.next()), 0);
 			else
 				initVideos();
 		} else {
-			while(veille.isSleepMode()) {
+			while (veille.isSleepMode()) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -147,5 +146,5 @@ public class Contenu {
 	public Video getVideoPlaying() {
 		return videoPlaying;
 	}
-	
+
 }

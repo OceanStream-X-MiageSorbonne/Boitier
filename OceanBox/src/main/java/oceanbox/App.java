@@ -6,6 +6,7 @@ import java.io.IOException;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 import oceanbox.system.Contenu;
+import oceanbox.system.download.Download;
 
 
 public class App {
@@ -28,6 +29,8 @@ public class App {
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:30");
 
 		Contenu c = new Contenu();
+		Download d = new Download(c);
+		d.initDownload();
 		c.initVideos();
 	}
 }

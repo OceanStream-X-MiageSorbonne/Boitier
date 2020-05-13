@@ -37,4 +37,13 @@ public class VideosInfos {
 		return (videosInfos);
 	}
 
+	public int getTotalDurationOfVideos() {
+		int total = 0;
+		
+		for (int i : videosInfos.keySet()) {
+			total += videosInfos.get(i).getDuration();
+		}
+		
+		return total;
+	}
 }
