@@ -46,6 +46,8 @@ public class Download {
 		// heureDeReveil + ((24 % total) - 1) * total)
 		ldt = ldt.plus((((24 * 3600) % total) - 1) * total, ChronoUnit.SECONDS);
 
+		System.out.println(Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()));
+		
 		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
@@ -54,8 +56,11 @@ public class Download {
 		@Override
 		public void run() {
 			RecupVideoFromServer r = new RecupVideoFromServer();
+			int count = 1;
 			for (int i : r.getVideosFiles()) {
-				while (contenu.getVideoPlaying().getNumero() < i) {
+				if (contenu.getVideoPlaying().getNumero() == 1)
+					count++;
+				while (contenu.getVideoPlaying().getNumero() <= i && count == 1) {
 					try {
 						Thread.sleep(5000);
 					} catch (InterruptedException e) {

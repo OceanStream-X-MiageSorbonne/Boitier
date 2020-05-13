@@ -17,12 +17,12 @@ public class JVlcPlayer implements VideoPlayer {
 	}
 
 	public Process play(String videoPath, int time) {
-		cmd = "vlc";
-		//cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
+		cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
+		//cmd = "vlc";
 		cmd += " --start-time=" + time + " ";
 		cmd += videoPath;
-		//ProcessBuilder playerBuilder = new ProcessBuilder("sh", "-c", cmd);
-		ProcessBuilder playerBuilder = new ProcessBuilder("CMD", "-c", cmd);
+		ProcessBuilder playerBuilder = new ProcessBuilder("sh", "-c", cmd);
+		//ProcessBuilder playerBuilder = new ProcessBuilder("CMD", "-c", cmd);
 		try {
 			vlcPlayerProcess = playerBuilder.start();
 		} catch (IOException e) {
