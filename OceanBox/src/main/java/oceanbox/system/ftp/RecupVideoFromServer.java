@@ -157,7 +157,7 @@ public class RecupVideoFromServer {
 		}
 	}
 
-	public void ftpDownloadAllFile() {
+	public void ftpDownloadAllFiles() {
 
 		ftpConnection();
 
