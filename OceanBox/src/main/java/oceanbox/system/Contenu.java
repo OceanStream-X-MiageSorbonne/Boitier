@@ -109,13 +109,14 @@ public class Contenu {
 		videoPlaying = nextVideo;
 
 		processPlayer = videoPlayer.play(nextVideo.getPath(), begin);
+		System.out.println(nextVideo.getName());
 		try {
 			processPlayer.waitFor();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		if (!veille.isSleepMode()) {
+		if (ClientPropreties.getPropertie("activateStandby").equals("false") || !veille.isSleepMode()) {
 			if (timelineIterator.hasNext())
 				customPlay(videosInfos.get(timelineIterator.next()), 0);
 			else
