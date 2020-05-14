@@ -26,22 +26,19 @@ public class VeilleScanner implements Veille {
 			}
 			sc.close();
 		});
-		
+
 		VeilleScannerThread.start();
-		System.out.println("initVeille");
 	}
 
 	@Override
 	public void goInVeille() {
-		System.out.println("--goInVeille");
-		sleepMode=true;
+		sleepMode = true;
 		contenu.stopDiffusion();
 
 	}
 
 	@Override
 	public void update() {
-		System.out.println("--Update");
 		if (!sleepMode) {
 			pushVeille();
 		} else {
@@ -51,14 +48,12 @@ public class VeilleScanner implements Veille {
 
 	@Override
 	public void goOutVeille() {
-		System.out.println("--goOutVeille");
 		initVeille();
-		sleepMode=false;
+		sleepMode = false;
 	}
 
 	@Override
 	public void pushVeille() {
-		System.out.println("--PushVeille");
 		timeBeforeVeille.cancel();
 		initVeille();
 	}
@@ -71,17 +66,17 @@ public class VeilleScanner implements Veille {
 
 	private long initMiliSecondsBeforeClose() {
 		String[] times = ClientPropreties.getPropertie("timeBeforeStandby").split(":");
-		return 1000*((Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]));
+		return 1000 * ((Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60)
+				+ Integer.parseInt(times[2]));
 	}
 
 	private class VeilleTask extends TimerTask {
 		@Override
 		public void run() {
-			sleepMode=true;
-			contenu.stopDiffusion();
+			goInVeille();
 		}
 	}
-	
+
 	@Override
 	public boolean isSleepMode() {
 		return sleepMode;

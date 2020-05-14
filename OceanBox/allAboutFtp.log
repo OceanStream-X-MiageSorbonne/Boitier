@@ -1,7 +1,7 @@
 TYPE I
 200 Switching to Binary mode.
 PASV
-227 Entering Passive Mode (37,187,107,122,157,243).
+227 Entering Passive Mode (37,187,107,122,194,190).
 RETR /default_video/19-4-2020_6.mp4
 150 Opening BINARY mode data connection for /default_video/19-4-2020_6.mp4 (27617172 bytes).
 226 Transfer complete.

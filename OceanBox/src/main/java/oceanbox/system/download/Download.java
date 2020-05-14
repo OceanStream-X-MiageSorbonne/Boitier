@@ -1,21 +1,28 @@
 package oceanbox.system.download;
 
+import java.io.IOException;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+
 import java.util.Date;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import oceanbox.propreties.ClientPropreties;
+
 import oceanbox.system.Contenu;
 import oceanbox.system.ftp.RecupVideoFromServer;
+import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideosInfos;
 
 public class Download {
 
 	private Timer timeToDownload;
 	private VideosInfos objectVideosInfo;
+	private Map<Integer, Video> videosInfos;
 	private Contenu contenu;
 
 	public Download(Contenu contenu) {
@@ -31,7 +38,7 @@ public class Download {
 
 		objectVideosInfo = new VideosInfos();
 
-		int total = objectVideosInfo.getTotalDurationOfVideos();
+		long total = objectVideosInfo.getTotalDurationOfVideos();
 
 		LocalDateTime ldt = LocalDateTime.now();
 
@@ -43,11 +50,15 @@ public class Download {
 
 		ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth(), hour, minutes, seconds);
 
-		// heureDeReveil + ((24 % total) - 1) * total)
-		ldt = ldt.plus((((24 * 3600) % total) - 1) * total, ChronoUnit.SECONDS);
+		ldt = ldt.plus((long) ((((24.0 * 3600.0) / total) - 1) * total), ChronoUnit.SECONDS);
 
-		System.out.println(Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()));
-		
+		try {
+			ClientPropreties.setPropertie("nextDownloadTime",
+					Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
@@ -55,22 +66,33 @@ public class Download {
 
 		@Override
 		public void run() {
-			RecupVideoFromServer r = new RecupVideoFromServer();
-			int count = 1;
-			for (int i : r.getVideosFiles()) {
-				if (contenu.getVideoPlaying().getNumero() == 1)
-					count++;
-				while (contenu.getVideoPlaying().getNumero() <= i && count == 1) {
-					try {
-						Thread.sleep(5000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				r.ftpDownloadFile(i);
+			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
+			videosInfos = objectVideosInfo.getVideosInfos();
+
+			int n = 0;
+			for (int i : serverStuff.getVideosFiles()) {
+
+				n = i;
+				int[] infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(),
+						false);
+				if (infosCurrentVideo[0] <= i)
+					if (i <= videosInfos.size())
+						try {
+							Thread.sleep((videosInfos.get(i).getDuration() - infosCurrentVideo[1]) * 1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+
+				serverStuff.ftpDownloadFile(i);
 				System.out.println(i);
 			}
 
+			for (int j = n + 1; j < videosInfos.size(); j++) {
+
+				serverStuff.deleteLocalOldFile(j);
+			}
+
+			initDownload();
 		}
 	}
 }

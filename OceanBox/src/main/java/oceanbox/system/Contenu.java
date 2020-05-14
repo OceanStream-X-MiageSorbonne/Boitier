@@ -22,22 +22,21 @@ public class Contenu {
 	private Map<Integer, Video> videosInfos;
 	private Iterator<Integer> timelineIterator;
 	private int totalDurationOfVideo;
-	private Video videoPlaying;
 	private VideoPlayer videoPlayer;
 	private Process processPlayer;
-	private int start;
+	private int diffusionStart;
 	private Veille veille;
 
 	public Contenu() {
 		if (ClientPropreties.getPropertie("activateStandby").equals("true"))
 			veille = new VeilleScanner(this);
 		videoPlayer = new JVlcPlayer();
-		start = -1;
+		diffusionStart = -1;
 	}
 
 	/**
 	 * Cette méthode permet de récupérer les différents paquets dans le répertoire
-	 * local et de planifier la lecture des videos les unes après les autres
+	 * local et de récupérer la durée totale cumulée des vidéos
 	 */
 	public void initVideos() {
 
@@ -45,7 +44,7 @@ public class Contenu {
 		videosInfos = objectVideosInfo.getVideosInfos();
 
 		totalDurationOfVideo = objectVideosInfo.getTotalDurationOfVideos();
-		
+
 		initDiffusion();
 	}
 
@@ -53,7 +52,7 @@ public class Contenu {
 	 * Cette méthode permet d'initialiser le temps auquel débute la vidéo en
 	 * fonction de l'heure de réveil définie dans les propriétés du client
 	 * 
-	 * @return la temps relatif en secondes auquel doit débuter la diffusion
+	 * @return la temps relatif cumulé en secondes auquel doit débuter la diffusion
 	 */
 	public int repereForDiffusion() {
 
@@ -64,31 +63,33 @@ public class Contenu {
 
 		int base = (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
 
+		if (base > currently)
+			return ((currently - base) % totalDurationOfVideo) + totalDurationOfVideo;
 		return (currently - base) % totalDurationOfVideo;
 	}
 
 	/**
-	 * Cette méthode permet de spécifier les paramètres de la timeline dans laquelle
-	 * sont jouées les vidéos
+	 * Cette méthode permet de récupérer le numéro de la vidéo en lecture ainsi que
+	 * la valeur en secondes à laquelle sa diffusion a débuté
 	 * 
-	 * @return la timeline qui diffuse les vidéos
+	 * @param videosMap
+	 * @param start
+	 * @param fromContenu
+	 * 
+	 * @return un tableau de 2 valeurs : la 1ère est le numéro de la vidéo en
+	 *         lecture, le 2nd est le temps en secondes auquel débute sa diffusion
 	 */
-	// TODO il faut peut-être changer le type de la méthode, void a été mis au
-	// hasard
-	public void initDiffusion() {
+	public int[] getInfosCurrentVideo(Map<Integer, Video> videosMap, int start, boolean fromContenu) {
 
-		timelineIterator = videosInfos.keySet().iterator();
-
-		if (start < 0)
-			start = repereForDiffusion();
-		else
-			start = 0;
+		Iterator<Integer> iterator = videosMap.keySet().iterator();
 
 		int timeVideo;
 		int startIndice = 1;
-		while (timelineIterator.hasNext()) {
-			startIndice = timelineIterator.next();
-			timeVideo = videosInfos.get(startIndice).getDuration();
+		while (iterator.hasNext()) {
+			startIndice = iterator.next();
+			if (fromContenu)
+				timelineIterator.next();
+			timeVideo = videosMap.get(startIndice).getDuration();
 			if (start >= timeVideo) {
 				start -= timeVideo;
 			} else {
@@ -96,7 +97,27 @@ public class Contenu {
 			}
 		}
 
-		customPlay(videosInfos.get(startIndice), start);
+		int[] res = { startIndice, start };
+
+		return res;
+	}
+
+	/**
+	 * Cette méthode permet de spécifier les paramètres de la " timeline " dans
+	 * laquelle sont jouées les vidéos
+	 */
+	public void initDiffusion() {
+
+		if (diffusionStart < 0) {
+			diffusionStart = repereForDiffusion();
+		} else
+			diffusionStart = 0;
+
+		timelineIterator = videosInfos.keySet().iterator();
+
+		int[] infosCurrentVideo = getInfosCurrentVideo(videosInfos, diffusionStart, true);
+
+		customPlay(videosInfos.get(infosCurrentVideo[0]), infosCurrentVideo[1]);
 	}
 
 	/**
@@ -106,10 +127,7 @@ public class Contenu {
 	 */
 	private void customPlay(Video nextVideo, int begin) {
 
-		videoPlaying = nextVideo;
-
 		processPlayer = videoPlayer.play(nextVideo.getPath(), begin);
-		System.out.println(nextVideo.getName());
 		try {
 			processPlayer.waitFor();
 		} catch (InterruptedException e) {
@@ -129,23 +147,18 @@ public class Contenu {
 					e.printStackTrace();
 				}
 			}
-			start = -1;
+			diffusionStart = -1;
 			initVideos();
 		}
 
 	}
 
 	public void stopDiffusion() {
-		start = -1;
+		diffusionStart = -1;
 		videoPlayer.stopPlayerProcess();
 	}
 
 	public int getTotalDurationOfVideo() {
 		return totalDurationOfVideo;
 	}
-
-	public Video getVideoPlaying() {
-		return videoPlaying;
-	}
-
 }
