@@ -28,6 +28,7 @@ public class ClientPropreties {
 		// Video settings
 		defaultProperties.put("VideoFlux", "default");
 		defaultProperties.put("heureDeReveil", "06:00:00");
+		defaultProperties.put("nextDownloadTime", "UNKNOWN");
 		
 		// Standby settings
 		defaultProperties.put("activateStandby", "true");

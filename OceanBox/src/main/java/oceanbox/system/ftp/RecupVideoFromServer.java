@@ -106,11 +106,7 @@ public class RecupVideoFromServer {
 			// Téléchargement du paquet terminé, on ferme les flux
 			outputStream.close();
 
-			// Suppression de l'ancien paquet
-			for (String nomVideo : new File(cheminLocal).list()) {
-				if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
-					new File(cheminLocal + nomVideo).delete();
-			}
+			deleteLocalOldFile(numVideo);
 
 			// On ferme la connexion FTP
 			ftpDeconnection();
@@ -125,6 +121,15 @@ public class RecupVideoFromServer {
 				// On ferme la connexion FTP
 				ftpDeconnection();
 			}
+		}
+	}
+
+	public void deleteLocalOldFile(int numVideo) {
+
+		// Suppression de l'ancien paquet
+		for (String nomVideo : new File(cheminLocal).list()) {
+			if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
+				new File(cheminLocal + nomVideo).delete();
 		}
 	}
 
