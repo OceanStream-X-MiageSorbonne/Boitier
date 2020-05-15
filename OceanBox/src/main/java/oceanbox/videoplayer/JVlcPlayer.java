@@ -20,7 +20,7 @@ public class JVlcPlayer implements VideoPlayer {
 		cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
 		//cmd = "vlc";
 		cmd += " --start-time=" + time + " ";
-		cmd += videoPath;
+		cmd += videoPath + " -f";
 		ProcessBuilder playerBuilder = new ProcessBuilder("sh", "-c", cmd);
 		//ProcessBuilder playerBuilder = new ProcessBuilder("CMD", "-c", cmd);
 		try {

@@ -28,8 +28,7 @@ public class Contenu {
 	private Veille veille;
 
 	public Contenu() {
-		if (ClientPropreties.getPropertie("activateStandby").equals("true"))
-			veille = new VeilleScanner(this);
+		veille = new VeilleScanner(this);
 		videoPlayer = new JVlcPlayer();
 		diffusionStart = -1;
 	}
@@ -134,7 +133,7 @@ public class Contenu {
 			e.printStackTrace();
 		}
 
-		if (ClientPropreties.getPropertie("activateStandby").equals("false") || !veille.isSleepMode()) {
+		if (!veille.isSleepMode()) {
 			if (timelineIterator.hasNext())
 				customPlay(videosInfos.get(timelineIterator.next()), 0);
 			else

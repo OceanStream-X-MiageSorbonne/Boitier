@@ -23,7 +23,7 @@ public class App {
 
 		// Les 5 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("heureDeReveil", "19:00:00");
-		ClientPropreties.setPropertie("activateStandby", "true");
+		ClientPropreties.setPropertie("activateStandby", "false");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:20");
 
 		Contenu c = new Contenu();
