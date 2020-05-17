@@ -1,0 +1,14 @@
+#Sun May 17 19:43:15 CEST 2020
+oceanBoxNumber=1
+dbIP=37.187.107.122
+ftpUser=ocean_ftp
+dbPort=3306
+videoPath=/home/pi/OceanBox/video/
+ftpVideoPath=/default_video/
+dbPasswd=OceanBox2020
+ftpPasswd=Stream2020
+dbUser=ocean_bdd
+oceanBoxIP=0.0.0.0
+ftpIP=37.187.107.122
+ftpPort=21
+relativeLogPath=allAboutFtp.log
