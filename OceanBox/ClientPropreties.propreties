@@ -1,8 +1,8 @@
-#Fri May 15 11:41:41 CEST 2020
-VideoFlux=default
-nextDownloadTime=Sat May 16 18\:45\:24 CEST 2020
+#Sun May 17 19:43:15 CEST 2020
 timeBeforeStandby=00\:00\:20
-heureDeReveil=19\:00\:00
-userName=x
+nextDownloadTime=UNKNOWN
+heureDeReveil=08\:00\:00
 activateStandby=false
+VideoFlux=default
 userType=x
+userName=x

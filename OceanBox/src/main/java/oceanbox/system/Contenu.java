@@ -8,7 +8,8 @@ import java.util.Map;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.veille.Veille;
 import oceanbox.veille.VeilleScanner;
-import oceanbox.videoplayer.JVlcPlayer;
+import oceanbox.videoplayer.JOmxPlayer;
+//import oceanbox.videoplayer.JVlcPlayer;
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideoPlayer;
 import oceanbox.videoplayer.VideosInfos;
@@ -29,7 +30,7 @@ public class Contenu {
 
 	public Contenu() {
 		veille = new VeilleScanner(this);
-		videoPlayer = new JVlcPlayer();
+		videoPlayer = new JOmxPlayer();
 		diffusionStart = -1;
 	}
 
