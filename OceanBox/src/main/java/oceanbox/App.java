@@ -19,8 +19,9 @@ public class App {
 
 		// Modifiez la ligne ci-dessous si vous avez un autre path ou nom de video
 		//SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		// SystemPropreties.setPropertie("videoPath", "/Users/daekc/Desktop/video/");
+		//SystemPropreties.setPropertie("videoPath", "/Users/daekc/Desktop/video/");
 		SystemPropreties.setPropertie("videoPath", "/home/pi/OceanBox/video/");
+		
 		// Les 5 properties ci-dessous influent directement sur l'application
 		ClientPropreties.setPropertie("heureDeReveil", "08:00:00");
 		ClientPropreties.setPropertie("activateStandby", "false");
