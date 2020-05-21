@@ -1,6 +1,8 @@
 package oceanbox.videoplayer;
 
-import com.xuggle.xuggler.IContainer;
+import java.io.File;
+
+import com.abercap.mediainfo.api.MediaInfo;
 
 public class Video {
 
@@ -18,11 +20,16 @@ public class Video {
 	}
 
 	public void initVideoDuration() {
-		IContainer container = IContainer.make();
-		container.open(path, IContainer.Type.READ, null);
-		long durationInMicrosec = container.getDuration();
+//		IContainer container = IContainer.make();
+//		container.open(path, IContainer.Type.READ, null);
+//		long durationInMicrosec = container.getDuration();
+		File file         = new File(this.path);
+		MediaInfo info    = new MediaInfo();
+		info.open(file);
+		long durationInMicrosec = Long.parseLong(info.get(MediaInfo.StreamKind.Video, 1, "Duration"));
 		int durationInSec = (int) (durationInMicrosec / 1000000);
 		this.duration = durationInSec;
+		info.close();
 	}
 
 	private void initNameAttribute() {

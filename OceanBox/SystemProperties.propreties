@@ -1,9 +1,9 @@
-#Sun May 17 19:43:15 CEST 2020
+#Thu May 21 19:18:59 CEST 2020
 oceanBoxNumber=1
 dbIP=37.187.107.122
 ftpUser=ocean_ftp
 dbPort=3306
-videoPath=/home/pi/OceanBox/video/
+videoPath=/Users/daekc/Desktop/video/
 ftpVideoPath=/default_video/
 dbPasswd=OceanBox2020
 ftpPasswd=Stream2020

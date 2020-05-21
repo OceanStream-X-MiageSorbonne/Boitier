@@ -16,8 +16,8 @@
 	
 	<repositories>
 	  <repository>
-	    <id>xuggle repo</id>
-	    <url>https://files.liferay.com/mirrors/xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
+	    <id>mediainfo-java-api</id>
+	    <url>https://mvnrepository.com/artifact/com.abercap/mediainfo-java-api</url>
 	  </repository>
 	</repositories>
 
@@ -51,6 +51,14 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>2.7</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.abercap/mediainfo-java-api -->
+		<dependency>
+		    <groupId>com.abercap</groupId>
+		    <artifactId>mediainfo-java-api</artifactId>
+		    <version>1.0.0.RELEASE</version>
+		</dependency>
+			
 
 		<!-- Logger Log4j -->
 		<dependency>
@@ -65,14 +73,6 @@
 			<artifactId>commons-net</artifactId>
 			<version>3.6</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/xuggle/xuggle-xuggler -->
-		<dependency>
-		    <groupId>xuggle</groupId>
-		    <artifactId>xuggle-xuggler</artifactId>
-		    <version>5.4</version>
-		</dependency>
-		
 	</dependencies>
 
 

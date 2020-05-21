@@ -46,4 +46,15 @@ public class VideosInfos {
 		
 		return total;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		for(Video v : videosInfos.values()) {
+			str.append(v.toString() + "\n");
+		}
+		return str.toString();
+	}
+	
+	
 }
