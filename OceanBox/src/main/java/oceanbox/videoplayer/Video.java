@@ -26,8 +26,8 @@ public class Video {
 		File file         = new File(this.path);
 		MediaInfo info    = new MediaInfo();
 		info.open(file);
-		long durationInMicrosec = Long.parseLong(info.get(MediaInfo.StreamKind.Video, 1, "Duration"));
-		int durationInSec = (int) (durationInMicrosec / 1000000);
+		long durationInMillisec = Long.parseLong(info.get(MediaInfo.StreamKind.Video, 0, "Duration"));
+		int durationInSec = (int) (durationInMillisec / 1000);
 		this.duration = durationInSec;
 		info.close();
 	}
