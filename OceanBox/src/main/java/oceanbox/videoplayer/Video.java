@@ -27,11 +27,7 @@ public class Video {
 			Process p = processbuild.start();
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			StringBuilder builder = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null)
-				builder.append(line);
-			durationInMillisec = Long.parseLong(builder.toString());
+			durationInMillisec = Long.parseLong(reader.readLine());
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
