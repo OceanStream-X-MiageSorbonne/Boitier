@@ -13,6 +13,7 @@ public class VideosInfos {
 	public VideosInfos() {
 		grepVideos();
 		setInfos();
+		System.out.println(toString());
 	}
 
 	private void setInfos() {
