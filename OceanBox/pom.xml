@@ -13,7 +13,6 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-
 	<dependencies>
 		<!-- JUnit Testing -->
 		<dependency>
@@ -95,12 +94,12 @@
 	</build>
 	<distributionManagement>
 		<snapshotRepository>
-			<id>OceanBoxSnap</id>
-			<url>http://localhost:8081/nexus/content/repositories/OceanBoxSnap/</url>
+			<id>DevOceanBoxSnap</id>
+			<url>http://176.158.51.172:8081/nexus/content/repositories/DevOceanBoxSnap/</url>
 		</snapshotRepository>
 		<repository>
-			<id>OceanBoxReleases</id>
-			<url>http://localhost:8081/nexus/content/repositories/OceanBoxReleases/</url>
+			<id>DevOceanBoxReleases</id>
+			<url>http://176.158.51.172:8081/nexus/content/repositories/DevOceanBoxReleases/</url>
 		</repository>
 	</distributionManagement>
 
