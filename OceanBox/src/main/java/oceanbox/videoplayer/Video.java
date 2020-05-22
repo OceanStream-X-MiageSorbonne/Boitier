@@ -1,8 +1,8 @@
 package oceanbox.videoplayer;
 
-import java.io.File;
-
-import com.abercap.mediainfo.api.MediaInfo;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Video {
 
@@ -20,16 +20,24 @@ public class Video {
 	}
 
 	public void initVideoDuration() {
-//		IContainer container = IContainer.make();
-//		container.open(path, IContainer.Type.READ, null);
-//		long durationInMicrosec = container.getDuration();
-		File file         = new File(this.path);
-		MediaInfo info    = new MediaInfo();
-		info.open(file);
-		long durationInMillisec = Long.parseLong(info.get(MediaInfo.StreamKind.Video, 0, "Duration"));
+		String cmd = "mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + this.path;
+		ProcessBuilder processbuild = new ProcessBuilder("sh", "-c", cmd);
+		long durationInMillisec = 0;
+		try {
+			Process p = processbuild.start();
+			p.waitFor();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			StringBuilder builder = new StringBuilder();
+			String line = null;
+			while ((line = reader.readLine()) != null)
+				builder.append(line);
+			durationInMillisec = Long.parseLong(builder.toString());
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		int durationInSec = (int) (durationInMillisec / 1000);
 		this.duration = durationInSec;
-		info.close();
 	}
 
 	private void initNameAttribute() {
