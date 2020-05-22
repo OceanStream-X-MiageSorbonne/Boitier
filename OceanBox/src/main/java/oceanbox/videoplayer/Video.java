@@ -27,14 +27,17 @@ public class Video {
 			Process p = processbuild.start();
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			StringBuilder builder = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null)
-				builder.append(line);
-			durationInMillisec = Long.parseLong(builder.toString());
+//			StringBuilder builder = new StringBuilder();
+//			String line = null;
+//			while ((line = reader.readLine()) != null)
+//				builder.append(line);
+			String s = reader.readLine();
+			durationInMillisec = Long.parseLong(s);
+			
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+		this.duration = (int) (durationInMillisec/1000);
 	}
 
 	private void initNameAttribute() {
