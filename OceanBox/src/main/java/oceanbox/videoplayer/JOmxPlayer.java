@@ -17,6 +17,7 @@ public class JOmxPlayer implements VideoPlayer{
 	}
 
 	public Process play(String videoPath, int time) {
+		cmd = "omxplayer";
 		cmd += " --advanced";
 		cmd += " --pos " + time + " ";
 		cmd += " --aspect-mode fill ";
@@ -31,10 +32,17 @@ public class JOmxPlayer implements VideoPlayer{
 	}
 
 	public void stopPlayerProcess() {
-		if (omxPlayerProcess != null) {
-			omxPlayerProcess.destroy();
-			omxPlayerProcess=null;
-		}
-	}
+        if(omxPlayerProcess != null){
+            try{
+            	omxPlayerProcess.getOutputStream().write('q');
+            	omxPlayerProcess.getOutputStream().flush();
+            	//omxPlayerProcess.destroy();
+            	omxPlayerProcess = null;
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

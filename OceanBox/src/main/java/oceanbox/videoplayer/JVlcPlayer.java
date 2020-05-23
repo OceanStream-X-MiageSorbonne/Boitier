@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class JVlcPlayer implements VideoPlayer {
 
-	private String cmd = "omxplayer";
+	private String cmd = "vlc";
 	Process vlcPlayerProcess;
 
 	public JVlcPlayer() {

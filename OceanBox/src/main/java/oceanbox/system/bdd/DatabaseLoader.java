@@ -55,6 +55,8 @@ public class DatabaseLoader {
 				String dbPasswd = resultat.getString("dbPasswd");
 				String dbPort = resultat.getString("dbPort");
 				String videoPath = resultat.getString("videoPath");
+				String ftpVideoPath = resultat.getString("ftpVideoPath");
+				
 				SystemPropreties.setPropertie("ftpIP", ftpIP);
 				SystemPropreties.setPropertie("ftpUser", ftpUser);
 				SystemPropreties.setPropertie("ftpPasswd", ftpPasswd);
@@ -64,25 +66,23 @@ public class DatabaseLoader {
 				SystemPropreties.setPropertie("dbUser", dbUser);
 				SystemPropreties.setPropertie("dbPasswd", dbPasswd);
 				SystemPropreties.setPropertie("dbPort", dbPort);
+				SystemPropreties.setPropertie("ftpVideoPath", ftpVideoPath);
 
 			}
 			preparedStatement = conn.prepareStatement(
-					"SELECT * FROM clientsproperties, oceanboxproperties WHERE oceanBoxNumber= ? AND clientsproperties.idClient = oceanboxproperties.idClient");
+					"SELECT * FROM clientsproperties, oceanboxproperties WHERE oceanBoxNumber= ?");
 			preparedStatement.setString(1, SystemPropreties.getPropertie("oceanBoxNumber"));
 			resultat = preparedStatement.executeQuery();
 			resultat.next();
 
 			String VideoFlux = resultat.getString("VideoFlux");
-			String infos = resultat.getString("infos");
 			String userName = resultat.getString("userName");
 			String userType = resultat.getString("userType");
-			String downloadHour = resultat.getString("downloadHour");
 			String activateStandby = resultat.getString("activateStandby");
 			String timeBeforeStandby = resultat.getString("timeBeforeStandby");
 			String heureDeReveil = resultat.getString("heureDeReveil");
+			
 			ClientPropreties.setPropertie("VideoFlux", VideoFlux);
-			ClientPropreties.setPropertie("infos", infos);
-			ClientPropreties.setPropertie("downloadHour", downloadHour);
 			ClientPropreties.setPropertie("userName", userName);
 			ClientPropreties.setPropertie("userType", userType);
 			ClientPropreties.setPropertie("activateStandby", activateStandby);

@@ -35,7 +35,6 @@ public class Download {
 	}
 
 	private Date initTimeBeforeDownload() {
-
 		objectVideosInfo = new VideosInfos();
 
 		long total = objectVideosInfo.getTotalDurationOfVideos();
@@ -49,7 +48,11 @@ public class Download {
 		int seconds = Integer.parseInt(times[2]);
 
 		ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth(), hour, minutes, seconds);
-
+		
+		//To test
+		//ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth() - 1, hour, minutes, seconds);
+		
+		
 		ldt = ldt.plus((long) ((((24.0 * 3600.0) / total) - 1) * total), ChronoUnit.SECONDS);
 
 		try {
@@ -71,7 +74,6 @@ public class Download {
 
 			int n = 0;
 			for (int i : serverStuff.getVideosFiles()) {
-
 				n = i;
 				int[] infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(),
 						false);
@@ -84,7 +86,6 @@ public class Download {
 						}
 
 				serverStuff.ftpDownloadFile(i);
-				System.out.println(i);
 			}
 
 			for (int j = n + 1; j < videosInfos.size(); j++) {

@@ -9,7 +9,7 @@ import oceanbox.propreties.ClientPropreties;
 import oceanbox.veille.Veille;
 import oceanbox.veille.VeilleScanner;
 import oceanbox.videoplayer.JOmxPlayer;
-import oceanbox.videoplayer.JVlcPlayer;
+//import oceanbox.videoplayer.JVlcPlayer;
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideoPlayer;
 import oceanbox.videoplayer.VideosInfos;
@@ -44,7 +44,6 @@ public class Contenu {
 		videosInfos = objectVideosInfo.getVideosInfos();
 
 		totalDurationOfVideo = objectVideosInfo.getTotalDurationOfVideos();
-
 		initDiffusion();
 	}
 
@@ -110,8 +109,9 @@ public class Contenu {
 
 		if (diffusionStart < 0) {
 			diffusionStart = repereForDiffusion();
-		} else
+		} else {
 			diffusionStart = 0;
+		}
 
 		timelineIterator = videosInfos.keySet().iterator();
 
@@ -126,7 +126,7 @@ public class Contenu {
 	 * @param nextVideo
 	 */
 	private void customPlay(Video nextVideo, int begin) {
-
+		System.out.println(">>> VideoPlaying : " + nextVideo.toString() + " Begin : " + begin);
 		processPlayer = videoPlayer.play(nextVideo.getPath(), begin);
 		try {
 			processPlayer.waitFor();
