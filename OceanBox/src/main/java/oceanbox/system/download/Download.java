@@ -14,7 +14,9 @@ import java.util.TimerTask;
 import oceanbox.propreties.ClientPropreties;
 
 import oceanbox.system.Contenu;
+import oceanbox.system.bdd.DatabaseLoader;
 import oceanbox.system.ftp.RecupVideoFromServer;
+
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideosInfos;
 
@@ -42,7 +44,7 @@ public class Download {
 
 		LocalDateTime ldt = LocalDateTime.now();
 
-		String[] times = ClientPropreties.getPropertie("heureDeReveil").split(":");
+		String[] times = ClientPropreties.getPropertie("wakingHour").split(":");
 
 		int hour = Integer.parseInt(times[0]);
 		int minutes = Integer.parseInt(times[1]);
@@ -55,6 +57,7 @@ public class Download {
 		try {
 			ClientPropreties.setPropertie("nextDownloadTime",
 					Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()).toString());
+			DatabaseLoader.setNextDownloadTime();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +69,9 @@ public class Download {
 
 		@Override
 		public void run() {
+			
+			DatabaseLoader.setPropertiesFromDatabase();
+			
 			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
 			videosInfos = objectVideosInfo.getVideosInfos();
 
@@ -91,7 +97,7 @@ public class Download {
 
 				serverStuff.deleteLocalOldFile(j);
 			}
-
+			
 			initDownload();
 		}
 	}

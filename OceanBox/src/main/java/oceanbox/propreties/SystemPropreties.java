@@ -21,29 +21,28 @@ public class SystemPropreties {
 
 		defaultProperties = new HashMap<String, String>();
 
+		// OceanBox settings
+		defaultProperties.put("oceanBoxNumber", "0");
+		defaultProperties.put("oceanBoxIP", "0.0.0.0");
+		
 		// FTP settings
-		defaultProperties.put("ftpIP", "37.187.107.122");
 		defaultProperties.put("ftpUser", "ocean_ftp");
-		defaultProperties.put("ftpPasswd", "Stream2020");
+		defaultProperties.put("ftpIP", "37.187.107.122");
+		defaultProperties.put("ftpPassword", "Stream2020");
 		defaultProperties.put("ftpPort", "21");
-
 		defaultProperties.put("ftpVideoPath", "/default_video/");
 
-		// Log settings
-		defaultProperties.put("relativeLogPath", "allAboutFtp.log");
-
 		// Database settings
-		defaultProperties.put("dbIP", "37.187.107.122");
 		defaultProperties.put("dbUser", "ocean_bdd");
-		defaultProperties.put("dbPasswd", "OceanBox2020");
+		defaultProperties.put("dbIP", "37.187.107.122");
+		defaultProperties.put("dbPassword", "OceanBox2020");
 		defaultProperties.put("dbPort", "3306");
 
-		// OceanBox settings
-		defaultProperties.put("oceanBoxNumber", "1");
-		defaultProperties.put("oceanBoxIP", "0.0.0.0");
-
 		// Video settings
-		defaultProperties.put("videoPath", "/home/pi/");
+		defaultProperties.put("videoPath", "/home/pi/OceanBox/video/");
+		
+		// Log settings
+		defaultProperties.put("relativeLogPath", "allAboutFtp.log");
 
 	}
 
