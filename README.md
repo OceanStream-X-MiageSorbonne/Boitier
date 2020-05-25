@@ -14,5 +14,4 @@ Team MiageSorbonne
     - Julien Doujet
     - David Ekchajzer
     - Mathieu Ridet
-    d
 
