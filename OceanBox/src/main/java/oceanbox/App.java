@@ -27,8 +27,6 @@ public class App {
 		ClientPropreties.setPropertie("wakingHour", "08:30:00");
 		ClientPropreties.setPropertie("activateStandby", "false");
 		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:20");
-
-		
 		
 		Contenu c = new Contenu();
 		Download d = new Download(c);

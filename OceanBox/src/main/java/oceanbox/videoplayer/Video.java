@@ -20,6 +20,7 @@ public class Video {
 	}
 
 	public void initVideoDuration() {
+		// Ici il faut mettre le chemin absolu vers mediainfo
 		String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + this.path;
 		ProcessBuilder processbuild = new ProcessBuilder("sh", "-c", cmd);
 		long durationInMillisec = 0;
