@@ -22,17 +22,20 @@ public class ClientPropreties {
 		defaultProperties = new HashMap<String, String>();
 
 		// User settings
-		defaultProperties.put("userName", "x");
-		defaultProperties.put("userType", "x");
+		defaultProperties.put("userName", "-1");
+		defaultProperties.put("userName", "name");
+		defaultProperties.put("userType", "type");
 
 		// Video settings
-		defaultProperties.put("VideoFlux", "default");
-		defaultProperties.put("heureDeReveil", "06:00:00");
-		defaultProperties.put("nextDownloadTime", "UNKNOWN");
+		defaultProperties.put("videoStream", "default");
+		defaultProperties.put("wakingHour", "06:00:00");
 		
 		// Standby settings
 		defaultProperties.put("activateStandby", "true");
 		defaultProperties.put("timeBeforeStandby", "00:10:00");
+		
+		// Download settings
+		defaultProperties.put("nextDownloadTime", "UNKNOWN");
 
 	}
 

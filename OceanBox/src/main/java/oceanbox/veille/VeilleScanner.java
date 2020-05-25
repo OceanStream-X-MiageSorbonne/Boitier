@@ -17,7 +17,7 @@ public class VeilleScanner implements Veille {
 		this.contenu = c;
 		this.sleepMode = false;
 		Thread VeilleScannerThread = new Thread(() -> {
-			if (ClientPropreties.getPropertie("activateStandby").equals("true"))
+			if (ClientPropreties.getPropertie("activateStandby").equals("1"))
 				initVeille();
 			Scanner sc = new Scanner(System.in);
 			String entry = "";
@@ -44,7 +44,7 @@ public class VeilleScanner implements Veille {
 
 	@Override
 	public void update() {
-		if (!sleepMode && ClientPropreties.getPropertie("activateStandby").equals("true")) {
+		if (!sleepMode && ClientPropreties.getPropertie("activateStandby").equals("1")) {
 			pushVeille();
 		} else {
 			goOutVeille();
@@ -53,7 +53,7 @@ public class VeilleScanner implements Veille {
 
 	@Override
 	public void goOutVeille() {
-		if (ClientPropreties.getPropertie("activateStandby").equals("true"))
+		if (ClientPropreties.getPropertie("activateStandby").equals("1"))
 			initVeille();
 		sleepMode = false;
 	}

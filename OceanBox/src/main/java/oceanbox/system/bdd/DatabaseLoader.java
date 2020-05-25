@@ -1,11 +1,16 @@
 package oceanbox.system.bdd;
 
+import java.io.IOException;
+
+import java.net.InetAddress;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,16 +23,19 @@ public class DatabaseLoader {
 
 	// Database credentials
 	private static final String USER = SystemPropreties.getPropertie("dbUser");
-	static final String PASS = SystemPropreties.getPropertie("dbPasswd");
-	static final String HOST = SystemPropreties.getPropertie("dbIP");
-	static final String PORT = SystemPropreties.getPropertie("dbPort");
+	private static final String PASS = SystemPropreties.getPropertie("dbPassword");
+	private static final String HOST = SystemPropreties.getPropertie("dbIP");
+	private static final String PORT = SystemPropreties.getPropertie("dbPort");
 	private static Statement stmt = null;
 	private static PreparedStatement preparedStatement = null;
 	private static Connection conn = null;
 
-	public static void setPropertiesFromDatabase() {
+	private static void dbConnection() {
+
 		try {
+
 			String forName = "com.mysql.cj.jdbc.Driver";
+
 			try {
 				Class.forName(forName);
 				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Loaded Successfully");
@@ -37,57 +45,16 @@ public class DatabaseLoader {
 				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, ex.getMessage());
 			}
 
-			// STEP 3: Open a connection
+			// Open a connection
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connecting to a selected database...");
+
+			// Version sur le réseau
 			conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/oceandatabase", USER, PASS);
 
+			// Version locale
+			// conn = DriverManager.getConnection("jdbc:mysql://localhost:8889/ocean-database", "ocean_test", "test");
+
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connected database successfully...");
-
-			stmt = conn.createStatement();
-			ResultSet resultat = stmt.executeQuery("SELECT * FROM ftptable, dbtable");
-			while (resultat.next()) {
-				String ftpIP = resultat.getString("ftpIP");
-				String ftpUser = resultat.getString("ftpUser");
-				String ftpPasswd = resultat.getString("ftpPasswd");
-				String ftpPort = resultat.getString("ftpPort");
-				String dbIP = resultat.getString("dbIP");
-				String dbUser = resultat.getString("dbUser");
-				String dbPasswd = resultat.getString("dbPasswd");
-				String dbPort = resultat.getString("dbPort");
-				String videoPath = resultat.getString("videoPath");
-				SystemPropreties.setPropertie("ftpIP", ftpIP);
-				SystemPropreties.setPropertie("ftpUser", ftpUser);
-				SystemPropreties.setPropertie("ftpPasswd", ftpPasswd);
-				SystemPropreties.setPropertie("ftpPort", ftpPort);
-				SystemPropreties.setPropertie("ftpVideoPath", videoPath);
-				SystemPropreties.setPropertie("dbIP", dbIP);
-				SystemPropreties.setPropertie("dbUser", dbUser);
-				SystemPropreties.setPropertie("dbPasswd", dbPasswd);
-				SystemPropreties.setPropertie("dbPort", dbPort);
-
-			}
-			preparedStatement = conn.prepareStatement(
-					"SELECT * FROM clientsproperties, oceanboxproperties WHERE oceanBoxNumber= ? AND clientsproperties.idClient = oceanboxproperties.idClient");
-			preparedStatement.setString(1, SystemPropreties.getPropertie("oceanBoxNumber"));
-			resultat = preparedStatement.executeQuery();
-			resultat.next();
-
-			String VideoFlux = resultat.getString("VideoFlux");
-			String infos = resultat.getString("infos");
-			String userName = resultat.getString("userName");
-			String userType = resultat.getString("userType");
-			String downloadHour = resultat.getString("downloadHour");
-			String activateStandby = resultat.getString("activateStandby");
-			String timeBeforeStandby = resultat.getString("timeBeforeStandby");
-			String heureDeReveil = resultat.getString("heureDeReveil");
-			ClientPropreties.setPropertie("VideoFlux", VideoFlux);
-			ClientPropreties.setPropertie("infos", infos);
-			ClientPropreties.setPropertie("downloadHour", downloadHour);
-			ClientPropreties.setPropertie("userName", userName);
-			ClientPropreties.setPropertie("userType", userType);
-			ClientPropreties.setPropertie("activateStandby", activateStandby);
-			ClientPropreties.setPropertie("timeBeforeStandby", timeBeforeStandby);
-			ClientPropreties.setPropertie("heureDeReveil", heureDeReveil);
 
 		} catch (SQLException se) {
 			// Handle errors for JDBC
@@ -95,12 +62,91 @@ public class DatabaseLoader {
 		} catch (Exception e) {
 			// Handle errors for Class.forName
 			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException ex) {
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
-			}
 		}
+	}
+
+	private static void dbDeconnexion() {
+
+		try {
+
+			conn.close();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	public static void setPropertiesFromDatabase() {
+
+		dbConnection();
+
+		try {
+
+			stmt = conn.createStatement();
+
+			InetAddress IP = InetAddress.getLocalHost();
+			SystemPropreties.setPropertie("oceanBoxIP", IP.getHostAddress());
+
+			preparedStatement = conn.prepareStatement("UPDATE config SET oceanBoxIP = ? WHERE oceanBoxNumber = ?");
+			preparedStatement.setString(1, SystemPropreties.getPropertie("oceanBoxIP"));
+			preparedStatement.setString(2, SystemPropreties.getPropertie("oceanBoxNumber"));
+			preparedStatement.executeUpdate();
+
+			ResultSet resultat = stmt.executeQuery("SELECT * FROM db, ftp");
+			while (resultat.next()) {
+				SystemPropreties.setPropertie("dbUser", resultat.getString("dbUser"));
+				SystemPropreties.setPropertie("dbIP", resultat.getString("dbIP"));
+				SystemPropreties.setPropertie("dbPassword", resultat.getString("dbPassword"));
+				SystemPropreties.setPropertie("dbPort", resultat.getString("dbPort"));
+				SystemPropreties.setPropertie("ftpUser", resultat.getString("ftpUser"));
+				SystemPropreties.setPropertie("ftpIP", resultat.getString("ftpIP"));
+				SystemPropreties.setPropertie("ftpPassword", resultat.getString("ftpPassword"));
+				SystemPropreties.setPropertie("ftpPort", resultat.getString("ftpPort"));
+				SystemPropreties.setPropertie("ftpVideoPath", resultat.getString("ftpVideoPath"));
+			}
+
+			preparedStatement = conn
+					.prepareStatement("SELECT * FROM config, client WHERE oceanBoxNumber = ? AND userId = idClient");
+			preparedStatement.setString(1, SystemPropreties.getPropertie("oceanBoxNumber"));
+			resultat = preparedStatement.executeQuery();
+			while (resultat.next()) {
+				ClientPropreties.setPropertie("userId", resultat.getString("idClient"));
+				ClientPropreties.setPropertie("userName", resultat.getString("userName"));
+				ClientPropreties.setPropertie("userType", resultat.getString("userType"));
+				ClientPropreties.setPropertie("videoStream", resultat.getString("videoStream"));
+				ClientPropreties.setPropertie("wakingHour", resultat.getString("wakingHour"));
+				ClientPropreties.setPropertie("nextDownloadTime", resultat.getString("nextDownloadTime"));
+				ClientPropreties.setPropertie("activateStandby", resultat.getString("activateStandby"));
+				ClientPropreties.setPropertie("timeBeforeStandby", resultat.getString("timeBeforeStandby"));
+
+				SystemPropreties.setPropertie("videoPath", resultat.getString("videoPath"));
+				SystemPropreties.setPropertie("relativeLogPath", resultat.getString("relativeLogPath"));
+			}
+
+		} catch (SQLException | IOException ex) {
+			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		dbDeconnexion();
+	}
+
+	public static void setNextDownloadTime() {
+
+		dbConnection();
+		
+		try {
+
+			stmt = conn.createStatement();
+
+			preparedStatement = conn.prepareStatement("UPDATE config SET nextDownloadTime = ? WHERE oceanBoxNumber = ?");
+			preparedStatement.setString(1, ClientPropreties.getPropertie("nextDownloadTime"));
+			preparedStatement.setString(2, SystemPropreties.getPropertie("oceanBoxNumber"));
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		dbDeconnexion();
 	}
 }
