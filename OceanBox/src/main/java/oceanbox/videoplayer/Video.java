@@ -20,7 +20,7 @@ public class Video {
 	}
 
 	public void initVideoDuration() {
-		String cmd = "mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + this.path;
+		String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + this.path;
 		ProcessBuilder processbuild = new ProcessBuilder("sh", "-c", cmd);
 		long durationInMillisec = 0;
 		try {
