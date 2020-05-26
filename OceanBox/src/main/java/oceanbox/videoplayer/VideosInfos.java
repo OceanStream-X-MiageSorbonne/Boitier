@@ -24,7 +24,7 @@ public class VideosInfos {
 	 * Cette méthode instancie un tableau de fichier des vidéos du répertoire local
 	 */
 	private void initLocalVideos() {
-		videos = new File(SystemPropreties.getPropertie("videoPath")).listFiles();
+		videos = new File(SystemPropreties.getPropretie("videoPath")).listFiles();
 	}
 
 	/**

@@ -1,10 +1,10 @@
-#Tue May 26 14:49:18 CEST 2020
+#Tue May 26 15:30:20 CEST 2020
 ftpPassword=Stream2020
 videoPath=/Users/abdelbenamara/Movies/OceanBox/
 ftpVideoPath=/default_video/
 oceanBoxIP=192.168.1.17
-oceanBoxNumber=0
 ftpIP=37.187.107.122
+oceanBoxNumber=0
 dbIP=37.187.107.122
 relativeLogPath=allAboutFtp.log
 ftpPort=21

@@ -5,7 +5,7 @@
 	<groupId>oceanbox</groupId>
 	<artifactId>OceanBox</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>OceanBox</name>
 	<url>http://maven.apache.org</url>
 
@@ -58,6 +58,7 @@
 			<version>3.6</version>
 		</dependency>
 
+		<!-- for VeilleDMV -->
 		<dependency>
 			<groupId>com.pi4j</groupId>
 			<artifactId>pi4j-core</artifactId>

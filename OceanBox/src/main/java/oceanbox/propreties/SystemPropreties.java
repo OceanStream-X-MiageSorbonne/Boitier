@@ -19,13 +19,13 @@ public class SystemPropreties {
 
 	protected static Properties props;
 	protected static Map<String, String> defaultProperties;
-	protected static String path = "SystemProperties.propreties";
+	protected static String path = "SystemPropreties.propreties";
 
 	/**
 	 * Cette méthode initialise des propriétés par défaut pour créer les champs
 	 * nécessaires et ne pas laisser vides
 	 */
-	private static void initDefaultProperties() {
+	private static void initDefaultPropreties() {
 
 		defaultProperties = new HashMap<String, String>();
 
@@ -60,12 +60,12 @@ public class SystemPropreties {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static void initProperties() throws FileNotFoundException, IOException {
+	public static void initPropreties() throws FileNotFoundException, IOException {
 
 		props = new Properties();
 
 		if (!propretiesFileExist()) {
-			createProperties();
+			createPropreties();
 			try (OutputStream writer = new FileOutputStream(path)) {
 				props.store(writer, null);
 			}
@@ -92,7 +92,7 @@ public class SystemPropreties {
 	/**
 	 * Cette méthode supprime le fichier de propriété
 	 */
-	public static void deletePropertiesFile() {
+	public static void deletePropretiesFile() {
 
 		if (propretiesFileExist()) {
 			File f = new File(path);
@@ -103,9 +103,9 @@ public class SystemPropreties {
 	/**
 	 * Cette méthode crée le fichier et y écrit les propriétés par défaut
 	 */
-	private static void createProperties() {
+	private static void createPropreties() {
 
-		initDefaultProperties();
+		initDefaultPropreties();
 
 		for (String p : defaultProperties.keySet()) {
 			props.setProperty(p, defaultProperties.get(p));
@@ -118,7 +118,7 @@ public class SystemPropreties {
 	 * @param key : le nom (sensible à la casse) de la propriété voulue
 	 * @return : la valeur de la propriété
 	 */
-	public static String getPropertie(String key) {
+	public static String getPropretie(String key) {
 		return (String) props.get(key);
 	}
 
@@ -130,7 +130,7 @@ public class SystemPropreties {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static void setPropertie(String key, String value) throws FileNotFoundException, IOException {
+	public static void setPropretie(String key, String value) throws FileNotFoundException, IOException {
 
 		props.setProperty(key, value);
 		try (OutputStream writer = new FileOutputStream(path)) {

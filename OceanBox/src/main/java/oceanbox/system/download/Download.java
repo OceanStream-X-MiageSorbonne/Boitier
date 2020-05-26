@@ -55,7 +55,7 @@ public class Download {
 
 		LocalDateTime ldt = LocalDateTime.now();
 
-		String[] times = ClientPropreties.getPropertie("wakingHour").split(":");
+		String[] times = ClientPropreties.getPropretie("wakingHour").split(":");
 
 		int hour = Integer.parseInt(times[0]);
 		int minutes = Integer.parseInt(times[1]);
@@ -66,7 +66,7 @@ public class Download {
 		ldt = ldt.plus((long) ((((24.0 * 3600.0) / total) - 1) * total), ChronoUnit.SECONDS);
 
 		try {
-			ClientPropreties.setPropertie("nextDownloadTime",
+			ClientPropreties.setPropretie("nextDownloadTime",
 					Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()).toString());
 			DatabaseLoader.setNextDownloadTime();
 		} catch (IOException e) {
@@ -84,7 +84,7 @@ public class Download {
 		@Override
 		public void run() {
 
-			DatabaseLoader.setPropertiesFromDatabase();
+			DatabaseLoader.setPropretiesFromDatabase();
 
 			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
 			videosInfos = objectVideosInfo.getVideosInfos();

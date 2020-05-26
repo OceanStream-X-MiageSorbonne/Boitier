@@ -19,23 +19,23 @@ public class App {
 
 		// On initialise les fichiers de propriétés puis on les complète avec les
 		// informations qui sont sur la base de données
-		SystemPropreties.initProperties();
-		ClientPropreties.initProperties();
-		DatabaseLoader.setPropertiesFromDatabase();
+		SystemPropreties.initPropreties();
+		ClientPropreties.initPropreties();
+		DatabaseLoader.setPropretiesFromDatabase();
 
 		// -----------------------------------------------------------------------------------
 
 		// Modifiez la ligne ci-dessous pour aller chercher les videos au bon endroit
-		SystemPropreties.setPropertie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		// SystemPropreties.setPropertie("videoPath", "/Users/daekc/Desktop/video/");
+		SystemPropreties.setPropretie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+		// SystemPropreties.setPropretie("videoPath", "/Users/daekc/Desktop/video/");
 
 		// Le vrai chemin vers les vidéos sur raspberry est celui ci-dessous
-		// SystemPropreties.setPropertie("videoPath", "/home/pi/OceanBox/video/");
+		// SystemPropreties.setPropretie("videoPath", "/home/pi/OceanBox/video/");
 
 		// Les properties ci-dessous influent directement sur l'application
-		ClientPropreties.setPropertie("wakingHour", "08:30:00");
-		ClientPropreties.setPropertie("activateStandby", "false");
-		ClientPropreties.setPropertie("timeBeforeStandby", "00:00:20");
+		ClientPropreties.setPropretie("wakingHour", "08:30:00");
+		ClientPropreties.setPropretie("activateStandby", "false");
+		ClientPropreties.setPropretie("timeBeforeStandby", "00:00:20");
 
 		// -----------------------------------------------------------------------------------
 

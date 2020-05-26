@@ -30,7 +30,8 @@ public class Video {
 	public void initVideoDuration() {
 
 		// Pour l'application en .jar il ne faut pas mettre le chemin absolu
-		// String cmd = "mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + this.path;
+		// String cmd = "mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" +
+		// '\'' + " " + this.path;
 
 		// Sinon ici il faut mettre le chemin absolu vers mediainfo
 		String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " "

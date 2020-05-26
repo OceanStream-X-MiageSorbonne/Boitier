@@ -1,9 +1,9 @@
-#Tue May 26 14:49:18 CEST 2020
+#Tue May 26 15:30:20 CEST 2020
 videoStream=default
 nextDownloadTime=Wed May 27 08\:28\:45 CEST 2020
 userId=0
 wakingHour=08\:30\:00
-timeBeforeStandby=00\:00\:20
 userName=User Demo
+timeBeforeStandby=00\:00\:20
 activateStandby=false
 userType=Test
