@@ -11,12 +11,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Cette classe gère les informations relatives à la configuration personnalisée
+ * du programme écrites dans le fichier de propriété du même nom que la classe
+ */
 public class SystemPropreties {
 
 	protected static Properties props;
 	protected static Map<String, String> defaultProperties;
 	protected static String path = "SystemProperties.propreties";
 
+	/**
+	 * Cette méthode initialise des propriétés par défaut pour créer les champs
+	 * nécessaires et ne pas laisser vides
+	 */
 	private static void initDefaultProperties() {
 
 		defaultProperties = new HashMap<String, String>();
@@ -24,7 +32,7 @@ public class SystemPropreties {
 		// OceanBox settings
 		defaultProperties.put("oceanBoxNumber", "0");
 		defaultProperties.put("oceanBoxIP", "0.0.0.0");
-		
+
 		// FTP settings
 		defaultProperties.put("ftpUser", "ocean_ftp");
 		defaultProperties.put("ftpIP", "37.187.107.122");
@@ -40,12 +48,18 @@ public class SystemPropreties {
 
 		// Video settings
 		defaultProperties.put("videoPath", "/home/pi/OceanBox/video/");
-		
+
 		// Log settings
 		defaultProperties.put("relativeLogPath", "allAboutFtp.log");
 
 	}
 
+	/**
+	 * Cette méthode initialise le fichier de propriétés
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public static void initProperties() throws FileNotFoundException, IOException {
 
 		props = new Properties();
@@ -63,15 +77,21 @@ public class SystemPropreties {
 		}
 	}
 
+	/**
+	 * Cette méthode permet de savoir si le fichier de propriétés voulu existe
+	 * 
+	 * @return : true s'il existe, false sinon
+	 */
 	private static boolean propretiesFileExist() {
 
 		File f = new File(path);
 
-		if (!f.exists())
-			return false;
-		return true;
+		return f.exists();
 	}
 
+	/**
+	 * Cette méthode supprime le fichier de propriété
+	 */
 	public static void deletePropertiesFile() {
 
 		if (propretiesFileExist()) {
@@ -80,6 +100,9 @@ public class SystemPropreties {
 		}
 	}
 
+	/**
+	 * Cette méthode crée le fichier et y écrit les propriétés par défaut
+	 */
 	private static void createProperties() {
 
 		initDefaultProperties();
@@ -89,17 +112,29 @@ public class SystemPropreties {
 		}
 	}
 
+	/**
+	 * Cette méthode récupère la propriété passée en paramètre
+	 * 
+	 * @param key : le nom (sensible à la casse) de la propriété voulue
+	 * @return : la valeur de la propriété
+	 */
 	public static String getPropertie(String key) {
 		return (String) props.get(key);
 	}
 
+	/**
+	 * Cette méthode modifie la valeur de la propriété ciblée
+	 * 
+	 * @param key   : le nom (sensible à la casse) de la propriété ciblée
+	 * @param value : la nouvelle valeur de la propriété
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public static void setPropertie(String key, String value) throws FileNotFoundException, IOException {
 
 		props.setProperty(key, value);
 		try (OutputStream writer = new FileOutputStream(path)) {
 			props.store(writer, null);
 		}
-
 	}
-
 }

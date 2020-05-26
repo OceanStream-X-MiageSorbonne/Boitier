@@ -20,6 +20,9 @@ import oceanbox.system.ftp.RecupVideoFromServer;
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideosInfos;
 
+/**
+ * Cette classe gère le téléchargement quotidien des vidéos
+ */
 public class Download {
 
 	private Timer timeToDownload;
@@ -31,11 +34,19 @@ public class Download {
 		this.contenu = contenu;
 	}
 
+	/**
+	 * Cette méthode initialise le Timer qui déclenchera le téléchargement
+	 */
 	public void initDownload() {
 		timeToDownload = new Timer();
 		timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
 	}
 
+	/**
+	 * Cette méthode calcule la Date du prochain téléchargement
+	 * 
+	 * @return : la Date du prochain téléchargement
+	 */
 	private Date initTimeBeforeDownload() {
 
 		objectVideosInfo = new VideosInfos();
@@ -65,22 +76,25 @@ public class Download {
 		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
+	/**
+	 * Cette classe lance le téléchargement dans un Thread à part
+	 */
 	private class DownloadTask extends TimerTask {
 
 		@Override
 		public void run() {
-			
+
 			DatabaseLoader.setPropertiesFromDatabase();
-			
+
 			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
 			videosInfos = objectVideosInfo.getVideosInfos();
 
 			int n = 0;
+			int[] infosCurrentVideo;
 			for (int i : serverStuff.getVideosFiles()) {
 
 				n = i;
-				int[] infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(),
-						false);
+				infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
 				if (infosCurrentVideo[0] <= i)
 					if (i <= videosInfos.size())
 						try {
@@ -97,7 +111,7 @@ public class Download {
 
 				serverStuff.deleteLocalOldFile(j);
 			}
-			
+
 			initDownload();
 		}
 	}

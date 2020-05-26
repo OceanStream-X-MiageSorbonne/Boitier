@@ -7,6 +7,9 @@ import java.util.TimerTask;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.system.Contenu;
 
+/**
+ * Cette classe est une implémentation de Veille pour une entrée clavier
+ */
 public class VeilleScanner implements Veille {
 
 	private Contenu contenu;
