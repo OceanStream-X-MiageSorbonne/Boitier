@@ -17,9 +17,14 @@ import java.util.logging.Logger;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
+/**
+ * Cette classe récupère les informations dans la base de données et les écrit
+ * dans les fichiers de propriétés
+ */
 public class DatabaseLoader {
-	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+
+	// JDBC driver's name
+	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
 	// Database credentials
 	private static final String USER = SystemPropreties.getPropertie("dbUser");
@@ -30,29 +35,26 @@ public class DatabaseLoader {
 	private static PreparedStatement preparedStatement = null;
 	private static Connection conn = null;
 
+	/**
+	 * Cette méthode permet de se connecter à la base de données
+	 */
 	private static void dbConnection() {
 
 		try {
 
-			String forName = "com.mysql.cj.jdbc.Driver";
-
 			try {
-				Class.forName(forName);
+				Class.forName(JDBC_DRIVER);
 				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Loaded Successfully");
 
 			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Failed To Load Successfully");
+				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Failed To Load");
 				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, ex.getMessage());
 			}
 
 			// Open a connection
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connecting to a selected database...");
 
-			// Version sur le réseau
 			conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/oceandatabase", USER, PASS);
-
-			// Version locale
-			// conn = DriverManager.getConnection("jdbc:mysql://localhost:8889/ocean-database", "ocean_test", "test");
 
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connected database successfully...");
 
@@ -65,6 +67,9 @@ public class DatabaseLoader {
 		}
 	}
 
+	/**
+	 * Cette méthode permet de se déconnecter de la base de données
+	 */
 	private static void dbDeconnexion() {
 
 		try {
@@ -76,6 +81,11 @@ public class DatabaseLoader {
 		}
 	}
 
+	/**
+	 * Cette méthode permet de mettre à jour les fichiers de propriétés à partir des
+	 * informations stockées dans la base de données. A noter que l'on met à jour
+	 * l'IP locale stockée dans la base de données à chaque appel de cette méthode
+	 */
 	public static void setPropertiesFromDatabase() {
 
 		dbConnection();
@@ -126,19 +136,24 @@ public class DatabaseLoader {
 		} catch (SQLException | IOException ex) {
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
+
 		dbDeconnexion();
 	}
 
+	/**
+	 * Cette méthode permet de mettre à jour dans la base de données la valeur du
+	 * prochain moment où le téléchargement des vidéos sera effectué
+	 */
 	public static void setNextDownloadTime() {
 
 		dbConnection();
-		
+
 		try {
 
 			stmt = conn.createStatement();
 
-			preparedStatement = conn.prepareStatement("UPDATE config SET nextDownloadTime = ? WHERE oceanBoxNumber = ?");
+			preparedStatement = conn
+					.prepareStatement("UPDATE config SET nextDownloadTime = ? WHERE oceanBoxNumber = ?");
 			preparedStatement.setString(1, ClientPropreties.getPropertie("nextDownloadTime"));
 			preparedStatement.setString(2, SystemPropreties.getPropertie("oceanBoxNumber"));
 			preparedStatement.executeUpdate();
@@ -146,7 +161,7 @@ public class DatabaseLoader {
 		} catch (SQLException ex) {
 			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
+
 		dbDeconnexion();
 	}
 }

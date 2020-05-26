@@ -10,6 +10,9 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.system.Contenu;
 
+/**
+ * Cette classe est une implémentation de Veille pour un détecteur de mouvement
+ */
 public class VeilleDMV implements Veille {
 
 	private Contenu contenu;

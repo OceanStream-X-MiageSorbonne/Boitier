@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Cette classe représente une vidéo en objet Java pour pouvoir appeler
+ * certaines méthodes dessus
+ */
 public class Video {
 
 	private String path;
@@ -19,9 +23,19 @@ public class Video {
 		initVideoDuration();
 	}
 
+	/**
+	 * Cette méthode récupère la durée de la vidéo grâce au programme " mediainfo "
+	 * et l'affecte à l'attribut de classe correspondant
+	 */
 	public void initVideoDuration() {
-		// Ici il faut mettre le chemin absolu vers mediainfo
-		String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + this.path;
+
+		// Pour l'application en .jar il ne faut pas mettre le chemin absolu
+		// String cmd = "mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + this.path;
+
+		// Sinon ici il faut mettre le chemin absolu vers mediainfo
+		String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " "
+				+ this.path;
+
 		ProcessBuilder processbuild = new ProcessBuilder("sh", "-c", cmd);
 		long durationInMillisec = 0;
 		try {
@@ -37,7 +51,12 @@ public class Video {
 		this.duration = durationInSec;
 	}
 
+	/**
+	 * Cette méthode partitionne le nom de fichier de la vidéo pour initialiser les
+	 * attributs de classe correspondant
+	 */
 	private void initNameAttribute() {
+
 		String[] splitOnSlash = path.split("\\\\|/");
 		this.name = splitOnSlash[splitOnSlash.length - 1];
 		String[] nameSplit = this.name.split("\\.");
