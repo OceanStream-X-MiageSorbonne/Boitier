@@ -18,6 +18,10 @@ import org.apache.commons.net.ftp.FTPSClient;
 //import org.apache.log4j.Logger;
 import oceanbox.propreties.SystemPropreties;
 
+/**
+ * Cette classe permet de lancer les téléchargements des vidéos qui sont sur un
+ * serveur FTP
+ */
 public class RecupVideoFromServer {
 
 	// private final static Logger LOGGER =
@@ -30,7 +34,8 @@ public class RecupVideoFromServer {
 	private String cheminLocal;
 
 	public RecupVideoFromServer() {
-//		// Initialisation du Logger
+
+		// TODO : Initialisation du Logger
 //		Appender fh = null;
 //		try {
 //			fh = new FileAppender(new SimpleLayout(), SystemPropreties.getPropertie("relativeLogPath"));
@@ -46,14 +51,14 @@ public class RecupVideoFromServer {
 	}
 
 	/**
-	 * Connexion FTP
+	 * Cette méthode permet de se connecter au serveur FTP
 	 */
 	private void ftpConnection() {
 
-		String host = SystemPropreties.getPropertie("ftpIP");
-		String login = SystemPropreties.getPropertie("ftpUser");
-		String mdp = SystemPropreties.getPropertie("ftpPasswd");
-		String port = SystemPropreties.getPropertie("ftpPort");
+		String host = SystemPropreties.getPropretie("ftpIP");
+		String login = SystemPropreties.getPropretie("ftpUser");
+		String mdp = SystemPropreties.getPropretie("ftpPasswd");
+		String port = SystemPropreties.getPropretie("ftpPort");
 
 		ftpsClient = new FTPSClient();
 
@@ -64,7 +69,7 @@ public class RecupVideoFromServer {
 			ftpsClient.execPROT("P");
 			// LOGGER.info("FTP Connection OK");
 			ftpsClient.addProtocolCommandListener(new PrintCommandListener(
-					new PrintWriter(new FileOutputStream(SystemPropreties.getPropertie("relativeLogPath")))));
+					new PrintWriter(new FileOutputStream(SystemPropreties.getPropretie("relativeLogPath")))));
 			ftpsClient.enterLocalPassiveMode();
 			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
 		} catch (IOException e) {
@@ -75,20 +80,27 @@ public class RecupVideoFromServer {
 	}
 
 	/**
-	 * Déconnexion FTP
+	 * Cette méthode permet de se déconnecter du serveur FTP
 	 */
 	private void ftpDeconnection() {
+
 		try {
 			ftpsClient.logout();
 			ftpsClient.disconnect();
-			// LOGGER.info("FTP Deconnection OK");
+			// LOGGER.info("FTP Déconnexion OK");
 		} catch (IOException e) {
-			// LOGGER.error("FTP Deconnection KO");
+			// LOGGER.error("FTP Déconnexion KO");
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Cette méthode télécharge la video ayant le numéro souhaité
+	 * 
+	 * @param numVideo : le numéro de la vidéo à télécharger
+	 */
 	public void ftpDownloadFile(int numVideo) {
+
 		if (!ftpsClient.isConnected()) {
 			ftpConnection();
 		}
@@ -124,16 +136,26 @@ public class RecupVideoFromServer {
 		}
 	}
 
+	/**
+	 * Cette méthode supprime la video ayant le numéro souhaité
+	 * 
+	 * @param numVideo : le numéro de la vidéo à supprimer
+	 */
 	public void deleteLocalOldFile(int numVideo) {
 
-		// Suppression de l'ancien paquet
+		// Suppression de l'ancien paquet en local
 		for (String nomVideo : new File(cheminLocal).list()) {
 			if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
 				new File(cheminLocal + nomVideo).delete();
 		}
 	}
 
+	/**
+	 * Cette méthode initialise le Set " videosFiles " avec les numéros des vidéos à
+	 * télécharger sur le serveur
+	 */
 	private void setVideosFiles() {
+
 		ftpConnection();
 
 		videosFiles = new TreeSet<Integer>();
@@ -149,17 +171,28 @@ public class RecupVideoFromServer {
 		}
 	}
 
+	/**
+	 * Cette méthode initialise les informations nécessaires au téléchargement des
+	 * vidéos du jour suivant
+	 */
 	private void setVideoRegex() {
-		cheminDistant = SystemPropreties.getPropertie("ftpVideoPath");
-		cheminLocal = SystemPropreties.getPropertie("videoPath");
+		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
+		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
 		prefixeNomVideo = "19-4-2020_";
+
+		// Le vrai préfixe du nom des prochaines vidéos est celui ci-dessous
 		// prefixeNomVideo = LocalDateTime.now().getDayOfMonth() + "-" +
 		// LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() +
 		// "_";
-
 	}
 
+	/**
+	 * Cette méthode renvoie le Set qui contient les numéros des vidéos à
+	 * télécharger
+	 * 
+	 * @return : le Set de numéros des vidéos
+	 */
 	public Set<Integer> getVideosFiles() {
 		return videosFiles;
 	}

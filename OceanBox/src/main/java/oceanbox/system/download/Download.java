@@ -14,10 +14,15 @@ import java.util.TimerTask;
 import oceanbox.propreties.ClientPropreties;
 
 import oceanbox.system.Contenu;
+import oceanbox.system.bdd.DatabaseLoader;
 import oceanbox.system.ftp.RecupVideoFromServer;
+
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideosInfos;
 
+/**
+ * Cette classe gère le téléchargement quotidien des vidéos
+ */
 public class Download {
 
 	private Timer timeToDownload;
@@ -29,35 +34,41 @@ public class Download {
 		this.contenu = contenu;
 	}
 
+	/**
+	 * Cette méthode initialise le Timer qui déclenchera le téléchargement
+	 */
 	public void initDownload() {
 		timeToDownload = new Timer();
 		timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
 	}
 
+	/**
+	 * Cette méthode calcule la Date du prochain téléchargement
+	 * 
+	 * @return : la Date du prochain téléchargement
+	 */
 	private Date initTimeBeforeDownload() {
+
 		objectVideosInfo = new VideosInfos();
 
 		long total = objectVideosInfo.getTotalDurationOfVideos();
 
 		LocalDateTime ldt = LocalDateTime.now();
 
-		String[] times = ClientPropreties.getPropertie("heureDeReveil").split(":");
+		String[] times = ClientPropreties.getPropretie("wakingHour").split(":");
 
 		int hour = Integer.parseInt(times[0]);
 		int minutes = Integer.parseInt(times[1]);
 		int seconds = Integer.parseInt(times[2]);
 
 		ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth(), hour, minutes, seconds);
-		
-		//To test
-		//ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth() - 1, hour, minutes, seconds);
-		
-		
+
 		ldt = ldt.plus((long) ((((24.0 * 3600.0) / total) - 1) * total), ChronoUnit.SECONDS);
 
 		try {
-			ClientPropreties.setPropertie("nextDownloadTime",
+			ClientPropreties.setPropretie("nextDownloadTime",
 					Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()).toString());
+			DatabaseLoader.setNextDownloadTime();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,18 +76,25 @@ public class Download {
 		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
+	/**
+	 * Cette classe lance le téléchargement dans un Thread à part
+	 */
 	private class DownloadTask extends TimerTask {
 
 		@Override
 		public void run() {
+
+			DatabaseLoader.setPropertiesFromDatabase();
+
 			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
 			videosInfos = objectVideosInfo.getVideosInfos();
 
 			int n = 0;
+			int[] infosCurrentVideo;
 			for (int i : serverStuff.getVideosFiles()) {
+
 				n = i;
-				int[] infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(),
-						false);
+				infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
 				if (infosCurrentVideo[0] <= i)
 					if (i <= videosInfos.size())
 						try {
@@ -86,6 +104,7 @@ public class Download {
 						}
 
 				serverStuff.ftpDownloadFile(i);
+				System.out.println(i);
 			}
 
 			for (int j = n + 1; j < videosInfos.size(); j++) {

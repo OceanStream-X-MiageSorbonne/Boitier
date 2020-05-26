@@ -11,37 +11,54 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Cette classe gère les informations relatives au client écrites dans le
+ * fichier de propriété du même nom que la classe
+ */
 public class ClientPropreties {
 
 	protected static Properties props;
 	protected static Map<String, String> defaultProperties;
 	protected static String path = "ClientPropreties.propreties";
 
-	private static void initDefaultProperties() {
+	/**
+	 * Cette méthode initialise des propriétés par défaut pour créer les champs
+	 * nécessaires et ne pas laisser vides
+	 */
+	private static void initDefaultPropreties() {
 
 		defaultProperties = new HashMap<String, String>();
 
 		// User settings
-		defaultProperties.put("userName", "x");
-		defaultProperties.put("userType", "x");
+		defaultProperties.put("userName", "-1");
+		defaultProperties.put("userName", "name");
+		defaultProperties.put("userType", "type");
 
 		// Video settings
-		defaultProperties.put("VideoFlux", "default");
-		defaultProperties.put("heureDeReveil", "06:00:00");
-		defaultProperties.put("nextDownloadTime", "UNKNOWN");
-		
+		defaultProperties.put("videoStream", "default");
+		defaultProperties.put("wakingHour", "06:00:00");
+
 		// Standby settings
 		defaultProperties.put("activateStandby", "true");
 		defaultProperties.put("timeBeforeStandby", "00:10:00");
 
+		// Download settings
+		defaultProperties.put("nextDownloadTime", "UNKNOWN");
+
 	}
 
-	public static void initProperties() throws FileNotFoundException, IOException {
+	/**
+	 * Cette méthode initialise le fichier de propriétés
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static void initPropreties() throws FileNotFoundException, IOException {
 
 		props = new Properties();
 
 		if (!propretiesFileExist()) {
-			createProperties();
+			createPropreties();
 			try (OutputStream writer = new FileOutputStream(path)) {
 				props.store(writer, null);
 			}
@@ -53,16 +70,22 @@ public class ClientPropreties {
 		}
 	}
 
+	/**
+	 * Cette méthode permet de savoir si le fichier de propriétés voulu existe
+	 * 
+	 * @return : true s'il existe, false sinon
+	 */
 	private static boolean propretiesFileExist() {
 
 		File f = new File(path);
 
-		if (!f.exists())
-			return false;
-		return true;
+		return f.exists();
 	}
 
-	public static void deletePropertiesFile() {
+	/**
+	 * Cette méthode supprime le fichier de propriété
+	 */
+	public static void deletePropretiesFile() {
 
 		if (propretiesFileExist()) {
 			File f = new File(path);
@@ -70,26 +93,41 @@ public class ClientPropreties {
 		}
 	}
 
-	private static void createProperties() {
+	/**
+	 * Cette méthode crée le fichier et y écrit les propriétés par défaut
+	 */
+	private static void createPropreties() {
 
-		initDefaultProperties();
+		initDefaultPropreties();
 
 		for (String p : defaultProperties.keySet()) {
 			props.setProperty(p, defaultProperties.get(p));
 		}
 	}
 
-	public static String getPropertie(String key) {
+	/**
+	 * Cette méthode récupère la propriété passée en paramètre
+	 * 
+	 * @param key : le nom (sensible à la casse) de la propriété voulue
+	 * @return : la valeur de la propriété
+	 */
+	public static String getPropretie(String key) {
 		return (String) props.get(key);
 	}
 
-	public static void setPropertie(String key, String value) throws FileNotFoundException, IOException {
+	/**
+	 * Cette méthode modifie la valeur de la propriété ciblée
+	 * 
+	 * @param key   : le nom (sensible à la casse) de la propriété ciblée
+	 * @param value : la nouvelle valeur de la propriété
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static void setPropretie(String key, String value) throws FileNotFoundException, IOException {
 
 		props.setProperty(key, value);
 		try (OutputStream writer = new FileOutputStream(path)) {
 			props.store(writer, null);
 		}
-
 	}
-
 }
