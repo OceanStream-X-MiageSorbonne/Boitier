@@ -4,18 +4,18 @@ import java.time.LocalDateTime;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.veille.Veille;
 import oceanbox.veille.VeilleScanner;
 import oceanbox.videoplayer.JOmxPlayer;
-//import oceanbox.videoplayer.JVlcPlayer;
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideoPlayer;
 import oceanbox.videoplayer.VideosInfos;
 
 /**
- * Cette classe contient les vidéos qui seront affichées à l'écran
+ * Cette classe gère les vidéos qui seront affichées à l'écran
  */
 public class Contenu {
 
@@ -35,8 +35,8 @@ public class Contenu {
 	}
 
 	/**
-	 * Cette méthode permet de récupérer les différents paquets dans le répertoire
-	 * local et de récupérer la durée totale cumulée des vidéos
+	 * Cette méthode permet de récupérer les différentes vidéos dans le répertoire
+	 * local et récupère la durée totale cumulée des vidéos
 	 */
 	public void initVideos() {
 
@@ -44,6 +44,7 @@ public class Contenu {
 		videosInfos = objectVideosInfo.getVideosInfos();
 
 		totalDurationOfVideo = objectVideosInfo.getTotalDurationOfVideos();
+
 		initDiffusion();
 	}
 
@@ -51,14 +52,14 @@ public class Contenu {
 	 * Cette méthode permet d'initialiser le temps auquel débute la vidéo en
 	 * fonction de l'heure de réveil définie dans les propriétés du client
 	 * 
-	 * @return la temps relatif cumulé en secondes auquel doit débuter la diffusion
+	 * @return le temps relatif cumulé en secondes auquel doit débuter la diffusion
 	 */
 	public int repereForDiffusion() {
 
 		int currently = (LocalDateTime.now().getHour() * 3600) + (LocalDateTime.now().getMinute() * 60)
 				+ LocalDateTime.now().getSecond();
 
-		String[] times = ClientPropreties.getPropertie("heureDeReveil").split(":");
+		String[] times = ClientPropreties.getPropretie("wakingHour").split(":");
 
 		int base = (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
 
@@ -71,12 +72,12 @@ public class Contenu {
 	 * Cette méthode permet de récupérer le numéro de la vidéo en lecture ainsi que
 	 * la valeur en secondes à laquelle sa diffusion a débuté
 	 * 
-	 * @param videosMap
-	 * @param start
-	 * @param fromContenu
+	 * @param videosMap   : la Map d'un objet " objectVideosInfo "
+	 * @param start       : le temps relatif cumulé depuis l'heure de réveil
+	 * @param fromContenu : vaut true si la méthode est appelé depuis Contenu
 	 * 
 	 * @return un tableau de 2 valeurs : la 1ère est le numéro de la vidéo en
-	 *         lecture, le 2nd est le temps en secondes auquel débute sa diffusion
+	 *         lecture, l'autre est le temps en secondes auquel débute sa diffusion
 	 */
 	public int[] getInfosCurrentVideo(Map<Integer, Video> videosMap, int start, boolean fromContenu) {
 
@@ -109,9 +110,8 @@ public class Contenu {
 
 		if (diffusionStart < 0) {
 			diffusionStart = repereForDiffusion();
-		} else {
+		} else
 			diffusionStart = 0;
-		}
 
 		timelineIterator = videosInfos.keySet().iterator();
 
@@ -123,13 +123,14 @@ public class Contenu {
 	/**
 	 * Cette méthode gère la lecture des vidéos les unes après les autres
 	 * 
-	 * @param nextVideo
+	 * @param nextVideo : la vidéo à diffuser
+	 * @param begin     : le temps de la vidéo auquel sa diffusion doit débuter
 	 */
 	private void customPlay(Video nextVideo, int begin) {
-		System.out.println(">>> VideoPlaying : " + nextVideo.toString() + " Begin : " + begin);
+
 		processPlayer = videoPlayer.play(nextVideo.getPath(), begin);
 		try {
-			processPlayer.waitFor();
+			processPlayer.waitFor(((nextVideo.getDuration() - begin) * 1000) - 500, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -153,11 +154,19 @@ public class Contenu {
 
 	}
 
+	/**
+	 * Cette méthode stop la diffusion à l'écran
+	 */
 	public void stopDiffusion() {
 		diffusionStart = -1;
 		videoPlayer.stopPlayerProcess();
 	}
 
+	/**
+	 * Cette méthode renvoie la durée totale cumulée des videos du répertoire locale
+	 * 
+	 * @return : le temps cumulé en secondes
+	 */
 	public int getTotalDurationOfVideo() {
 		return totalDurationOfVideo;
 	}
