@@ -86,7 +86,7 @@ public class DatabaseLoader {
 	 * informations stockées dans la base de données. A noter que l'on met à jour
 	 * l'IP locale stockée dans la base de données à chaque appel de cette méthode
 	 */
-	public static void setPropertiesFromDatabase() {
+	public static void setPropretiesFromDatabase() {
 
 		dbConnection();
 

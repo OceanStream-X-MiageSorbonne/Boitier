@@ -21,7 +21,7 @@ public class App {
 		// informations qui sont sur la base de données
 		SystemPropreties.initPropreties();
 		ClientPropreties.initPropreties();
-		DatabaseLoader.setPropertiesFromDatabase();
+		DatabaseLoader.setPropretiesFromDatabase();
 
 		// -----------------------------------------------------------------------------------
 

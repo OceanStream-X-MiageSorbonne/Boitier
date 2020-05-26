@@ -84,7 +84,7 @@ public class Download {
 		@Override
 		public void run() {
 
-			DatabaseLoader.setPropertiesFromDatabase();
+			DatabaseLoader.setPropretiesFromDatabase();
 
 			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
 			videosInfos = objectVideosInfo.getVideosInfos();
