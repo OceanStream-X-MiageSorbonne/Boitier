@@ -59,7 +59,7 @@ public class Contenu {
 		int currently = (LocalDateTime.now().getHour() * 3600) + (LocalDateTime.now().getMinute() * 60)
 				+ LocalDateTime.now().getSecond();
 
-		String[] times = ClientPropreties.getPropertie("wakingHour").split(":");
+		String[] times = ClientPropreties.getPropretie("wakingHour").split(":");
 
 		int base = (Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60) + Integer.parseInt(times[2]);
 

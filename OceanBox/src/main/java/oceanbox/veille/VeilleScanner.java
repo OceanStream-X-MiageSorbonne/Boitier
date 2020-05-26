@@ -20,7 +20,7 @@ public class VeilleScanner implements Veille {
 		this.contenu = c;
 		this.sleepMode = false;
 		Thread VeilleScannerThread = new Thread(() -> {
-			if (ClientPropreties.getPropertie("activateStandby").equals("1"))
+			if (ClientPropreties.getPropretie("activateStandby").equals("1"))
 				initVeille();
 			Scanner sc = new Scanner(System.in);
 			String entry = "";
@@ -47,7 +47,7 @@ public class VeilleScanner implements Veille {
 
 	@Override
 	public void update() {
-		if (!sleepMode && ClientPropreties.getPropertie("activateStandby").equals("1")) {
+		if (!sleepMode && ClientPropreties.getPropretie("activateStandby").equals("1")) {
 			pushVeille();
 		} else {
 			goOutVeille();
@@ -56,7 +56,7 @@ public class VeilleScanner implements Veille {
 
 	@Override
 	public void goOutVeille() {
-		if (ClientPropreties.getPropertie("activateStandby").equals("1"))
+		if (ClientPropreties.getPropretie("activateStandby").equals("1"))
 			initVeille();
 		sleepMode = false;
 	}
@@ -74,7 +74,7 @@ public class VeilleScanner implements Veille {
 	}
 
 	private long initMiliSecondsBeforeClose() {
-		String[] times = ClientPropreties.getPropertie("timeBeforeStandby").split(":");
+		String[] times = ClientPropreties.getPropretie("timeBeforeStandby").split(":");
 		return 1000 * ((Integer.parseInt(times[0]) * 3600) + (Integer.parseInt(times[1]) * 60)
 				+ Integer.parseInt(times[2]));
 	}

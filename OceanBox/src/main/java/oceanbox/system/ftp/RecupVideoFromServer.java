@@ -55,10 +55,10 @@ public class RecupVideoFromServer {
 	 */
 	private void ftpConnection() {
 
-		String host = SystemPropreties.getPropertie("ftpIP");
-		String login = SystemPropreties.getPropertie("ftpUser");
-		String mdp = SystemPropreties.getPropertie("ftpPasswd");
-		String port = SystemPropreties.getPropertie("ftpPort");
+		String host = SystemPropreties.getPropretie("ftpIP");
+		String login = SystemPropreties.getPropretie("ftpUser");
+		String mdp = SystemPropreties.getPropretie("ftpPasswd");
+		String port = SystemPropreties.getPropretie("ftpPort");
 
 		ftpsClient = new FTPSClient();
 
@@ -69,7 +69,7 @@ public class RecupVideoFromServer {
 			ftpsClient.execPROT("P");
 			// LOGGER.info("FTP Connection OK");
 			ftpsClient.addProtocolCommandListener(new PrintCommandListener(
-					new PrintWriter(new FileOutputStream(SystemPropreties.getPropertie("relativeLogPath")))));
+					new PrintWriter(new FileOutputStream(SystemPropreties.getPropretie("relativeLogPath")))));
 			ftpsClient.enterLocalPassiveMode();
 			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
 		} catch (IOException e) {
@@ -176,8 +176,8 @@ public class RecupVideoFromServer {
 	 * vidéos du jour suivant
 	 */
 	private void setVideoRegex() {
-		cheminDistant = SystemPropreties.getPropertie("ftpVideoPath");
-		cheminLocal = SystemPropreties.getPropertie("videoPath");
+		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
+		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
 		prefixeNomVideo = "19-4-2020_";
 
