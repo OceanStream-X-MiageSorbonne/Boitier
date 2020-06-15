@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-06-15T09:09:03.104296Z</date>
+  <millis>1592212143104</millis>
+  <nanos>296000</nanos>
+  <sequence>0</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.FileLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Driver Loaded Successfully</message>
+</record>
+<record>
+  <date>2020-06-15T09:09:03.111878Z</date>
+  <millis>1592212143111</millis>
+  <nanos>878000</nanos>
+  <sequence>1</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.FileLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connecting to a selected database...</message>
+</record>
+<record>
+  <date>2020-06-15T09:09:03.669248Z</date>
+  <millis>1592212143669</millis>
+  <nanos>248000</nanos>
+  <sequence>2</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.FileLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connected database successfully...</message>
+</record>
+<record>
+  <date>2020-06-15T09:09:03.921579Z</date>
+  <millis>1592212143921</millis>
+  <nanos>579000</nanos>
+  <sequence>3</sequence>
+  <logger>DB Logger</logger>
+  <level>SEVERE</level>
+  <class>oceanbox.utils.FileLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>java.sql.SQLException: Column 'DbLogPath' not found.</message>
+</record>
+<record>
+  <date>2020-06-15T09:09:04.238737Z</date>
+  <millis>1592212144238</millis>
+  <nanos>737000</nanos>
+  <sequence>4</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.FileLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Driver Loaded Successfully</message>
+</record>
+<record>
+  <date>2020-06-15T09:09:04.239162Z</date>
+  <millis>1592212144239</millis>
+  <nanos>162000</nanos>
+  <sequence>5</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.FileLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connecting to a selected database...</message>
+</record>
+<record>
+  <date>2020-06-15T09:09:04.483876Z</date>
+  <millis>1592212144483</millis>
+  <nanos>876000</nanos>
+  <sequence>6</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.FileLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connected database successfully...</message>
+</record>
+</log>

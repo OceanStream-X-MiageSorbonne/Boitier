@@ -26,8 +26,9 @@ public class App {
 		// -----------------------------------------------------------------------------------
 
 		// Modifiez la ligne ci-dessous pour aller chercher les videos au bon endroit
-		SystemPropreties.setPropretie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+		//SystemPropreties.setPropretie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 		// SystemPropreties.setPropretie("videoPath", "/Users/daekc/Desktop/video/");
+		SystemPropreties.setPropretie("videoPath", "/home/mathieuridet/Videos/OceanBox/");
 
 		// Le vrai chemin vers les vidéos sur raspberry est celui ci-dessous
 		// SystemPropreties.setPropretie("videoPath", "/home/pi/OceanBox/video/");

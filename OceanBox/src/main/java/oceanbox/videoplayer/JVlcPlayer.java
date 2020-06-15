@@ -22,7 +22,8 @@ public class JVlcPlayer implements VideoPlayer {
 	public Process play(String videoPath, int time) {
 
 		// Ici il faut mettre le chemin absolu vers VLC
-		cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
+		//cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
+		cmd = "/usr/bin/vlc";	
 		cmd += " --start-time=" + time + " ";
 		cmd += videoPath + " -f";
 

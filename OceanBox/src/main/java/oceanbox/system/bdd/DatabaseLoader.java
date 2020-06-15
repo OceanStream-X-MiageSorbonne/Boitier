@@ -1,21 +1,17 @@
 package oceanbox.system.bdd;
 
 import java.io.IOException;
-
 import java.net.InetAddress;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
+import oceanbox.utils.FileLogger;
 
 /**
  * Cette classe récupère les informations dans la base de données et les écrit
@@ -23,6 +19,9 @@ import oceanbox.propreties.SystemPropreties;
  */
 public class DatabaseLoader {
 
+	// File logger
+	static final FileLogger logger = new FileLogger(SystemPropreties.getPropretie("DbLogPath"), "DB Logger");
+	
 	// JDBC driver's name
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
@@ -44,19 +43,18 @@ public class DatabaseLoader {
 
 			try {
 				Class.forName(JDBC_DRIVER);
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Loaded Successfully");
-
+				logger.log(Level.INFO, "Driver Loaded Successfully");
 			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Failed To Load");
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, ex.getMessage());
+				logger.log(Level.INFO, "Driver Failed To Load");
+				logger.log(Level.INFO, ex.getMessage());
 			}
 
 			// Open a connection
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connecting to a selected database...");
+			logger.log(Level.INFO, "Connecting to a selected database...");
 
 			conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/oceandatabase", USER, PASS);
 
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connected database successfully...");
+			logger.log(Level.INFO, "Connected database successfully...");
 
 		} catch (SQLException se) {
 			// Handle errors for JDBC
@@ -77,7 +75,7 @@ public class DatabaseLoader {
 			conn.close();
 
 		} catch (SQLException ex) {
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+			logger.log(Level.SEVERE, ex.toString());
 		}
 	}
 
@@ -130,11 +128,11 @@ public class DatabaseLoader {
 				ClientPropreties.setPropretie("timeBeforeStandby", resultat.getString("timeBeforeStandby"));
 
 				SystemPropreties.setPropretie("videoPath", resultat.getString("videoPath"));
-				SystemPropreties.setPropretie("relativeLogPath", resultat.getString("relativeLogPath"));
+				SystemPropreties.setPropretie("DbLogPath", resultat.getString("DbLogPath"));
 			}
 
 		} catch (SQLException | IOException ex) {
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+			logger.log(Level.SEVERE, ex.toString());
 		}
 
 		dbDeconnexion();
@@ -159,7 +157,7 @@ public class DatabaseLoader {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException ex) {
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+			logger.log(Level.INFO, ex.toString());
 		}
 
 		dbDeconnexion();

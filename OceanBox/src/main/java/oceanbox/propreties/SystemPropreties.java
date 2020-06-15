@@ -50,7 +50,8 @@ public class SystemPropreties {
 		defaultProperties.put("videoPath", "/home/pi/OceanBox/video/");
 
 		// Log settings
-		defaultProperties.put("relativeLogPath", "allAboutFtp.log");
+		defaultProperties.put("FtpLogPath", "ftpLogFile.log");
+		defaultProperties.put("DbLogPath", "dbLogFile.txt");
 
 	}
 

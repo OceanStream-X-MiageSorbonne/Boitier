@@ -34,8 +34,9 @@ public class Video {
 		// '\'' + " " + this.path;
 
 		// Sinon ici il faut mettre le chemin absolu vers mediainfo
-		String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " "
-				+ this.path;
+		//String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " "
+		String cmd = "/usr/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " "
+			+ this.path;
 
 		ProcessBuilder processbuild = new ProcessBuilder("sh", "-c", cmd);
 		long durationInMillisec = 0;

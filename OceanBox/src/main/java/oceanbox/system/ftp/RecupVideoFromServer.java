@@ -69,7 +69,7 @@ public class RecupVideoFromServer {
 			ftpsClient.execPROT("P");
 			// LOGGER.info("FTP Connection OK");
 			ftpsClient.addProtocolCommandListener(new PrintCommandListener(
-					new PrintWriter(new FileOutputStream(SystemPropreties.getPropretie("relativeLogPath")))));
+					new PrintWriter(new FileOutputStream(SystemPropreties.getPropretie("FtpLogPath")))));
 			ftpsClient.enterLocalPassiveMode();
 			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
 		} catch (IOException e) {

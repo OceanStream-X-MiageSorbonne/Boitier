@@ -127,14 +127,13 @@ public class Contenu {
 	 * @param begin     : le temps de la vidéo auquel sa diffusion doit débuter
 	 */
 	private void customPlay(Video nextVideo, int begin) {
-
 		processPlayer = videoPlayer.play(nextVideo.getPath(), begin);
 		try {
 			processPlayer.waitFor(((nextVideo.getDuration() - begin) * 1000) - 500, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+		
 		if (!veille.isSleepMode()) {
 			if (timelineIterator.hasNext())
 				customPlay(videosInfos.get(timelineIterator.next()), 0);
