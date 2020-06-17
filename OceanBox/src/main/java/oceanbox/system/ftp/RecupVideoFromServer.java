@@ -5,18 +5,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.apache.commons.net.PrintCommandListener;
+import java.util.logging.Level;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
-
-//import org.apache.log4j.Logger;
 import oceanbox.propreties.SystemPropreties;
+import oceanbox.utils.loggers.RemoteLogger;
 
 /**
  * Cette classe permet de lancer les téléchargements des vidéos qui sont sur un
@@ -24,8 +20,18 @@ import oceanbox.propreties.SystemPropreties;
  */
 public class RecupVideoFromServer {
 
-	// private final static Logger LOGGER =
-	// Logger.getLogger(RecupVideoFromServer.class.getName());;
+	/**
+	 * CONSTANTES
+	 */
+	private static final String FTP_IP = SystemPropreties.getPropretie("ftpIP");
+	private static final String FTP_USER = SystemPropreties.getPropretie("ftpUser");
+	private static final String FTP_PWD = SystemPropreties.getPropretie("ftpPasswd");
+	private static final int FTP_PORT = Integer.parseInt(SystemPropreties.getPropretie("ftpPort"));
+	
+	/**
+	 * VARIABLES
+	 */
+	private RemoteLogger logger = new RemoteLogger("ftpLogger", SystemPropreties.getPropretie("ftpLogFileName"));
 	private FTPSClient ftpsClient;
 	private Set<Integer> videosFiles;
 	private String cheminDistant;
@@ -34,18 +40,6 @@ public class RecupVideoFromServer {
 	private String cheminLocal;
 
 	public RecupVideoFromServer() {
-
-		// TODO : Initialisation du Logger
-//		Appender fh = null;
-//		try {
-//			fh = new FileAppender(new SimpleLayout(), SystemPropreties.getPropertie("relativeLogPath"));
-//			LOGGER.addAppender(fh);
-//			fh.setLayout(new SimpleLayout());
-//		} catch (SecurityException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		setVideoRegex();
 		setVideosFiles();
 	}
@@ -54,27 +48,22 @@ public class RecupVideoFromServer {
 	 * Cette méthode permet de se connecter au serveur FTP
 	 */
 	private void ftpConnection() {
-
-		String host = SystemPropreties.getPropretie("ftpIP");
-		String login = SystemPropreties.getPropretie("ftpUser");
-		String mdp = SystemPropreties.getPropretie("ftpPasswd");
-		String port = SystemPropreties.getPropretie("ftpPort");
-
 		ftpsClient = new FTPSClient();
 
 		try {
-			ftpsClient.connect(host, Integer.valueOf(port));
-			ftpsClient.login(login, mdp);
+			ftpsClient.connect(FTP_IP, FTP_PORT);
+			ftpsClient.login(FTP_USER, FTP_PWD);
 			ftpsClient.execPBSZ(0);
 			ftpsClient.execPROT("P");
-			// LOGGER.info("FTP Connection OK");
+			logger.log(Level.INFO, "FTP Connection OK");
+			/*
 			ftpsClient.addProtocolCommandListener(new PrintCommandListener(
 					new PrintWriter(new FileOutputStream(SystemPropreties.getPropretie("FtpLogPath")))));
+			*/
 			ftpsClient.enterLocalPassiveMode();
 			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
 		} catch (IOException e) {
-			// LOGGER.error("FTP Connection KO");
-			System.out.println(e.getMessage());
+			logger.log(Level.SEVERE, "FTP Connection KO");
 			e.printStackTrace();
 		}
 	}
@@ -83,13 +72,15 @@ public class RecupVideoFromServer {
 	 * Cette méthode permet de se déconnecter du serveur FTP
 	 */
 	private void ftpDeconnection() {
-
+		// Avant de fermer la connexion au serveur, on va upload le fichier log ftp
+		logger.uploadLogFileOnServer(ftpsClient);
+		
 		try {
 			ftpsClient.logout();
 			ftpsClient.disconnect();
-			// LOGGER.info("FTP Déconnexion OK");
+			logger.log(Level.INFO, "FTP Déconnexion OK");
 		} catch (IOException e) {
-			// LOGGER.error("FTP Déconnexion KO");
+			logger.log(Level.SEVERE, "FTP Déconnexion KO");
 			e.printStackTrace();
 		}
 	}
@@ -111,9 +102,11 @@ public class RecupVideoFromServer {
 
 			OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(fichierlocal, false));
 
-//			LOGGER.info(" *** Début du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			System.out.println(" *** Début du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			logger.log(Level.INFO, " *** Début du téléchargement du fichier : " + nomVideoVoulu + " ***");
 			ftpsClient.retrieveFile(cheminDistant + nomVideoVoulu, outputStream);
-//			LOGGER.info(" *** Fin du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			logger.log(Level.INFO, " *** Fin du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			System.out.println(" *** Fin du téléchargement du fichier : " + nomVideoVoulu + " ***");
 
 			// Téléchargement du paquet terminé, on ferme les flux
 			outputStream.close();
@@ -142,7 +135,6 @@ public class RecupVideoFromServer {
 	 * @param numVideo : le numéro de la vidéo à supprimer
 	 */
 	public void deleteLocalOldFile(int numVideo) {
-
 		// Suppression de l'ancien paquet en local
 		for (String nomVideo : new File(cheminLocal).list()) {
 			if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
@@ -155,9 +147,7 @@ public class RecupVideoFromServer {
 	 * télécharger sur le serveur
 	 */
 	private void setVideosFiles() {
-
 		ftpConnection();
-
 		videosFiles = new TreeSet<Integer>();
 		try {
 			for (FTPFile paquet : ftpsClient.listFiles(cheminDistant)) {

@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
-import oceanbox.utils.FileLogger;
+import oceanbox.utils.loggers.LocalLogger;
 
 /**
  * Cette classe récupère les informations dans la base de données et les écrit
@@ -19,8 +19,10 @@ import oceanbox.utils.FileLogger;
  */
 public class DatabaseLoader {
 
+	private static final String DB_LOG_FILE_NAME = "dbLogFileName";
+	
 	// File logger
-	static final FileLogger logger = new FileLogger(SystemPropreties.getPropretie("DbLogPath"), "DB Logger");
+	static final LocalLogger logger = new LocalLogger("DB Logger", SystemPropreties.getPropretie(DB_LOG_FILE_NAME));
 	
 	// JDBC driver's name
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -38,7 +40,6 @@ public class DatabaseLoader {
 	 * Cette méthode permet de se connecter à la base de données
 	 */
 	private static void dbConnection() {
-
 		try {
 
 			try {
@@ -128,7 +129,9 @@ public class DatabaseLoader {
 				ClientPropreties.setPropretie("timeBeforeStandby", resultat.getString("timeBeforeStandby"));
 
 				SystemPropreties.setPropretie("videoPath", resultat.getString("videoPath"));
-				SystemPropreties.setPropretie("DbLogPath", resultat.getString("DbLogPath"));
+				SystemPropreties.setPropretie(DB_LOG_FILE_NAME, resultat.getString(DB_LOG_FILE_NAME));
+				//SystemPropreties.setPropretie("localLogPath", resultat.getString("localLogPath"));
+				//SystemPropreties.setPropretie("remoteLogPath", resultat.getString("remoteLogPath"));
 			}
 
 		} catch (SQLException | IOException ex) {
