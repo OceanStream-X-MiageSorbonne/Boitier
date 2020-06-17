@@ -2,6 +2,8 @@ package oceanbox.videoplayer;
 
 import java.io.IOException;
 
+import oceanbox.propreties.SystemPropreties;
+
 /**
  * Cette classe est une implémentation de VideoPlayer pour VLC
  */
@@ -23,7 +25,7 @@ public class JVlcPlayer implements VideoPlayer {
 
 		// Ici il faut mettre le chemin absolu vers VLC
 		//cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
-		cmd = "/usr/bin/vlc";	
+		cmd = SystemPropreties.getPropretie("VlcCmd");	
 		cmd += " --start-time=" + time + " ";
 		cmd += videoPath + " -f";
 

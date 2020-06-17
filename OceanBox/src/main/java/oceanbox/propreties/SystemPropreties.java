@@ -52,6 +52,10 @@ public class SystemPropreties {
 		// Log settings
 		defaultProperties.put("FtpLogPath", "ftpLogFile.log");
 		defaultProperties.put("DbLogPath", "dbLogFile.txt");
+		
+		//CMDs
+		defaultProperties.put("MediaInfoCMD", "/usr/bin/mediainfo");
+		defaultProperties.put("VlcCMD", "/usr/bin/vlc");
 
 	}
 

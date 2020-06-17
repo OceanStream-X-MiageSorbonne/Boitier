@@ -13,3 +13,5 @@ ftpIP=37.187.107.122
 ftpPort=21
 DbLogPath=dbLogFile.txt
 dbPassword=OceanBox2020
+MediaInfoCMD=/usr/bin/mediainfo
+VlcCMD=/usr/bin/vlc

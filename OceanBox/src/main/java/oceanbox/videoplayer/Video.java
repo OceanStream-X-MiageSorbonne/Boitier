@@ -16,41 +16,13 @@ public class Video {
 	private String extension;
 	private int numero;
 	private String date;
+	private MediaInfo mediaInfo;
 
 	public Video(String path) {
 		this.path = path;
+		mediaInfo = new MediaInfo();
 		initNameAttribute();
-		initVideoDuration();
-	}
-
-	/**
-	 * Cette méthode récupère la durée de la vidéo grâce au programme " mediainfo "
-	 * et l'affecte à l'attribut de classe correspondant
-	 */
-	public void initVideoDuration() {
-
-		// Pour l'application en .jar il ne faut pas mettre le chemin absolu
-		// String cmd = "mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" +
-		// '\'' + " " + this.path;
-
-		// Sinon ici il faut mettre le chemin absolu vers mediainfo
-		//String cmd = "/usr/local/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " "
-		String cmd = "/usr/bin/mediainfo --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " "
-			+ this.path;
-
-		ProcessBuilder processbuild = new ProcessBuilder("sh", "-c", cmd);
-		long durationInMillisec = 0;
-		try {
-			Process p = processbuild.start();
-			p.waitFor();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			durationInMillisec = Long.parseLong(reader.readLine());
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		int durationInSec = (int) (durationInMillisec / 1000);
-		this.duration = durationInSec;
+		this.duration = mediaInfo.getDuration(this.path);
 	}
 
 	/**
