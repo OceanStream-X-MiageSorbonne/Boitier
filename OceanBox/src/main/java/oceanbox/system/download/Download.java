@@ -39,7 +39,9 @@ public class Download {
 	 */
 	public void initDownload() {
 		timeToDownload = new Timer();
-		timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
+		//timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
+		timeToDownload.schedule(new DownloadTask(), Date.from(LocalDateTime.now().plusSeconds(30).atZone(ZoneId.systemDefault()).toInstant()));
+
 	}
 
 	/**
@@ -104,6 +106,7 @@ public class Download {
 						}
 
 				serverStuff.ftpDownloadFile(i);
+				
 				System.out.println(i);
 			}
 

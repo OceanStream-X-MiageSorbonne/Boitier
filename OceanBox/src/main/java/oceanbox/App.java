@@ -16,7 +16,7 @@ import oceanbox.system.download.Download;
 public class App {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-
+		
 		// On initialise les fichiers de propriétés puis on les complète avec les
 		// informations qui sont sur la base de données
 		SystemPropreties.initPropreties();

@@ -7,9 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import oceanbox.utils.ConstructLogFileName;
 
 /**
  * Cette classe gère les informations relatives à la configuration personnalisée
@@ -56,6 +59,13 @@ public class SystemPropreties {
 		//CMDs
 		defaultProperties.put("MediaInfoCMD", "/usr/bin/mediainfo");
 		defaultProperties.put("VlcCMD", "/usr/bin/vlc");
+		
+		defaultProperties.put("remoteLogPath", "/logs/");
+		//defaultProperties.put("localLogPath", "/OceanBox/src/main/resources/properties/");
+		defaultProperties.put("localLogPath", "");
+		defaultProperties.put("ftpLogFileName", ConstructLogFileName.getFtpLogFileName("logFtpRasp"));
+		defaultProperties.put("dbLogFileName", ConstructLogFileName.getDbLogFileName("dbLogFile"));
+
 
 	}
 
