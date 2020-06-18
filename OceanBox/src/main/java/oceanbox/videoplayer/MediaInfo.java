@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import oceanbox.propreties.SystemPropreties;
 
 public class MediaInfo {
+	
 	private String mediaInfoCmd;
 
 	public MediaInfo() {
