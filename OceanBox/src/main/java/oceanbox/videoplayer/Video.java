@@ -1,9 +1,5 @@
 package oceanbox.videoplayer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 /**
  * Cette classe représente une vidéo en objet Java pour pouvoir appeler
  * certaines méthodes dessus

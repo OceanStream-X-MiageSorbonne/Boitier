@@ -25,7 +25,7 @@ public class RecupVideoFromServer {
 	 */
 	private static final String FTP_IP = SystemPropreties.getPropretie("ftpIP");
 	private static final String FTP_USER = SystemPropreties.getPropretie("ftpUser");
-	private static final String FTP_PWD = SystemPropreties.getPropretie("ftpPasswd");
+	private static final String FTP_PWD = SystemPropreties.getPropretie("ftpPassword");
 	private static final int FTP_PORT = Integer.parseInt(SystemPropreties.getPropretie("ftpPort"));
 	
 	/**
@@ -73,7 +73,8 @@ public class RecupVideoFromServer {
 	 */
 	private void ftpDeconnection() {
 		// Avant de fermer la connexion au serveur, on va upload le fichier log ftp
-		logger.uploadLogFileOnServer(ftpsClient);
+		// A revoir car ça fait planter le téléchargement après une vidéo
+		// logger.uploadLogFileOnServer(ftpsClient);
 		
 		try {
 			ftpsClient.logout();
@@ -95,9 +96,11 @@ public class RecupVideoFromServer {
 		if (!ftpsClient.isConnected()) {
 			ftpConnection();
 		}
+		
 		String nomVideoVoulu = prefixeNomVideo + numVideo + suffixeNomVideo;
 		try {
 			File fichierlocal = new File(cheminLocal + nomVideoVoulu);
+			System.out.println(fichierlocal);
 			fichierlocal.createNewFile();
 
 			OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(fichierlocal, false));

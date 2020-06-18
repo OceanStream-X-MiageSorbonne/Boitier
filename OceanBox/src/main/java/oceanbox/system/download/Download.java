@@ -40,7 +40,7 @@ public class Download {
 	public void initDownload() {
 		timeToDownload = new Timer();
 		//timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
-		timeToDownload.schedule(new DownloadTask(), Date.from(LocalDateTime.now().plusSeconds(30).atZone(ZoneId.systemDefault()).toInstant()));
+		timeToDownload.schedule(new DownloadTask(), Date.from(LocalDateTime.now().plusSeconds(10).atZone(ZoneId.systemDefault()).toInstant()));
 
 	}
 
@@ -49,6 +49,7 @@ public class Download {
 	 * 
 	 * @return : la Date du prochain téléchargement
 	 */
+	@SuppressWarnings("unused") // pour le dev --> à remettre pour la mise en prod
 	private Date initTimeBeforeDownload() {
 
 		objectVideosInfo = new VideosInfos();
@@ -85,8 +86,11 @@ public class Download {
 
 		@Override
 		public void run() {
-
-			DatabaseLoader.setPropretiesFromDatabase();
+			
+			objectVideosInfo = new VideosInfos();
+			
+			// Enlever ce commentaire une fois en prod
+			// DatabaseLoader.setPropretiesFromDatabase();
 
 			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
 			videosInfos = objectVideosInfo.getVideosInfos();

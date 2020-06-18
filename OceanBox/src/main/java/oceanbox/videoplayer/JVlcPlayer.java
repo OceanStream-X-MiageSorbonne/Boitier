@@ -25,10 +25,11 @@ public class JVlcPlayer implements VideoPlayer {
 
 		// Ici il faut mettre le chemin absolu vers VLC
 		//cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
-		cmd = SystemPropreties.getPropretie("VlcCmd");	
+		cmd = SystemPropreties.getPropretie("VlcCMD");	
 		cmd += " --start-time=" + time + " ";
 		cmd += videoPath + " -f";
 
+		System.out.println(cmd);
 		// Pour Windows il faut mettre "CMD", sinon il faut mettre "sh"
 		// ProcessBuilder playerBuilder = new ProcessBuilder("CMD", "-c", cmd);
 		ProcessBuilder playerBuilder = new ProcessBuilder("sh", "-c", cmd);

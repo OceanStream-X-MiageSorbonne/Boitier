@@ -2,9 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-06-17T10:03:33.727841Z</date>
-  <millis>1592388213727</millis>
-  <nanos>841000</nanos>
+  <date>2020-06-18T13:10:43</date>
+  <millis>1592478643211</millis>
   <sequence>0</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -14,9 +13,8 @@
   <message>Driver Loaded Successfully</message>
 </record>
 <record>
-  <date>2020-06-17T10:03:33.738409Z</date>
-  <millis>1592388213738</millis>
-  <nanos>409000</nanos>
+  <date>2020-06-18T13:10:43</date>
+  <millis>1592478643223</millis>
   <sequence>1</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -26,9 +24,8 @@
   <message>Connecting to a selected database...</message>
 </record>
 <record>
-  <date>2020-06-17T10:03:34.279272Z</date>
-  <millis>1592388214279</millis>
-  <nanos>272000</nanos>
+  <date>2020-06-18T13:10:43</date>
+  <millis>1592478643599</millis>
   <sequence>2</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -38,9 +35,8 @@
   <message>Connected database successfully...</message>
 </record>
 <record>
-  <date>2020-06-17T10:03:34.576175Z</date>
-  <millis>1592388214576</millis>
-  <nanos>175000</nanos>
+  <date>2020-06-18T13:10:43</date>
+  <millis>1592478643773</millis>
   <sequence>3</sequence>
   <logger>DB Logger</logger>
   <level>SEVERE</level>
@@ -49,4 +45,3 @@
   <thread>1</thread>
   <message>java.sql.SQLException: Column 'dbLogFileName' not found.</message>
 </record>
-</log>
