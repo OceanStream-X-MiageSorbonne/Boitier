@@ -16,17 +16,6 @@ import oceanbox.propreties.SystemPropreties;
  */
 public class RemoteLogger {
 
-	/**
-	 * CONSTANTES
-	 */
-	private final static String FTP_IP = SystemPropreties.getPropretie("ftpIP");
-	private final static String FTP_USER = SystemPropreties.getPropretie("ftpUser");
-	private final static String FTP_PWD = SystemPropreties.getPropretie("ftpPasswd");
-	private final static int FTP_PORT = Integer.valueOf(SystemPropreties.getPropretie("ftpPort"));
-
-	/**
-	 * VARIABLES
-	 */
 	private static LocalLogger logger;
 	private FileInputStream fis;
 	private String localFileName, remoteFileName;

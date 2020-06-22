@@ -71,11 +71,7 @@ public class RecupVideoFromServer {
 	/**
 	 * Cette méthode permet de se déconnecter du serveur FTP
 	 */
-	private void ftpDeconnection() {
-		// Avant de fermer la connexion au serveur, on va upload le fichier log ftp
-		// A revoir car ça fait planter le téléchargement après une vidéo
-		// logger.uploadLogFileOnServer(ftpsClient);
-		
+	private void ftpDeconnection() {		
 		try {
 			ftpsClient.logout();
 			ftpsClient.disconnect();
@@ -188,5 +184,13 @@ public class RecupVideoFromServer {
 	 */
 	public Set<Integer> getVideosFiles() {
 		return videosFiles;
+	}
+	
+	public RemoteLogger getLogger() {
+		return logger;
+	}
+	
+	public FTPSClient getFtpsClient() {
+		return ftpsClient;
 	}
 }

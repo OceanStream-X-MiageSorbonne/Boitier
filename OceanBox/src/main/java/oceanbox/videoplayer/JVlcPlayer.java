@@ -29,7 +29,7 @@ public class JVlcPlayer implements VideoPlayer {
 		cmd += " --start-time=" + time + " ";
 		cmd += videoPath + " -f";
 
-		System.out.println(cmd);
+		//System.out.println(cmd);
 		// Pour Windows il faut mettre "CMD", sinon il faut mettre "sh"
 		// ProcessBuilder playerBuilder = new ProcessBuilder("CMD", "-c", cmd);
 		ProcessBuilder playerBuilder = new ProcessBuilder("sh", "-c", cmd);

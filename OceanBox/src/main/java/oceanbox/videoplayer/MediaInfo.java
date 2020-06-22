@@ -17,7 +17,6 @@ public class MediaInfo {
 	public int getDuration(String path) {
 
 		String cmd = mediaInfoCmd + " --Inform=" + '\'' + "Video" + ";" + "%Duration%" + '\'' + " " + path;
-
 		ProcessBuilder processbuild = new ProcessBuilder("sh", "-c", cmd);
 		long durationInMillisec = 0;
 		try {

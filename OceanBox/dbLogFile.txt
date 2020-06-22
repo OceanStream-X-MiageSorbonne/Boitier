@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-06-22T16:42:11.086284Z</date>
+  <millis>1592844131086</millis>
+  <nanos>284000</nanos>
+  <sequence>0</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Driver Loaded Successfully</message>
+</record>
+<record>
+  <date>2020-06-22T16:42:11.103901Z</date>
+  <millis>1592844131103</millis>
+  <nanos>901000</nanos>
+  <sequence>1</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connecting to a selected database...</message>
+</record>
+<record>
+  <date>2020-06-22T16:42:11.854479Z</date>
+  <millis>1592844131854</millis>
+  <nanos>479000</nanos>
+  <sequence>2</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connected database successfully...</message>
+</record>
+<record>
+  <date>2020-06-22T16:42:12.146401Z</date>
+  <millis>1592844132146</millis>
+  <nanos>401000</nanos>
+  <sequence>3</sequence>
+  <logger>DB Logger</logger>
+  <level>SEVERE</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>java.sql.SQLException: Column 'dbLogFileName' not found.</message>
+</record>
+</log>

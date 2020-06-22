@@ -118,6 +118,9 @@ public class Download {
 
 				serverStuff.deleteLocalOldFile(j);
 			}
+			
+			// On upload le fichier log ftp sur le serveur
+			serverStuff.getLogger().uploadLogFileOnServer(serverStuff.getFtpsClient());
 
 			initDownload();
 		}
