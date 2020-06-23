@@ -21,37 +21,45 @@ public class VeilleDMV implements Veille {
 
 	public VeilleDMV(Contenu c) {
 		contenu = c;
-		if (ClientPropreties.getPropretie("activateStandby").equals("1"))
+		this.sleepMode = false;
+		if (ClientPropreties.getPropretie("activateStandby").equals("true")) {
 			initMotionSensorListner();
+		}
+		
+			
 	}
 
 	private void initMotionSensorListner() {
 		initVeille();
-		final GpioController gpio = GpioFactory.getInstance();
-		final GpioPinDigitalInput motionDetector = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02,
-				PinPullResistance.PULL_DOWN);
-		motionDetector.setShutdownOptions(true);
-		motionDetector.addListener(new GpioPinListenerDigital() {
-			@Override
-			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				if (event.getState().equals(PinState.HIGH)) {
-					System.out.println(">>> Motion detected");
-					update();
-				}
-			}
-		});
+		
+		System.out.println("Starting Pi4J Motion Sensor Example");					
+		
+		// create gpio controller			
+		final GpioController gpioSensor = GpioFactory.getInstance(); 
+		final GpioPinDigitalInput sensor = gpioSensor.provisionDigitalInputPin(RaspiPin.GPIO_07, PinPullResistance.PULL_DOWN);			
+		System.out.println(sensor.getPin());
+		// create and register gpio pin listener			
+		sensor.addListener(new GpioPinListenerDigital() {			
+		    @Override		
+		    public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {		 		
+		    	if(event.getState().isHigh()){	
+		            System.out.println(">>> Motion Detected!");
+		            update();
+		        }					
+		    }		
+		});			
 	}
 
 	@Override
 	public void goInVeille() {
+		System.out.println(">>> Into veille");
 		sleepMode = true;
 		contenu.stopDiffusion();
-
 	}
 
 	@Override
 	public void update() {
-		if (!sleepMode && ClientPropreties.getPropretie("activateStandby").equals("1")) {
+		if (!sleepMode && ClientPropreties.getPropretie("activateStandby").equals("true")) {
 			pushVeille();
 		} else {
 			goOutVeille();
@@ -60,19 +68,22 @@ public class VeilleDMV implements Veille {
 
 	@Override
 	public void goOutVeille() {
-		if (ClientPropreties.getPropretie("activateStandby").equals("1"))
+		System.out.println(">>> get out");
+		if (ClientPropreties.getPropretie("activateStandby").equals("true"))
 			initVeille();
 		sleepMode = false;
 	}
 
 	@Override
 	public void pushVeille() {
+		System.out.println(">>> push");
 		timeBeforeVeille.cancel();
 		initVeille();
 	}
 
 	@Override
 	public void initVeille() {
+		System.out.println(">>> Init veille");
 		timeBeforeVeille = new Timer();
 		timeBeforeVeille.schedule(new VeilleTask(), initMiliSecondsBeforeClose());
 	}

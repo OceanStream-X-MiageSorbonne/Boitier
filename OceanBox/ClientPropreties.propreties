@@ -5,5 +5,5 @@ wakingHour=08\:30\:00
 userId=0
 timeBeforeStandby=00\:00\:20
 userName=User Demo
-activateStandby=false
+activateStandby=true
 userType=Test
