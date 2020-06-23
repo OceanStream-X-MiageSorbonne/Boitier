@@ -29,9 +29,13 @@ public class Download {
 	private VideosInfos objectVideosInfo;
 	private Map<Integer, Video> videosInfos;
 	private Contenu contenu;
+	private RecupVideoFromServer serverStuff;
 
 	public Download(Contenu contenu) {
 		this.contenu = contenu;
+		
+		// Création du singleton (à la place de l'instanciation dans la méthode run ci-dessous)
+		//this.serverStuff = RecupVideoFromServer.getInstance();
 	}
 
 	/**
@@ -92,6 +96,7 @@ public class Download {
 			// Enlever ce commentaire une fois en prod
 			// DatabaseLoader.setPropretiesFromDatabase();
 
+			// Remplacer par la création du singleton dans le constructeur
 			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
 			videosInfos = objectVideosInfo.getVideosInfos();
 
