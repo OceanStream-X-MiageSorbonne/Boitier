@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -27,7 +28,7 @@ public class RecupVideoFromServer {
 	private static final String FTP_USER = SystemPropreties.getPropretie("ftpUser");
 	private static final String FTP_PWD = SystemPropreties.getPropretie("ftpPassword");
 	private static final int FTP_PORT = Integer.parseInt(SystemPropreties.getPropretie("ftpPort"));
-	
+
 	/**
 	 * VARIABLES
 	 */
@@ -57,13 +58,15 @@ public class RecupVideoFromServer {
 			ftpsClient.execPROT("P");
 			logger.log(Level.INFO, "FTP Connection OK");
 			/*
-			ftpsClient.addProtocolCommandListener(new PrintCommandListener(
-					new PrintWriter(new FileOutputStream(SystemPropreties.getPropretie("FtpLogPath")))));
-			*/
+			 * ftpsClient.addProtocolCommandListener(new PrintCommandListener( new
+			 * PrintWriter(new
+			 * FileOutputStream(SystemPropreties.getPropretie("FtpLogPath")))));
+			 */
+			// Peut-être commenter ces 2 lignes /!\
 			ftpsClient.enterLocalPassiveMode();
 			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "FTP Connection KO");
+			logger.log(Level.SEVERE, "FTP Connection NOT OK");
 			e.printStackTrace();
 		}
 	}
@@ -71,14 +74,27 @@ public class RecupVideoFromServer {
 	/**
 	 * Cette méthode permet de se déconnecter du serveur FTP
 	 */
-	private void ftpDeconnection() {		
+	private void ftpDeconnection() {
 		try {
 			ftpsClient.logout();
 			ftpsClient.disconnect();
 			logger.log(Level.INFO, "FTP Déconnexion OK");
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "FTP Déconnexion KO");
+			logger.log(Level.SEVERE, "FTP Déconnexion NOT OK");
 			e.printStackTrace();
+		}
+	}
+
+	public void uploadFtpLogFile() {
+		if (!ftpsClient.isConnected()) {
+			ftpConnection();
+		}
+
+		logger.uploadLogFileOnServer(ftpsClient);
+		
+		if (ftpsClient.isConnected()) {
+			// On ferme la connexion FTP
+			ftpDeconnection();
 		}
 	}
 
@@ -92,7 +108,7 @@ public class RecupVideoFromServer {
 		if (!ftpsClient.isConnected()) {
 			ftpConnection();
 		}
-		
+
 		String nomVideoVoulu = prefixeNomVideo + numVideo + suffixeNomVideo;
 		try {
 			File fichierlocal = new File(cheminLocal + nomVideoVoulu);
@@ -115,9 +131,7 @@ public class RecupVideoFromServer {
 			// On ferme la connexion FTP
 			ftpDeconnection();
 
-		} catch (
-
-		IOException e) {
+		} catch (IOException e) {
 			// LOGGER.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
@@ -168,12 +182,10 @@ public class RecupVideoFromServer {
 		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
 		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
-		prefixeNomVideo = "19-4-2020_";
+//		prefixeNomVideo = "19-4-2020_";
 
 		// Le vrai préfixe du nom des prochaines vidéos est celui ci-dessous
-		// prefixeNomVideo = LocalDateTime.now().getDayOfMonth() + "-" +
-		// LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() +
-		// "_";
+		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() + "_";
 	}
 
 	/**
@@ -184,13 +196,5 @@ public class RecupVideoFromServer {
 	 */
 	public Set<Integer> getVideosFiles() {
 		return videosFiles;
-	}
-	
-	public RemoteLogger getLogger() {
-		return logger;
-	}
-	
-	public FTPSClient getFtpsClient() {
-		return ftpsClient;
 	}
 }
