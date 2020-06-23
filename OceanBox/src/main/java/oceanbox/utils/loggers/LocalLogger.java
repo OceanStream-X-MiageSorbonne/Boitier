@@ -1,5 +1,6 @@
 package oceanbox.utils.loggers;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -44,6 +45,13 @@ public class LocalLogger {
 	public void log(Level msgLevel, String msg) {
 		fh.setLevel(msgLevel);
 		logger.log(msgLevel, msg);
+	}
+	
+	public void deleteLocalLogFile(File file) {
+		if (file.delete())
+			logger.log(Level.INFO, "Suppression du fichier local OK");
+		else
+			logger.log(Level.WARNING, "Suppression du fichier local NOT OK");
 	}
 	
 	/**
