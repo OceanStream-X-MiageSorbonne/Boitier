@@ -58,27 +58,31 @@ public class RemoteLogger {
 		try {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
-			logger.log(Level.SEVERE, "Fichier à uploader introuvable");
-			System.out.println("Fichier à uploader introuvable");
+			logger.log(Level.WARNING, "Fichier à uploader introuvable " + localFileName);
+			//System.out.println("Fichier à uploader introuvable");
 			e.printStackTrace();
 		}
 		// Store file on server
-		try {
-			ftpsClient.storeFile(remoteFileName, fis);
-			logger.log(Level.INFO, "Stockage fichier sur serveur OK");
-			System.out.println("Stockage fichier sur serveur OK");
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Stockage fichier sur serveur NOT OK");
-			e.printStackTrace();
-		}
-
-		if (fis != null)
+		if (fis != null) {
 			try {
-				fis.close();
-				ftpsClient.disconnect();
+				ftpsClient.storeFile(remoteFileName, fis);
+				logger.log(Level.INFO, "Stockage fichier sur serveur OK");
+				System.out.println("Stockage fichier sur serveur OK " + remoteFileName);
 			} catch (IOException e) {
+				logger.log(Level.WARNING, "Stockage fichier sur serveur NOT OK");
 				e.printStackTrace();
 			}
+		} else {
+			logger.log(Level.WARNING, "Stockage fichier sur serveur impossible");
+			System.out.println("Stockage fichier sur serveur impossible " + remoteFileName);
+		}
+		
+		try {
+			if (fis != null) fis.close();
+			ftpsClient.disconnect();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		logger.deleteLocalLogFile(file);
 	}

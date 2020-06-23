@@ -25,10 +25,21 @@ public class LocalLogger {
 	 * @param loggerName
 	 */
 	public LocalLogger(String loggerName, String fileName) {
+		File file = new File(fileName);
+		
+		/**
+		 * Si le fichier de log précédent possède le même nom n'a pas été supprimé,
+		 * on le supprime maintenant pour en recréer un nouveau
+		 */
+		if(file.exists()) {
+			System.out.println("DELETEEEE " + fileName);
+			//file.delete();
+		}
+		
 		//System.out.println("******** " + fileName);
 		logger = Logger.getLogger(loggerName);
 		try {
-			fh=new FileHandler(SystemPropreties.getPropretie("localLogPath")+fileName);
+			fh=new FileHandler(SystemPropreties.getPropretie("localLogPath")+fileName, true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -48,10 +59,14 @@ public class LocalLogger {
 	}
 	
 	public void deleteLocalLogFile(File file) {
+		/*
 		if (file.delete())
 			logger.log(Level.INFO, "Suppression du fichier local OK");
 		else
 			logger.log(Level.WARNING, "Suppression du fichier local NOT OK");
+		*/
+		System.out.println("delete commenté pour test");
+		logger.log(Level.INFO, "delete commenté pour test");
 	}
 	
 	/**
