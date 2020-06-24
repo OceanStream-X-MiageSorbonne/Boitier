@@ -66,7 +66,7 @@ public class RemoteLogger {
 		// Store file on server
 		if (fis != null) {
 			try {
-				ftpsClient.storeFile(remoteFileName, fis);
+				System.out.println(ftpsClient.storeFile(remoteFileName, fis));
 				logger.log(Level.INFO, "Stockage fichier sur serveur OK");
 				System.out.println("Stockage fichier sur serveur OK " + remoteFileName);
 			} catch (IOException e) {

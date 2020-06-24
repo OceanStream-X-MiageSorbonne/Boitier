@@ -2,15 +2,57 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-06-24T14:39:52.494162Z</date>
-  <millis>1593009592494</millis>
-  <nanos>162000</nanos>
+  <date>2020-06-24T17:19:24</date>
+  <millis>1593011964242</millis>
   <sequence>4</sequence>
   <logger>ftpLogger</logger>
   <level>INFO</level>
   <class>oceanbox.utils.loggers.LocalLogger</class>
   <method>log</method>
-  <thread>15</thread>
+  <thread>25</thread>
   <message>FTP Connection OK</message>
 </record>
-</log>
+<record>
+  <date>2020-06-24T17:19:33</date>
+  <millis>1593011973544</millis>
+  <sequence>5</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>25</thread>
+  <message> *** Début du téléchargement du fichier : 25-6-2020_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-06-24T17:19:43</date>
+  <millis>1593011983759</millis>
+  <sequence>6</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>25</thread>
+  <message> *** Fin du téléchargement du fichier : 25-6-2020_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-06-24T17:19:43</date>
+  <millis>1593011983784</millis>
+  <sequence>7</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>25</thread>
+  <message>FTP Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-06-24T17:19:44</date>
+  <millis>1593011984244</millis>
+  <sequence>8</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>25</thread>
+  <message>FTP Connection OK</message>
+</record>
