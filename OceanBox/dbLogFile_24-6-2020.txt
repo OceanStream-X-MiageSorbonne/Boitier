@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-06-23T17:22:28.521483Z</date>
-  <millis>1592932948521</millis>
-  <nanos>483000</nanos>
+  <date>2020-06-24T14:39:37.588994Z</date>
+  <millis>1593009577588</millis>
+  <nanos>994000</nanos>
   <sequence>0</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Driver Loaded Successfully</message>
 </record>
 <record>
-  <date>2020-06-23T17:22:28.533068Z</date>
-  <millis>1592932948533</millis>
-  <nanos>68000</nanos>
+  <date>2020-06-24T14:39:37.610763Z</date>
+  <millis>1593009577610</millis>
+  <nanos>763000</nanos>
   <sequence>1</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -26,9 +26,9 @@
   <message>Connecting to a selected database...</message>
 </record>
 <record>
-  <date>2020-06-23T17:22:29.244838Z</date>
-  <millis>1592932949244</millis>
-  <nanos>838000</nanos>
+  <date>2020-06-24T14:39:40.029762Z</date>
+  <millis>1593009580029</millis>
+  <nanos>762000</nanos>
   <sequence>2</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -38,9 +38,9 @@
   <message>Connected database successfully...</message>
 </record>
 <record>
-  <date>2020-06-23T17:22:29.493825Z</date>
-  <millis>1592932949493</millis>
-  <nanos>825000</nanos>
+  <date>2020-06-24T14:39:40.476390Z</date>
+  <millis>1593009580476</millis>
+  <nanos>390000</nanos>
   <sequence>3</sequence>
   <logger>DB Logger</logger>
   <level>SEVERE</level>

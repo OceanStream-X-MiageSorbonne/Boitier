@@ -1,4 +1,4 @@
-#Tue Jun 23 19:22:29 CEST 2020
+#Wed Jun 24 16:39:40 CEST 2020
 MediaInfoCMD=/usr/bin/mediainfo
 oceanBoxNumber=0
 ftpPassword=Stream2020
@@ -8,11 +8,11 @@ ftpUser=ocean_ftp
 VlcCMD=/usr/bin/vlc
 dbPort=3306
 videoPath=/home/mathieuridet/Videos/OceanBox/
-ftpLogFileName=logFtpRasp0_23-6-2020.txt
+ftpLogFileName=logFtpRasp0_24-6-2020.txt
 ftpVideoPath=/default_video/
-remoteLogPath=/
+remoteLogPath=
 dbUser=ocean_bdd
-dbLogFileName=dbLogFile23-6-2020.txt
+dbLogFileName=dbLogFile_24-6-2020.txt
 oceanBoxIP=127.0.1.1
 ftpIP=37.187.107.122
 ftpPort=21
