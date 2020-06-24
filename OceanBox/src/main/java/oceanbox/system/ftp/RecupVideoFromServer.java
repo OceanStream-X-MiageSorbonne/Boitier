@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
+
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 import oceanbox.propreties.SystemPropreties;
@@ -28,7 +30,7 @@ public class RecupVideoFromServer {
 	private static final String FTP_PWD = SystemPropreties.getPropretie("ftpPassword");
 	private static final int FTP_PORT = Integer.parseInt(SystemPropreties.getPropretie("ftpPort"));
 	
-	private RemoteLogger logger = new RemoteLogger("ftpLogger", SystemPropreties.getPropretie("ftpLogFileName"));
+	private RemoteLogger logger;
 	private FTPSClient ftpsClient;
 	private Set<Integer> videosFiles;
 	private String cheminDistant;
@@ -36,17 +38,18 @@ public class RecupVideoFromServer {
 	private String suffixeNomVideo;
 	private String cheminLocal;
 
-	
+	/*
 	public RecupVideoFromServer() {
 		setVideoRegex();
 		setVideosFiles();
 	}
+	*/
 	
 	// ************************* Implémentation du Singleton *************************************
-	/*
 	private static RecupVideoFromServer INSTANCE = null;
 
 	private RecupVideoFromServer() {
+		logger = new RemoteLogger("ftpLogger", SystemPropreties.getPropretie("ftpLogFileName"));
 		setVideoRegex();
 		setVideosFiles();
 	}
@@ -55,7 +58,6 @@ public class RecupVideoFromServer {
 		if(INSTANCE == null) INSTANCE = new RecupVideoFromServer();
 		return INSTANCE;
 	}
-	*/
 	//*************************************************************************************
 	/**
 	 * Cette méthode permet de se connecter au serveur FTP
@@ -66,6 +68,10 @@ public class RecupVideoFromServer {
 		try {
 			ftpsClient.connect(FTP_IP, FTP_PORT);
 			ftpsClient.login(FTP_USER, FTP_PWD);
+			ftpsClient.execPBSZ(0);
+			ftpsClient.execPROT("P");
+			ftpsClient.enterLocalPassiveMode();
+			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
 			logger.log(Level.INFO, "FTP Connection OK");
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "FTP Connection NOT OK");
@@ -185,7 +191,7 @@ public class RecupVideoFromServer {
 		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
 		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
-		prefixeNomVideo = "19-4-2020_";
+		prefixeNomVideo = "25-6-2020_";
 
 		// Le vrai préfixe du nom des prochaines vidéos est celui ci-dessous
 		//prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() + "_";

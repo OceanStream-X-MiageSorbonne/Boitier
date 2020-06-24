@@ -32,6 +32,7 @@ public class RemoteLogger {
 		logger = new LocalLogger(loggerName, fileName);
 		remoteFileName = SystemPropreties.getPropretie("remoteLogPath")
 				+ SystemPropreties.getPropretie("ftpLogFileName");
+		System.out.println("remoteFileName : " + remoteFileName);
 		localFileName = SystemPropreties.getPropretie("localLogPath") + SystemPropreties.getPropretie("ftpLogFileName");
 	}
 
@@ -84,6 +85,6 @@ public class RemoteLogger {
 			e.printStackTrace();
 		}
 
-		logger.deleteLocalLogFile(file);
+		//logger.deleteLocalLogFile(file);
 	}
 }

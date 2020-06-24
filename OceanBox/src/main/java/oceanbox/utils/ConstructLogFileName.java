@@ -18,7 +18,7 @@ public class ConstructLogFileName {
 	
 	public static String getDbLogFileName(String prefixe) {
 		String currentDate = LocalDateTime.now().getDayOfMonth()+"-"+LocalDateTime.now().getMonthValue()+"-"+LocalDateTime.now().getYear();
-		String fileName = prefixe+currentDate+FILE_EXTENSION;
+		String fileName = prefixe+"_"+currentDate+FILE_EXTENSION;
 		return fileName;
 	}
 }
