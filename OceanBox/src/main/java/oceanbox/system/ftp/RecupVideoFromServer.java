@@ -8,8 +8,6 @@ import java.io.OutputStream;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
-
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 import oceanbox.propreties.SystemPropreties;
@@ -20,23 +18,15 @@ import oceanbox.utils.loggers.RemoteLogger;
  * serveur FTP
  */
 public class RecupVideoFromServer {
-
-	/**
-	 * CONSTANTES
-	 */
-	private static final String FTP_IP = SystemPropreties.getPropretie("ftpIP");
-	private static final String FTP_USER = SystemPropreties.getPropretie("ftpUser");
-	private static final String FTP_PWD = SystemPropreties.getPropretie("ftpPassword");
-	private static final int FTP_PORT = Integer.parseInt(SystemPropreties.getPropretie("ftpPort"));
 	
 	private RemoteLogger logger;
-	private FTPSClient ftpsClient;
 	private Set<Integer> videosFiles;
 	private String cheminDistant;
 	private String prefixeNomVideo;
 	private String suffixeNomVideo;
 	private String cheminLocal;
-
+	private static FTPSClient ftpsClient;
+	
 	/*
 	public RecupVideoFromServer() {
 		setVideoRegex();
@@ -58,52 +48,12 @@ public class RecupVideoFromServer {
 		return INSTANCE;
 	}
 	//*************************************************************************************
-	/**
-	 * Cette méthode permet de se connecter au serveur FTP
-	 */
-	private void ftpConnection() {
-		ftpsClient = new FTPSClient();
-
-		try {
-			ftpsClient.connect(FTP_IP, FTP_PORT);
-			ftpsClient.login(FTP_USER, FTP_PWD);
-			ftpsClient.execPBSZ(0);
-			ftpsClient.execPROT("P");
-			ftpsClient.enterLocalPassiveMode();
-			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
-			logger.log(Level.INFO, "FTP Connection OK");
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, "FTP Connection NOT OK");
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Cette méthode permet de se déconnecter du serveur FTP
-	 */
-	private void ftpDeconnection() {
-		try {
-			ftpsClient.logout();
-			ftpsClient.disconnect();
-			logger.log(Level.INFO, "FTP Déconnexion OK");
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, "FTP Déconnexion NOT OK");
-			e.printStackTrace();
-		}
-	}
+	
 
 	public void uploadFtpLogFile() {
-		
-		if (!ftpsClient.isConnected()) {
-			ftpConnection();
-		}
-		
+		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
 		logger.uploadLogFileOnServer(ftpsClient);
-		
-		if (ftpsClient.isConnected()) {
-			// On ferme la connexion FTP
-			ftpDeconnection();
-		}
+		FtpsConnectionHandler.ftpsDeconnection(logger);
 	}
 
 	/**
@@ -111,11 +61,8 @@ public class RecupVideoFromServer {
 	 * 
 	 * @param numVideo : le numéro de la vidéo à télécharger
 	 */
-	public void ftpDownloadFile(int numVideo) {
-
-		if (!ftpsClient.isConnected()) {
-			ftpConnection();
-		}
+	public void ftpsDownloadFile(int numVideo) {
+		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
 
 		String nomVideoVoulu = prefixeNomVideo + numVideo + suffixeNomVideo;
 		try {
@@ -137,15 +84,15 @@ public class RecupVideoFromServer {
 			deleteLocalOldFile(numVideo);
 
 			// On ferme la connexion FTP
-			ftpDeconnection();
-
+			FtpsConnectionHandler.ftpsDeconnection(logger);
+			
 		} catch (IOException e) {
 			// LOGGER.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if (ftpsClient.isConnected()) {
 				// On ferme la connexion FTP
-				ftpDeconnection();
+				FtpsConnectionHandler.ftpsDeconnection(logger);
 			}
 		}
 	}
@@ -168,7 +115,7 @@ public class RecupVideoFromServer {
 	 * télécharger sur le serveur
 	 */
 	private void setVideosFiles() {
-		ftpConnection();
+		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
 		videosFiles = new TreeSet<Integer>();
 		try {
 			for (FTPFile paquet : ftpsClient.listFiles(cheminDistant)) {

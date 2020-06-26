@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
-import org.apache.commons.net.ftp.FTPSClient;
+import org.apache.commons.net.ftp.FTPClient;
 import oceanbox.propreties.SystemPropreties;
 
 /**
@@ -13,11 +13,17 @@ import oceanbox.propreties.SystemPropreties;
  * fichier se situe par défaut sur le serveur au chemin suivant : "/logs/"
  *
  */
-public class RemoteLogger {
+public class RemoteLoggerFTP {
+
+	private static final String FTP_IP = SystemPropreties.getPropretie("ftpIP");
+	private static final String FTP_USER = SystemPropreties.getPropretie("ftpUser");
+	private static final String FTP_PWD = SystemPropreties.getPropretie("ftpPassword");
+	private static final int FTP_PORT = Integer.parseInt(SystemPropreties.getPropretie("ftpPort"));
 	
 	private static LocalLogger logger;
 	private FileInputStream fis;
 	private String localFileName, remoteFileName;
+	private FTPClient ftpClient;
 
 	/**
 	 * On initialise notre logger local pour le compléter au fil des diffusions
@@ -26,7 +32,7 @@ public class RemoteLogger {
 	 * 
 	 * @param loggerName
 	 */
-	public RemoteLogger(String loggerName, String fileName) {
+	public RemoteLoggerFTP(String loggerName, String fileName) {
 		logger = new LocalLogger(loggerName, fileName);
 		remoteFileName = SystemPropreties.getPropretie("remoteLogPath")
 				+ SystemPropreties.getPropretie("ftpLogFileName");
@@ -50,20 +56,9 @@ public class RemoteLogger {
 	 * jours lors du dernier cycle de diffusion avant l'heure de réveil
 	 * préalablement programmée
 	 */
-	public void uploadLogFileOnServer(FTPSClient ftpsClient) {		
-		System.out.println("******************************************");
-		System.out.println("AuthValue = " + ftpsClient.getAuthValue());
-		System.out.println("DataConnectionMode = " + ftpsClient.getDataConnectionMode());
-		System.out.println("DefaultPort = " + ftpsClient.getDefaultPort());
-		System.out.println("PassiveHost = " + ftpsClient.getPassiveHost());
-		System.out.println("PassivePort = " + ftpsClient.getPassivePort());
-		System.out.println("Proxy = " + ftpsClient.getProxy());
-		System.out.println("UseClientMode = " + ftpsClient.getUseClientMode());
-		System.out.println("WantClientAuth = " + ftpsClient.getWantClientAuth());
-		System.out.println("isAvailable = " + ftpsClient.isAvailable());
-		System.out.println("isConnected = " + ftpsClient.isConnected());
-		System.out.println("******************************************");
-
+	public void uploadLogFileOnServer() {
+		ftpConnection();
+		
 		File file = new File(localFileName);
 		// Create an InputStream of the local file to be uploaded
 		try {
@@ -75,12 +70,9 @@ public class RemoteLogger {
 		// Store file on server
 		if (fis != null) {
 			try {
-				if(ftpsClient.storeFile(remoteFileName, fis)) {
+				if(ftpClient.storeFile(remoteFileName, fis)) {
 					logger.log(Level.INFO, "Stockage fichier sur serveur OK");
 					System.out.println("Stockage fichier sur serveur OK !!!!!");
-				} else {
-					logger.log(Level.INFO, "Stockage fichier sur serveur NOT OK");
-					System.out.println("Stockage fichier sur serveur NOT OK !!!!!");
 				}
 			} catch (IOException e) {
 				logger.log(Level.WARNING, "Stockage fichier sur serveur NOT OK");
@@ -97,6 +89,46 @@ public class RemoteLogger {
 			e.printStackTrace();
 		}
 		
+		ftpDeconnection();
+
 		//logger.deleteLocalLogFile(file);
-	}	
+	}
+	
+	/**
+	 * Cette méthode permet de se connecter au serveur FTP
+	 * via 
+	 */
+	private FTPClient ftpConnection() {
+		ftpClient = new FTPClient();
+		try {
+			ftpClient.connect(FTP_IP, FTP_PORT);
+			ftpClient.login(FTP_USER, FTP_PWD);
+			logger.log(Level.INFO, "FTP Connection OK");
+			System.out.println("FTP Connection OK");
+		} catch (IOException e) {
+			System.out.println("FTP Connection NOT OK");
+			logger.log(Level.SEVERE, "FTP Connection NOT OK");
+			e.printStackTrace();
+		}
+		return ftpClient;
+	}
+
+	/**
+	 * Cette méthode permet de se déconnecter du serveur FTP
+	 */
+	private void ftpDeconnection() {
+		if(ftpClient.isConnected()) {
+			try {
+				ftpClient.logout();
+				ftpClient.disconnect();
+				logger.log(Level.INFO, "FTP Déconnexion OK");
+				System.out.println("FTP Déconnexion OK");
+			} catch (IOException e) {
+				System.out.println("FTP Déconnexion NOT OK");
+				logger.log(Level.SEVERE, "FTP Déconnexion NOT OK");
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

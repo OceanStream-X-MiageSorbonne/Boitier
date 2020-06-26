@@ -11,7 +11,6 @@ import oceanbox.propreties.SystemPropreties;
 /**
  * Cette classe représente un objet qui permet de créer et de remplir un fichier local de log.
  * NB : Ce fichier se situe par défaut sous "/OceanBox/" (au même endroit que les fichiers propriétés (ClientPropreties.propreties & SystemPropreties.propreties).
- * @author mathieuridet
  *
  */
 public class LocalLogger {

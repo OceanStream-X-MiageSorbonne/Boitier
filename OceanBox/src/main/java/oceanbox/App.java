@@ -26,9 +26,9 @@ public class App {
 		// -----------------------------------------------------------------------------------
 
 		// Modifiez la ligne ci-dessous pour aller chercher les videos au bon endroit
-		SystemPropreties.setPropretie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
+		//SystemPropreties.setPropretie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
 		//SystemPropreties.setPropretie("videoPath", "/Users/daekc/Desktop/video/");
-		//SystemPropreties.setPropretie("videoPath", "/home/mathieuridet/Videos/OceanBox/");
+		SystemPropreties.setPropretie("videoPath", "/home/mathieuridet/Videos/OceanBox/");
 		//SystemPropreties.setPropretie("videoPath", "/home/pi/OceanBox/video/");
 
 
@@ -37,11 +37,11 @@ public class App {
 		ClientPropreties.setPropretie("activateStandby", "true");
 		ClientPropreties.setPropretie("timeBeforeStandby", "00:00:20");
 		
-		SystemPropreties.setPropretie("VlcCMD", "/Applications/VLC.app/Contents/MacOS/VLC");
-		//SystemPropreties.setPropretie("VlcCMD", "/usr/bin/vlc");
+		//SystemPropreties.setPropretie("VlcCMD", "/Applications/VLC.app/Contents/MacOS/VLC");
+		SystemPropreties.setPropretie("VlcCMD", "/usr/bin/vlc");
 		
 		SystemPropreties.setPropretie("MediaInfoCMD", "/usr/local/bin/mediainfo");
-		//SystemPropreties.setPropretie("MediaInfoCMD", "/usr/bin/mediainfo");
+		SystemPropreties.setPropretie("MediaInfoCMD", "/usr/bin/mediainfo");
 
 		// -----------------------------------------------------------------------------------
 
