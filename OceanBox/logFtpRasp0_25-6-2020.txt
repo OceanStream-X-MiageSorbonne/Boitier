@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-06-26T08:23:35.432861Z</date>
+  <millis>1593159815432</millis>
+  <nanos>861000</nanos>
+  <sequence>4</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-06-26T08:23:35.985479Z</date>
+  <millis>1593159815985</millis>
+  <nanos>479000</nanos>
+  <sequence>5</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message> *** Début du téléchargement du fichier : 25-6-2020_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-06-26T08:23:48.220437Z</date>
+  <millis>1593159828220</millis>
+  <nanos>437000</nanos>
+  <sequence>6</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message> *** Fin du téléchargement du fichier : 25-6-2020_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-06-26T08:23:48.279768Z</date>
+  <millis>1593159828279</millis>
+  <nanos>768000</nanos>
+  <sequence>7</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-06-26T08:23:48.717799Z</date>
+  <millis>1593159828717</millis>
+  <nanos>799000</nanos>
+  <sequence>8</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-06-26T08:23:48.831365Z</date>
+  <millis>1593159828831</millis>
+  <nanos>365000</nanos>
+  <sequence>9</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>Stockage fichier sur serveur NOT OK</message>
+</record>
+<record>
+  <date>2020-06-26T08:23:48.862549Z</date>
+  <millis>1593159828862</millis>
+  <nanos>549000</nanos>
+  <sequence>10</sequence>
+  <logger>ftpLogger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>15</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+</log>

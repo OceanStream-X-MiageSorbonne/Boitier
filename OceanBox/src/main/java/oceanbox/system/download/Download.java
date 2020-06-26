@@ -110,7 +110,7 @@ public class Download {
 							e.printStackTrace();
 						}
 
-				serverStuff.ftpDownloadFile(i);
+				serverStuff.ftpsDownloadFile(i);
 				
 				System.out.println(i);
 			}

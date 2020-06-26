@@ -59,7 +59,7 @@ public class SystemPropreties {
 		defaultProperties.put("MediaInfoCMD", "/usr/bin/mediainfo");
 		defaultProperties.put("VlcCMD", "/usr/bin/vlc");
 		
-		defaultProperties.put("remoteLogPath", "/logs/");
+		defaultProperties.put("remoteLogPath", "\\logs\\");
 		//defaultProperties.put("localLogPath", "/OceanBox/src/main/resources/properties/");
 		defaultProperties.put("localLogPath", "");
 		defaultProperties.put("ftpLogFileName", ConstructLogFileName.getFtpLogFileName("logFtpRasp", defaultProperties.get("oceanBoxNumber")));
