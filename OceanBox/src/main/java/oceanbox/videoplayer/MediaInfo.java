@@ -11,7 +11,7 @@ public class MediaInfo {
 	private String mediaInfoCmd;
 
 	public MediaInfo() {
-		this.mediaInfoCmd = SystemPropreties.getPropretie("MediaInfoCMD");
+		this.mediaInfoCmd = SystemPropreties.getPropretie("mediaInfoCMD");
 	}
 
 	public int getDuration(String path) {

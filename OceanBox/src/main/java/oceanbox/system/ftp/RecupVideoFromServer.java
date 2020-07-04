@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -12,13 +13,14 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 import oceanbox.propreties.SystemPropreties;
 import oceanbox.utils.loggers.RemoteLogger;
-
+import oceanbox.system.ftp.FtpsConnectionHandler;;
 /**
  * Cette classe permet de lancer les téléchargements des vidéos qui sont sur un
  * serveur FTP
  */
 public class RecupVideoFromServer {
 	
+
 	private RemoteLogger logger;
 	private Set<Integer> videosFiles;
 	private String cheminDistant;
@@ -137,10 +139,8 @@ public class RecupVideoFromServer {
 		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
 		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
-		prefixeNomVideo = "25-6-2020_";
-
-		// Le vrai préfixe du nom des prochaines vidéos est celui ci-dessous
-		//prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() + "_";
+		//prefixeNomVideo = "25-6-2020_";
+		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() + "_";
 	}
 
 	/**

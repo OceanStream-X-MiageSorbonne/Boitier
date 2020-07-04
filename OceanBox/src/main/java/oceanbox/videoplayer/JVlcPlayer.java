@@ -25,7 +25,7 @@ public class JVlcPlayer implements VideoPlayer {
 
 		// Ici il faut mettre le chemin absolu vers VLC
 		//cmd = "/Applications/VLC.app/Contents/MacOS/VLC";
-		cmd = SystemPropreties.getPropretie("VlcCMD");	
+		cmd = SystemPropreties.getPropretie("vlcCMD");	
 		cmd += " --start-time=" + time + " ";
 		cmd += videoPath + " -f";
 

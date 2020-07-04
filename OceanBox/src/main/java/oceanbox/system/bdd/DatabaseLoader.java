@@ -129,9 +129,13 @@ public class DatabaseLoader {
 				ClientPropreties.setPropretie("timeBeforeStandby", resultat.getString("timeBeforeStandby"));
 
 				SystemPropreties.setPropretie("videoPath", resultat.getString("videoPath"));
-				SystemPropreties.setPropretie(DB_LOG_FILE_NAME, resultat.getString(DB_LOG_FILE_NAME));
-				//SystemPropreties.setPropretie("localLogPath", resultat.getString("localLogPath"));
-				//SystemPropreties.setPropretie("remoteLogPath", resultat.getString("remoteLogPath"));
+				SystemPropreties.setPropretie("mediaInfoCMD", resultat.getString("mediaInfoCMD"));
+				SystemPropreties.setPropretie("ftpLogPath", resultat.getString("ftpLogPath"));
+				SystemPropreties.setPropretie("vlcCMD", resultat.getString("vlcCMD"));
+				SystemPropreties.setPropretie("remoteLogPath", resultat.getString("remoteLogPath"));
+				SystemPropreties.setPropretie("localLogPath", resultat.getString("localLogPath"));
+				SystemPropreties.setPropretie("dbLogPath", resultat.getString("dbLogPath"));
+
 			}
 
 		} catch (SQLException | IOException ex) {
@@ -148,7 +152,6 @@ public class DatabaseLoader {
 	public static void setNextDownloadTime() {
 
 		dbConnection();
-
 		try {
 
 			stmt = conn.createStatement();

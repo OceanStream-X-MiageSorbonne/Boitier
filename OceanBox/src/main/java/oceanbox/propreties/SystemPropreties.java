@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import oceanbox.utils.ConstructLogFileName;
-
 /**
  * Cette classe gère les informations relatives à la configuration personnalisée
  * du programme écrites dans le fichier de propriété du même nom que la classe
@@ -52,18 +50,20 @@ public class SystemPropreties {
 		defaultProperties.put("videoPath", "/home/pi/OceanBox/video/");
 
 		// Log settings
-		defaultProperties.put("FtpLogPath", "ftpLogFile.log");
-		defaultProperties.put("DbLogPath", "dbLogFile.txt");
+		defaultProperties.put("ftpLogPath", "ftpLogFile.log");
+		defaultProperties.put("dbLogPath", "dbLogFile.txt");
 		
 		//CMDs
-		defaultProperties.put("MediaInfoCMD", "/usr/bin/mediainfo");
-		defaultProperties.put("VlcCMD", "/usr/bin/vlc");
+		defaultProperties.put("mediaInfoCMD", "/usr/bin/mediainfo");
+		defaultProperties.put("vlcCMD", "/usr/bin/vlc");
 		
-		defaultProperties.put("remoteLogPath", "\\logs\\");
+		//defaultProperties.put("remoteLogPath", "\\logs\\");
 		//defaultProperties.put("localLogPath", "/OceanBox/src/main/resources/properties/");
-		defaultProperties.put("localLogPath", "");
-		defaultProperties.put("ftpLogFileName", ConstructLogFileName.getFtpLogFileName("logFtpRasp", defaultProperties.get("oceanBoxNumber")));
-		defaultProperties.put("dbLogFileName", ConstructLogFileName.getDbLogFileName("dbLogFile"));
+		//defaultProperties.put("localLogPath", "");
+		//defaultProperties.put("ftpLogFileName", ConstructLogFileName.getFtpLogFileName("logFtpRasp", defaultProperties.get("oceanBoxNumber")));
+		//defaultProperties.put("dbLogFileName", ConstructLogFileName.getDbLogFileName("dbLogFile"));
+		//defaultProperties.put("dbLogPath", "");
+		//defaultProperties.put("ftpLogPath","");
 
 	}
 
