@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
+
  * Les tests unitaires sont à venir. (Unit test for simple App.)
  */
 public class AppTest extends TestCase {
@@ -30,4 +31,5 @@ public class AppTest extends TestCase {
 	public void testApp() {
 		assertTrue(true);
 	}
+
 }
