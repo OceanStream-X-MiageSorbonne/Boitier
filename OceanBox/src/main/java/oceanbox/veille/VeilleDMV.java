@@ -21,32 +21,36 @@ public class VeilleDMV implements Veille {
 
 	public VeilleDMV(Contenu c) {
 		contenu = c;
-		if (ClientPropreties.getPropretie("activateStandby").equals("1"))
+		this.sleepMode = false;
+		if (ClientPropreties.getPropretie("activateStandby").equals("1")) {
 			initMotionSensorListner();
+		}
+		
+			
 	}
 
 	private void initMotionSensorListner() {
-		initVeille();
-		final GpioController gpio = GpioFactory.getInstance();
-		final GpioPinDigitalInput motionDetector = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02,
-				PinPullResistance.PULL_DOWN);
-		motionDetector.setShutdownOptions(true);
-		motionDetector.addListener(new GpioPinListenerDigital() {
-			@Override
-			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				if (event.getState().equals(PinState.HIGH)) {
-					System.out.println(">>> Motion detected");
-					update();
-				}
-			}
-		});
+		initVeille();				
+		// create gpio controller			
+		final GpioController gpioSensor = GpioFactory.getInstance(); 
+		final GpioPinDigitalInput sensor = gpioSensor.provisionDigitalInputPin(RaspiPin.GPIO_07, PinPullResistance.PULL_DOWN);			
+		// create and register gpio pin listener			
+		sensor.addListener(new GpioPinListenerDigital() {			
+		    @Override		
+		    public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {		 		
+		    	if(event.getState().isHigh()){	
+		            System.out.println(">>> Motion Detected!");
+		            update();
+		        }					
+		    }		
+		});			
 	}
 
 	@Override
 	public void goInVeille() {
+		System.out.println(">>> Get in veille !");
 		sleepMode = true;
 		contenu.stopDiffusion();
-
 	}
 
 	@Override
@@ -60,6 +64,7 @@ public class VeilleDMV implements Veille {
 
 	@Override
 	public void goOutVeille() {
+		System.out.println(">>> Get out veille");
 		if (ClientPropreties.getPropretie("activateStandby").equals("1"))
 			initVeille();
 		sleepMode = false;

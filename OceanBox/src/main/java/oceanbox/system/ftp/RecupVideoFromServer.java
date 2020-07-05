@@ -5,105 +5,56 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
-
-//import org.apache.log4j.Logger;
 import oceanbox.propreties.SystemPropreties;
-
+import oceanbox.system.ftp.FtpsConnectionHandler;;
 /**
  * Cette classe permet de lancer les téléchargements des vidéos qui sont sur un
  * serveur FTP
  */
 public class RecupVideoFromServer {
+	
 
-	// private final static Logger LOGGER =
-	// Logger.getLogger(RecupVideoFromServer.class.getName());;
-	private FTPSClient ftpsClient;
 	private Set<Integer> videosFiles;
 	private String cheminDistant;
 	private String prefixeNomVideo;
 	private String suffixeNomVideo;
 	private String cheminLocal;
-
+	private static FTPSClient ftpsClient;
+	
+	/*
 	public RecupVideoFromServer() {
-
-		// TODO : Initialisation du Logger
-//		Appender fh = null;
-//		try {
-//			fh = new FileAppender(new SimpleLayout(), SystemPropreties.getPropertie("relativeLogPath"));
-//			LOGGER.addAppender(fh);
-//			fh.setLayout(new SimpleLayout());
-//		} catch (SecurityException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		setVideoRegex();
 		setVideosFiles();
 	}
+	*/
+	
+	// ************************* Implémentation du Singleton *************************************
+	private static RecupVideoFromServer INSTANCE = null;
 
-	/**
-	 * Cette méthode permet de se connecter au serveur FTP
-	 */
-	private void ftpConnection() {
-
-		String host = SystemPropreties.getPropretie("ftpIP");
-		String login = SystemPropreties.getPropretie("ftpUser");
-		String mdp = SystemPropreties.getPropretie("ftpPasswd");
-		String port = SystemPropreties.getPropretie("ftpPort");
-
-		ftpsClient = new FTPSClient();
-
-		try {
-			ftpsClient.connect(host, Integer.valueOf(port));
-			ftpsClient.login(login, mdp);
-			ftpsClient.execPBSZ(0);
-			ftpsClient.execPROT("P");
-			// LOGGER.info("FTP Connection OK");
-			ftpsClient.addProtocolCommandListener(new PrintCommandListener(
-					new PrintWriter(new FileOutputStream(SystemPropreties.getPropretie("relativeLogPath")))));
-			ftpsClient.enterLocalPassiveMode();
-			ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
-		} catch (IOException e) {
-			// LOGGER.error("FTP Connection KO");
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
+	private RecupVideoFromServer() {
+		setVideoRegex();
+		setVideosFiles();
 	}
-
-	/**
-	 * Cette méthode permet de se déconnecter du serveur FTP
-	 */
-	private void ftpDeconnection() {
-
-		try {
-			ftpsClient.logout();
-			ftpsClient.disconnect();
-			// LOGGER.info("FTP Déconnexion OK");
-		} catch (IOException e) {
-			// LOGGER.error("FTP Déconnexion KO");
-			e.printStackTrace();
-		}
+	
+	public static RecupVideoFromServer getInstance() {
+		if(INSTANCE == null) INSTANCE = new RecupVideoFromServer();
+		return INSTANCE;
 	}
+	//*************************************************************************************
 
 	/**
 	 * Cette méthode télécharge la video ayant le numéro souhaité
 	 * 
 	 * @param numVideo : le numéro de la vidéo à télécharger
 	 */
-	public void ftpDownloadFile(int numVideo) {
+	public void ftpsDownloadFile(int numVideo) {
+		ftpsClient = FtpsConnectionHandler.ftpsConnection();
 
-		if (!ftpsClient.isConnected()) {
-			ftpConnection();
-		}
 		String nomVideoVoulu = prefixeNomVideo + numVideo + suffixeNomVideo;
 		try {
 			File fichierlocal = new File(cheminLocal + nomVideoVoulu);
@@ -111,27 +62,25 @@ public class RecupVideoFromServer {
 
 			OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(fichierlocal, false));
 
-//			LOGGER.info(" *** Début du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			System.out.println(" *** D�but du t�l�chargement : " + nomVideoVoulu + " ***");
 			ftpsClient.retrieveFile(cheminDistant + nomVideoVoulu, outputStream);
-//			LOGGER.info(" *** Fin du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			System.out.println(" *** Fin du t�l�chargement du fichier : " + nomVideoVoulu + " ***");
 
 			// Téléchargement du paquet terminé, on ferme les flux
 			outputStream.close();
-
+			
 			deleteLocalOldFile(numVideo);
 
 			// On ferme la connexion FTP
-			ftpDeconnection();
-
-		} catch (
-
-		IOException e) {
+			FtpsConnectionHandler.ftpsDeconnection();
+			
+		} catch (IOException e) {
 			// LOGGER.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if (ftpsClient.isConnected()) {
 				// On ferme la connexion FTP
-				ftpDeconnection();
+				FtpsConnectionHandler.ftpsDeconnection();
 			}
 		}
 	}
@@ -142,11 +91,13 @@ public class RecupVideoFromServer {
 	 * @param numVideo : le numéro de la vidéo à supprimer
 	 */
 	public void deleteLocalOldFile(int numVideo) {
-
 		// Suppression de l'ancien paquet en local
 		for (String nomVideo : new File(cheminLocal).list()) {
-			if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
-				new File(cheminLocal + nomVideo).delete();
+			if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo)) {
+				System.out.println(" *** Suppression de : " + cheminLocal + nomVideo + " ***");
+				(new File(cheminLocal + nomVideo)).delete();
+			}
+			
 		}
 	}
 
@@ -155,9 +106,7 @@ public class RecupVideoFromServer {
 	 * télécharger sur le serveur
 	 */
 	private void setVideosFiles() {
-
-		ftpConnection();
-
+		ftpsClient = FtpsConnectionHandler.ftpsConnection();
 		videosFiles = new TreeSet<Integer>();
 		try {
 			for (FTPFile paquet : ftpsClient.listFiles(cheminDistant)) {
@@ -179,12 +128,8 @@ public class RecupVideoFromServer {
 		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
 		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
-		prefixeNomVideo = "19-4-2020_";
-
-		// Le vrai préfixe du nom des prochaines vidéos est celui ci-dessous
-		// prefixeNomVideo = LocalDateTime.now().getDayOfMonth() + "-" +
-		// LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() +
-		// "_";
+		//prefixeNomVideo = "25-6-2020_";
+		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() + "_";
 	}
 
 	/**
@@ -195,5 +140,9 @@ public class RecupVideoFromServer {
 	 */
 	public Set<Integer> getVideosFiles() {
 		return videosFiles;
+	}
+
+	public String getPrefixeNomVideo() {
+		return prefixeNomVideo;
 	}
 }

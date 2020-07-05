@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.veille.Veille;
-import oceanbox.veille.VeilleScanner;
+import oceanbox.veille.VeilleDMV;
 import oceanbox.videoplayer.JOmxPlayer;
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideoPlayer;
@@ -29,7 +29,7 @@ public class Contenu {
 	private Veille veille;
 
 	public Contenu() {
-		veille = new VeilleScanner(this);
+		veille = new VeilleDMV(this);
 		videoPlayer = new JOmxPlayer();
 		diffusionStart = -1;
 	}
@@ -127,14 +127,13 @@ public class Contenu {
 	 * @param begin     : le temps de la vidéo auquel sa diffusion doit débuter
 	 */
 	private void customPlay(Video nextVideo, int begin) {
-
 		processPlayer = videoPlayer.play(nextVideo.getPath(), begin);
 		try {
 			processPlayer.waitFor(((nextVideo.getDuration() - begin) * 1000) - 500, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+		
 		if (!veille.isSleepMode()) {
 			if (timelineIterator.hasNext())
 				customPlay(videosInfos.get(timelineIterator.next()), 0);

@@ -1,25 +1,19 @@
 package oceanbox.system.bdd;
 
 import java.io.IOException;
-
 import java.net.InetAddress;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
 
 /**
- * Cette classe récupère les informations dans la base de données et les écrit
- * dans les fichiers de propriétés
+ * Cette classe récupère les informations dans la base de données et les
+ * écrit dans les fichiers de propriétés
  */
 public class DatabaseLoader {
 
@@ -39,24 +33,16 @@ public class DatabaseLoader {
 	 * Cette méthode permet de se connecter à la base de données
 	 */
 	private static void dbConnection() {
-
 		try {
 
 			try {
 				Class.forName(JDBC_DRIVER);
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Loaded Successfully");
-
 			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Driver Failed To Load");
-				Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, ex.getMessage());
 			}
 
 			// Open a connection
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connecting to a selected database...");
 
 			conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/oceandatabase", USER, PASS);
-
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.INFO, "Connected database successfully...");
 
 		} catch (SQLException se) {
 			// Handle errors for JDBC
@@ -73,18 +59,18 @@ public class DatabaseLoader {
 	private static void dbDeconnexion() {
 
 		try {
-
 			conn.close();
-
-		} catch (SQLException ex) {
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	/**
-	 * Cette méthode permet de mettre à jour les fichiers de propriétés à partir des
-	 * informations stockées dans la base de données. A noter que l'on met à jour
-	 * l'IP locale stockée dans la base de données à chaque appel de cette méthode
+	 * Cette méthode permet de mettre à jour les fichiers de propriétés à
+	 * partir des informations stockées dans la base de données. A noter que l'on
+	 * met à jour l'IP locale stockée dans la base de données à chaque appel de
+	 * cette méthode
 	 */
 	public static void setPropretiesFromDatabase() {
 
@@ -130,11 +116,17 @@ public class DatabaseLoader {
 				ClientPropreties.setPropretie("timeBeforeStandby", resultat.getString("timeBeforeStandby"));
 
 				SystemPropreties.setPropretie("videoPath", resultat.getString("videoPath"));
-				SystemPropreties.setPropretie("relativeLogPath", resultat.getString("relativeLogPath"));
+				SystemPropreties.setPropretie("mediaInfoCMD", resultat.getString("mediaInfoCMD"));
+				SystemPropreties.setPropretie("ftpLogPath", resultat.getString("ftpLogPath"));
+				SystemPropreties.setPropretie("vlcCMD", resultat.getString("vlcCMD"));
+				SystemPropreties.setPropretie("remoteLogPath", resultat.getString("remoteLogPath"));
+				SystemPropreties.setPropretie("localLogPath", resultat.getString("localLogPath"));
+				SystemPropreties.setPropretie("dbLogPath", resultat.getString("dbLogPath"));
+
 			}
 
-		} catch (SQLException | IOException ex) {
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
 		}
 
 		dbDeconnexion();
@@ -147,7 +139,6 @@ public class DatabaseLoader {
 	public static void setNextDownloadTime() {
 
 		dbConnection();
-
 		try {
 
 			stmt = conn.createStatement();
@@ -158,8 +149,8 @@ public class DatabaseLoader {
 			preparedStatement.setString(2, SystemPropreties.getPropretie("oceanBoxNumber"));
 			preparedStatement.executeUpdate();
 
-		} catch (SQLException ex) {
-			Logger.getLogger(DatabaseLoader.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		dbDeconnexion();

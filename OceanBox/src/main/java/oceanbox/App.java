@@ -16,32 +16,18 @@ import oceanbox.system.download.Download;
 public class App {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-
+		
 		// On initialise les fichiers de propriétés puis on les complète avec les
 		// informations qui sont sur la base de données
 		SystemPropreties.initPropreties();
 		ClientPropreties.initPropreties();
 		DatabaseLoader.setPropretiesFromDatabase();
-
-		// -----------------------------------------------------------------------------------
-
-		// Les properties ci-dessous influent directement sur l'application
-		ClientPropreties.setPropretie("wakingHour", "08:30:00");
-		ClientPropreties.setPropretie("activateStandby", "false");
-		ClientPropreties.setPropretie("timeBeforeStandby", "00:00:20");
-
-		// -----------------------------------------------------------------------------------
-
-		// L'objet Contenu permet de gérer les vidéos à l'écran
+		
+		ClientPropreties.setPropretie("timeBeforeStandby", "00:00:10");		
 		Contenu c = new Contenu();
-
-		// L'objet Download permet de gérer les téléchargements des vidéos en arrière
-		// plan sans perturber la diffusion continue du Contenu
 		Download d = new Download(c);
-
-		// On initialise le téléchargement d'abord
 		d.initDownload();
-		// car la diffusion se fait de manière récursive à l'infini
 		c.initVideos();
+		
 	}
 }

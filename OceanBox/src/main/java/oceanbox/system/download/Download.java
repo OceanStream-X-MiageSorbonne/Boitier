@@ -29,6 +29,7 @@ public class Download {
 	private VideosInfos objectVideosInfo;
 	private Map<Integer, Video> videosInfos;
 	private Contenu contenu;
+	private RecupVideoFromServer serverStuff;
 
 	public Download(Contenu contenu) {
 		this.contenu = contenu;
@@ -47,6 +48,7 @@ public class Download {
 	 * 
 	 * @return : la Date du prochain tÃ©lÃ©chargement
 	 */
+	@SuppressWarnings("unused")
 	private Date initTimeBeforeDownload() {
 
 		objectVideosInfo = new VideosInfos();
@@ -72,7 +74,7 @@ public class Download {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println(Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()));
 		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
@@ -83,16 +85,22 @@ public class Download {
 
 		@Override
 		public void run() {
-
+			objectVideosInfo = new VideosInfos();
 			DatabaseLoader.setPropretiesFromDatabase();
-
-			RecupVideoFromServer serverStuff = new RecupVideoFromServer();
+			serverStuff = RecupVideoFromServer.getInstance();
 			videosInfos = objectVideosInfo.getVideosInfos();
+
+			if (serverStuff.getPrefixeNomVideo().equals(videosInfos.get(1).getDate() + "_")) {
+				System.out.println(">>>>>>> J+1 déjà en mémoire");
+				initDownload();
+				return;
+			}
+
+			System.out.println(">>>>>>> Début du téléchargement J+1");
 
 			int n = 0;
 			int[] infosCurrentVideo;
 			for (int i : serverStuff.getVideosFiles()) {
-
 				n = i;
 				infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
 				if (infosCurrentVideo[0] <= i)
@@ -103,14 +111,15 @@ public class Download {
 							e.printStackTrace();
 						}
 
-				serverStuff.ftpDownloadFile(i);
-				System.out.println(i);
+				serverStuff.ftpsDownloadFile(i);
 			}
 
-			for (int j = n + 1; j < videosInfos.size(); j++) {
-
-				serverStuff.deleteLocalOldFile(j);
+			if (n > 0) {
+				for (int j = n + 1; j <= videosInfos.size(); j++) {
+					serverStuff.deleteLocalOldFile(j);
+				}
 			}
+			System.out.println(">>>>>>> Fin du téléchargement");
 
 			initDownload();
 		}

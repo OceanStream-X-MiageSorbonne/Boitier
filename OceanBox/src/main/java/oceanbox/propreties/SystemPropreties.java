@@ -50,8 +50,13 @@ public class SystemPropreties {
 		defaultProperties.put("videoPath", "/home/pi/OceanBox/video/");
 
 		// Log settings
-		defaultProperties.put("relativeLogPath", "allAboutFtp.log");
-
+		defaultProperties.put("ftpLogPath", "ftpLogFile.log");
+		defaultProperties.put("dbLogPath", "dbLogFile.txt");
+		
+		//CMDs
+		defaultProperties.put("mediaInfoCMD", "/usr/bin/mediainfo");
+		defaultProperties.put("vlcCMD", "/usr/bin/vlc");
+		
 	}
 
 	/**

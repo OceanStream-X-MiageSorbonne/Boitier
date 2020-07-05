@@ -62,15 +62,8 @@
 		<dependency>
 			<groupId>com.pi4j</groupId>
 			<artifactId>pi4j-core</artifactId>
-			<version>1.1</version>
+			<version>1.2</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.diozero</groupId>
-			<artifactId>diozero-provider-wiringpi</artifactId>
-			<version>0.8</version>
-		</dependency>
-
 	</dependencies>
 
 
