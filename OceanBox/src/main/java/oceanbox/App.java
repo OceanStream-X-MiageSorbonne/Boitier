@@ -22,8 +22,7 @@ public class App {
 		SystemPropreties.initPropreties();
 		ClientPropreties.initPropreties();
 		DatabaseLoader.setPropretiesFromDatabase();
-		
-		ClientPropreties.setPropretie("timeBeforeStandby", "00:00:10");		
+
 		Contenu c = new Contenu();
 		Download d = new Download(c);
 		d.initDownload();

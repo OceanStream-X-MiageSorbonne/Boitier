@@ -4,13 +4,13 @@ localVersion=$(xml_grep --text_only /artifact-resolution/data/version /home/pi/O
 
 ansible-pull local.yml --url https://github.com/OceanStream-X-MiageSorbonne/Boitier.git --checkout dev -i localhost
 
-wget -O /home/pi/OceanBox/updater/MetaLatestOceanBox.xml "http://176.158.51.172:8081/nexus/service/local/artifact/maven/resolve?g=oceanbox&a=OceanBox&v=LATEST&r=OceanBoxRelease&e=jar"
+wget -O /home/pi/OceanBox/updater/MetaLatestOceanBox.xml "http://devops.oceanstream.fr:8081/nexus/service/local/artifact/maven/resolve?g=oceanbox&a=OceanBox&v=LATEST&r=OceanBoxReleases&e=jar"
 
 repoVersion=$(xml_grep --text_only /artifact-resolution/data/version /home/pi/OceanBox/updater/MetaLatestOceanBox.xml)
 
 if [ "$repoVersion" != "$localVersion" ]
 then
-	wget -P /home/pi/OceanBox/bin "http://176.158.51.172:8081/nexus/service/local/artifact/maven/redirect?g=oceanbox&a=OceanBox&v=LATEST&r=OceanBoxRelease&e=jar" --content-disposition
+	wget -P /home/pi/OceanBox/bin "http://devops.oceanstream.fr:8081/nexus/service/local/artifact/maven/redirect?g=oceanbox&a=OceanBox&v=LATEST&r=OceanBoxReleases&e=jar" --content-disposition
 	rm -f "/home/pi/OceanBox/bin/OceanBox-$localVersion.jar"
 fi
 
