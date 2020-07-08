@@ -12,7 +12,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import oceanbox.propreties.ClientPropreties;
-
 import oceanbox.system.Contenu;
 import oceanbox.system.bdd.DatabaseLoader;
 import oceanbox.system.ftp.RecupVideoFromServer;
@@ -40,7 +39,15 @@ public class Download {
 	 */
 	public void initDownload() {
 		timeToDownload = new Timer();
-		timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
+		
+		objectVideosInfo = new VideosInfos();
+		long total = objectVideosInfo.getTotalDurationOfVideos();
+		
+		if (total == 0)
+			timeToDownload.schedule(new DownloadTask(),
+					Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		else
+			timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
 	}
 
 	/**
@@ -86,39 +93,62 @@ public class Download {
 		public void run() {
 			objectVideosInfo = new VideosInfos();
 			DatabaseLoader.setPropretiesFromDatabase();
+
 			serverStuff = RecupVideoFromServer.getInstance();
 			videosInfos = objectVideosInfo.getVideosInfos();
 
-			if (serverStuff.getPrefixeNomVideo().equals(videosInfos.get(1).getDate() + "_")) {
-				System.out.println(">>>>>>> J+1 dÈj‡ en mÈmoire");
-				initDownload();
-				return;
-			}
+			serverStuff.setVideoRegex();
 
-			System.out.println(">>>>>>> DÈbut du tÈlÈchargement J+1");
+			if (videosInfos.isEmpty()) {
+				System.out.println(">>>>>>> D√©but du 1er t√©l√©chargement de l'application");
 
-			int n = 0;
-			int[] infosCurrentVideo;
-			for (int i : serverStuff.getVideosFiles()) {
-				n = i;
-				infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
-				if (infosCurrentVideo[0] <= i)
-					if (i <= videosInfos.size())
-						try {
-							Thread.sleep((videosInfos.get(i).getDuration() - infosCurrentVideo[1]) * 1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+				serverStuff.setPrefixeNomVideo("1-1-2000_");
+				serverStuff.setVideosFiles();
 
-				serverStuff.ftpsDownloadFile(i);
-			}
+				for (int i : serverStuff.getVideosFiles()) {
+					serverStuff.ftpsDownloadFile(i);
+				}
+				
+				contenu.setFirstTime(false);
+				contenu.initInfosOfVideo();
+				
+			} else {
+				serverStuff.setVideosFiles();
 
-			if (n > 0) {
-				for (int j = n + 1; j <= videosInfos.size(); j++) {
-					serverStuff.deleteLocalOldFile(j);
+				if (serverStuff.getPrefixeNomVideo().equals(videosInfos.get(1).getDate() + "_")) {
+					System.out.println(">>>>>>> J+1 d√©j√† en m√©moire");
+					initDownload();
+					return;
+				}
+
+				System.out.println(">>>>>>> D√©but du t√©l√©chargement J+1");
+
+				int n = 0;
+				int[] infosCurrentVideo;
+				for (int i : serverStuff.getVideosFiles()) {
+					n = i;
+					infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
+					if (infosCurrentVideo[0] <= i)
+						if (i <= videosInfos.size())
+							try {
+								Thread.sleep((videosInfos.get(i).getDuration() - infosCurrentVideo[1]) * 1000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+
+					serverStuff.ftpsDownloadFile(i);
+				}
+
+				if (n > 0) {
+					for (int j = n + 1; j <= videosInfos.size(); j++) {
+						serverStuff.deleteLocalOldFile(j);
+					}
 				}
 			}
-			System.out.println(">>>>>>> Fin du tÈlÈchargement");
+
+			System.out.println(">>>>>>> Fin du t√©l√©chargement");
+
+			serverStuff.uploadFtpLogFile();
 
 			initDownload();
 		}

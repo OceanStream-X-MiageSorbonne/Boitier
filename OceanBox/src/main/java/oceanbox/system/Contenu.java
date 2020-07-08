@@ -27,23 +27,41 @@ public class Contenu {
 	private Process processPlayer;
 	private int diffusionStart;
 	private Veille veille;
+	private boolean firstTime;
 
 	public Contenu() {
 		veille = new VeilleDMV(this);
 		videoPlayer = new JOmxPlayer();
 		diffusionStart = -1;
+		initInfosOfVideo();
+		firstTime = totalDurationOfVideo == 0 ? true : false;
 	}
 
+	/**
+	 * Cette méthode initialise les informations des vidéos
+	 */
+	public void initInfosOfVideo() {
+		objectVideosInfo = new VideosInfos();
+		videosInfos = objectVideosInfo.getVideosInfos();
+
+		totalDurationOfVideo = objectVideosInfo.getTotalDurationOfVideos();
+	}
+	
 	/**
 	 * Cette méthode permet de récupérer les différentes vidéos dans le répertoire
 	 * local et récupère la durée totale cumulée des vidéos
 	 */
 	public void initVideos() {
 
-		objectVideosInfo = new VideosInfos();
-		videosInfos = objectVideosInfo.getVideosInfos();
+		while (firstTime) {
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
-		totalDurationOfVideo = objectVideosInfo.getTotalDurationOfVideos();
+		initInfosOfVideo();
 
 		initDiffusion();
 	}
@@ -133,7 +151,7 @@ public class Contenu {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (!veille.isSleepMode()) {
 			if (timelineIterator.hasNext())
 				customPlay(videosInfos.get(timelineIterator.next()), 0);
@@ -168,5 +186,15 @@ public class Contenu {
 	 */
 	public int getTotalDurationOfVideo() {
 		return totalDurationOfVideo;
+	}
+
+	/**
+	 * Cette méthode modifie le booléen firstTime pour savoir si on lance
+	 * l'application pour la première fois ou non
+	 * 
+	 * @param firstTime
+	 */
+	public void setFirstTime(boolean firstTime) {
+		this.firstTime = firstTime;
 	}
 }
