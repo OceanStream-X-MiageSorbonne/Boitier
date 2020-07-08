@@ -52,19 +52,6 @@ public class RemoteLogger {
 	 * préalablement programmée
 	 */
 	public void uploadLogFileOnServer(FTPSClient ftpsClient) {		
-		System.out.println("******************************************");
-		System.out.println("AuthValue = " + ftpsClient.getAuthValue());
-		System.out.println("DataConnectionMode = " + ftpsClient.getDataConnectionMode());
-		System.out.println("DefaultPort = " + ftpsClient.getDefaultPort());
-		System.out.println("PassiveHost = " + ftpsClient.getPassiveHost());
-		System.out.println("PassivePort = " + ftpsClient.getPassivePort());
-		System.out.println("Proxy = " + ftpsClient.getProxy());
-		System.out.println("UseClientMode = " + ftpsClient.getUseClientMode());
-		System.out.println("WantClientAuth = " + ftpsClient.getWantClientAuth());
-		System.out.println("isAvailable = " + ftpsClient.isAvailable());
-		System.out.println("isConnected = " + ftpsClient.isConnected());
-		System.out.println("******************************************");
-
 		File file = new File(localFileName);
 		// Create an InputStream of the local file to be uploaded
 		try {
@@ -80,7 +67,7 @@ public class RemoteLogger {
 				System.out.println(test);
 				if(test) {
 					logger.log(Level.INFO, "Stockage fichier sur serveur OK");
-					System.out.println("Stockage fichier sur serveur OK");
+					System.out.println("Stockage fichier " + remoteFileName + " sur serveur OK");
 				} else {
 					logger.log(Level.INFO, "Stockage fichier sur serveur NOT OK");
 					System.out.println("Stockage fichier sur serveur NOT OK");

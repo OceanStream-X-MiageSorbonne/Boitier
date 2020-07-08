@@ -40,11 +40,16 @@ public class Download {
 	 */
 	public void initDownload() {
 		timeToDownload = new Timer();
-		//timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
+		// timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
 		// ----------------------------------------------------------------------
 		objectVideosInfo = new VideosInfos();
 		long total = objectVideosInfo.getTotalDurationOfVideos();
-		timeToDownload.schedule(new DownloadTask(), Date.from(LocalDateTime.now().plusSeconds(total - contenu.repereForDiffusion()).atZone(ZoneId.systemDefault()).toInstant()));
+		if (total == 0)
+			timeToDownload.schedule(new DownloadTask(),
+					Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+		else
+			timeToDownload.schedule(new DownloadTask(), Date.from(LocalDateTime.now()
+					.plusSeconds(total - contenu.repereForDiffusion()).atZone(ZoneId.systemDefault()).toInstant()));
 	}
 
 	/**
@@ -96,43 +101,63 @@ public class Download {
 				ReglagesDeTest.initPersonalSettings();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} 
+			}
 			// ---------------------------------------------------------------------
-			
+
 			serverStuff = RecupVideoFromServer.getInstance();
 			videosInfos = objectVideosInfo.getVideosInfos();
 
-			if (serverStuff.getPrefixeNomVideo().equals(videosInfos.get(1).getDate() + "_")) {
-				System.out.println(">>>>>>> J+1 déjà en mémoire");
-				initDownload();
-				return;
-			}
+			serverStuff.setVideoRegex();
 
-			System.out.println(">>>>>>> Début du téléchargement J+1");
+			if (videosInfos.isEmpty()) {
+				System.out.println(">>>>>>> Début du 1er téléchargement de l'application");
 
-			int n = 0;
-			int[] infosCurrentVideo;
-			for (int i : serverStuff.getVideosFiles()) {
-				n = i;
-				infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
-				if (infosCurrentVideo[0] <= i)
-					if (i <= videosInfos.size())
-						try {
-							Thread.sleep((videosInfos.get(i).getDuration() - infosCurrentVideo[1]) * 1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+				serverStuff.setPrefixeNomVideo("2-1-2000_");
+				serverStuff.setVideosFiles();
 
-				serverStuff.ftpsDownloadFile(i);
-			}
+				for (int i : serverStuff.getVideosFiles()) {
+					serverStuff.ftpsDownloadFile(i);
+				}
+				
+				contenu.setFirstTime(false);
+				contenu.initInfosOfVideo();
+				
+			} else {
+				serverStuff.setVideosFiles();
 
-			if (n > 0) {
-				for (int j = n + 1; j <= videosInfos.size(); j++) {
-					serverStuff.deleteLocalOldFile(j);
+				if (serverStuff.getPrefixeNomVideo().equals(videosInfos.get(1).getDate() + "_")) {
+					System.out.println(">>>>>>> J+1 déjà en mémoire");
+					initDownload();
+					return;
+				}
+
+				System.out.println(">>>>>>> Début du téléchargement J+1");
+
+				int n = 0;
+				int[] infosCurrentVideo;
+				for (int i : serverStuff.getVideosFiles()) {
+					n = i;
+					infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
+					if (infosCurrentVideo[0] <= i)
+						if (i <= videosInfos.size())
+							try {
+								Thread.sleep((videosInfos.get(i).getDuration() - infosCurrentVideo[1]) * 1000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+
+					serverStuff.ftpsDownloadFile(i);
+				}
+
+				if (n > 0) {
+					for (int j = n + 1; j <= videosInfos.size(); j++) {
+						serverStuff.deleteLocalOldFile(j);
+					}
 				}
 			}
+
 			System.out.println(">>>>>>> Fin du téléchargement");
-			
+
 			serverStuff.uploadFtpLogFile();
 
 			initDownload();

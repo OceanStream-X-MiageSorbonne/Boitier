@@ -34,14 +34,13 @@ public class RecupVideoFromServer {
 	 * public RecupVideoFromServer() { setVideoRegex(); setVideosFiles(); }
 	 */
 
-	// ************************* Implémentation du Singleton *************************************
+	// ************************* Implémentation du Singleton
+	// *************************
 	private static RecupVideoFromServer INSTANCE = null;
 
 	private RecupVideoFromServer() {
 		logger = new RemoteLogger("FTP Logger",
 				ConstructLogFileName.getFtpLogFileName("logFtpRasp", SystemPropreties.getPropretie("oceanBoxNumber")));
-		setVideoRegex();
-		setVideosFiles();
 	}
 
 	public static RecupVideoFromServer getInstance() {
@@ -49,7 +48,7 @@ public class RecupVideoFromServer {
 			INSTANCE = new RecupVideoFromServer();
 		return INSTANCE;
 	}
-	// ********************************************************************************************
+	// ********************************************************************************
 
 	public void uploadFtpLogFile() {
 		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
@@ -115,7 +114,7 @@ public class RecupVideoFromServer {
 	 * Cette méthode initialise le Set " videosFiles " avec les numéros des vidéos à
 	 * télécharger sur le serveur
 	 */
-	private void setVideosFiles() {
+	public void setVideosFiles() {
 		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
 		videosFiles = new TreeSet<Integer>();
 		try {
@@ -134,11 +133,10 @@ public class RecupVideoFromServer {
 	 * Cette méthode initialise les informations nécessaires au téléchargement des
 	 * vidéos du jour suivant
 	 */
-	private void setVideoRegex() {
+	public void setVideoRegex() {
 		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
 		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
-		// prefixeNomVideo = "25-6-2020_";
 		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue()
 				+ "-" + LocalDateTime.now().getYear() + "_";
 	}
@@ -153,6 +151,20 @@ public class RecupVideoFromServer {
 		return videosFiles;
 	}
 
+	/**
+	 * Cette méthode modifie le préfixe des noms des vidéos à télécharger
+	 * 
+	 * @param prefixeNomVideo
+	 */
+	public void setPrefixeNomVideo(String prefixeNomVideo) {
+		this.prefixeNomVideo = prefixeNomVideo;
+	}
+
+	/**
+	 * Cette méthode renvoie le préfixe des noms des vidéos à télécharger
+	 * 
+	 * @return : une String contenant le préfixe
+	 */
 	public String getPrefixeNomVideo() {
 		return prefixeNomVideo;
 	}

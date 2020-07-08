@@ -2,36 +2,630 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-07-08T15:51:19</date>
-  <millis>1594216279238</millis>
-  <sequence>3</sequence>
+  <date>2020-07-08T18:37:10</date>
+  <millis>1594226230409</millis>
+  <sequence>6</sequence>
   <logger>FTP Logger</logger>
   <level>INFO</level>
   <class>oceanbox.utils.loggers.LocalLogger</class>
   <method>log</method>
-  <thread>1</thread>
+  <thread>22</thread>
   <message>FTPS Connection OK</message>
 </record>
 <record>
-  <date>2020-07-08T15:51:19</date>
-  <millis>1594216279799</millis>
-  <sequence>4</sequence>
+  <date>2020-07-08T18:37:10</date>
+  <millis>1594226230706</millis>
+  <sequence>7</sequence>
   <logger>FTP Logger</logger>
   <level>INFO</level>
   <class>oceanbox.utils.loggers.LocalLogger</class>
   <method>log</method>
-  <thread>1</thread>
+  <thread>22</thread>
+  <message> *** Début du téléchargement du fichier : 2-1-2000_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:11</date>
+  <millis>1594226231271</millis>
+  <sequence>8</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Fin du téléchargement du fichier : 2-1-2000_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:11</date>
+  <millis>1594226231295</millis>
+  <sequence>9</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:11</date>
+  <millis>1594226231693</millis>
+  <sequence>10</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:11</date>
+  <millis>1594226231693</millis>
+  <sequence>11</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Début du téléchargement du fichier : 2-1-2000_2.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:22</date>
+  <millis>1594226242858</millis>
+  <sequence>12</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Fin du téléchargement du fichier : 2-1-2000_2.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:22</date>
+  <millis>1594226242884</millis>
+  <sequence>13</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:23</date>
+  <millis>1594226243278</millis>
+  <sequence>14</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:23</date>
+  <millis>1594226243278</millis>
+  <sequence>15</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Début du téléchargement du fichier : 2-1-2000_3.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:35</date>
+  <millis>1594226255248</millis>
+  <sequence>16</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Fin du téléchargement du fichier : 2-1-2000_3.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:35</date>
+  <millis>1594226255272</millis>
+  <sequence>17</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:35</date>
+  <millis>1594226255653</millis>
+  <sequence>18</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:35</date>
+  <millis>1594226255654</millis>
+  <sequence>19</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Début du téléchargement du fichier : 2-1-2000_4.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:52</date>
+  <millis>1594226272803</millis>
+  <sequence>20</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Fin du téléchargement du fichier : 2-1-2000_4.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:52</date>
+  <millis>1594226272840</millis>
+  <sequence>21</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:53</date>
+  <millis>1594226273312</millis>
+  <sequence>22</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:53</date>
+  <millis>1594226273312</millis>
+  <sequence>23</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Début du téléchargement du fichier : 2-1-2000_5.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:12</date>
+  <millis>1594226292801</millis>
+  <sequence>24</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Fin du téléchargement du fichier : 2-1-2000_5.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:12</date>
+  <millis>1594226292824</millis>
+  <sequence>25</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:13</date>
+  <millis>1594226293169</millis>
+  <sequence>26</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:13</date>
+  <millis>1594226293170</millis>
+  <sequence>27</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Début du téléchargement du fichier : 2-1-2000_6.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:28</date>
+  <millis>1594226308061</millis>
+  <sequence>28</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message> *** Fin du téléchargement du fichier : 2-1-2000_6.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:28</date>
+  <millis>1594226308085</millis>
+  <sequence>29</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:28</date>
+  <millis>1594226308615</millis>
+  <sequence>30</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:28</date>
+  <millis>1594226308954</millis>
+  <sequence>31</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
   <message>Stockage fichier sur serveur OK</message>
 </record>
 <record>
-  <date>2020-07-08T15:51:19</date>
-  <millis>1594216279827</millis>
-  <sequence>5</sequence>
+  <date>2020-07-08T18:38:28</date>
+  <millis>1594226308979</millis>
+  <sequence>32</sequence>
   <logger>FTP Logger</logger>
   <level>INFO</level>
   <class>oceanbox.utils.loggers.LocalLogger</class>
   <method>log</method>
-  <thread>1</thread>
+  <thread>22</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:45</date>
+  <millis>1594226325355</millis>
+  <sequence>33</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>Driver Loaded Successfully</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:45</date>
+  <millis>1594226325356</millis>
+  <sequence>34</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>Connecting to a selected database...</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:45</date>
+  <millis>1594226325544</millis>
+  <sequence>35</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>Connected database successfully...</message>
+</record>
+<record>
+  <date>2020-07-08T18:38:46</date>
+  <millis>1594226326059</millis>
+  <sequence>36</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:02</date>
+  <millis>1594226342345</millis>
+  <sequence>37</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Début du téléchargement du fichier : 9-7-2020_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:29</date>
+  <millis>1594226369290</millis>
+  <sequence>38</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Fin du téléchargement du fichier : 9-7-2020_1.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:29</date>
+  <millis>1594226369315</millis>
+  <sequence>39</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:29</date>
+  <millis>1594226369712</millis>
+  <sequence>40</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:29</date>
+  <millis>1594226369713</millis>
+  <sequence>41</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Début du téléchargement du fichier : 9-7-2020_2.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:45</date>
+  <millis>1594226385231</millis>
+  <sequence>42</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Fin du téléchargement du fichier : 9-7-2020_2.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:45</date>
+  <millis>1594226385317</millis>
+  <sequence>43</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:46</date>
+  <millis>1594226386086</millis>
+  <sequence>44</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:46</date>
+  <millis>1594226386086</millis>
+  <sequence>45</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Début du téléchargement du fichier : 9-7-2020_3.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:58</date>
+  <millis>1594226398987</millis>
+  <sequence>46</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Fin du téléchargement du fichier : 9-7-2020_3.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:59</date>
+  <millis>1594226399013</millis>
+  <sequence>47</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:59</date>
+  <millis>1594226399405</millis>
+  <sequence>48</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:39:59</date>
+  <millis>1594226399406</millis>
+  <sequence>49</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Début du téléchargement du fichier : 9-7-2020_4.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:40:26</date>
+  <millis>1594226426642</millis>
+  <sequence>50</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Fin du téléchargement du fichier : 9-7-2020_4.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:40:26</date>
+  <millis>1594226426670</millis>
+  <sequence>51</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:40:38</date>
+  <millis>1594226438586</millis>
+  <sequence>52</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:40:38</date>
+  <millis>1594226438587</millis>
+  <sequence>53</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Début du téléchargement du fichier : 9-7-2020_5.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:40:59</date>
+  <millis>1594226459490</millis>
+  <sequence>54</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Fin du téléchargement du fichier : 9-7-2020_5.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:40:59</date>
+  <millis>1594226459550</millis>
+  <sequence>55</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:41:03</date>
+  <millis>1594226463977</millis>
+  <sequence>56</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:41:03</date>
+  <millis>1594226463978</millis>
+  <sequence>57</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Début du téléchargement du fichier : 9-7-2020_6.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:41:25</date>
+  <millis>1594226485450</millis>
+  <sequence>58</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message> *** Fin du téléchargement du fichier : 9-7-2020_6.mp4 ***</message>
+</record>
+<record>
+  <date>2020-07-08T18:41:25</date>
+  <millis>1594226485500</millis>
+  <sequence>59</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:41:25</date>
+  <millis>1594226485883</millis>
+  <sequence>60</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:41:26</date>
+  <millis>1594226486346</millis>
+  <sequence>61</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
+  <message>Stockage fichier sur serveur OK</message>
+</record>
+<record>
+  <date>2020-07-08T18:41:26</date>
+  <millis>1594226486369</millis>
+  <sequence>62</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>24</thread>
   <message>FTPS Déconnexion OK</message>
 </record>
 </log>

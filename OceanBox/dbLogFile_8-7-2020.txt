@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-07-08T15:51:18</date>
-  <millis>1594216278148</millis>
+  <date>2020-07-08T18:37:08</date>
+  <millis>1594226228965</millis>
   <sequence>0</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -13,8 +13,8 @@
   <message>Driver Loaded Successfully</message>
 </record>
 <record>
-  <date>2020-07-08T15:51:18</date>
-  <millis>1594216278154</millis>
+  <date>2020-07-08T18:37:08</date>
+  <millis>1594226228972</millis>
   <sequence>1</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -24,8 +24,8 @@
   <message>Connecting to a selected database...</message>
 </record>
 <record>
-  <date>2020-07-08T15:51:18</date>
-  <millis>1594216278505</millis>
+  <date>2020-07-08T18:37:09</date>
+  <millis>1594226229335</millis>
   <sequence>2</sequence>
   <logger>DB Logger</logger>
   <level>INFO</level>
@@ -34,4 +34,36 @@
   <thread>1</thread>
   <message>Connected database successfully...</message>
 </record>
-</log>
+<record>
+  <date>2020-07-08T18:37:09</date>
+  <millis>1594226229509</millis>
+  <sequence>3</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>Driver Loaded Successfully</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:09</date>
+  <millis>1594226229509</millis>
+  <sequence>4</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>Connecting to a selected database...</message>
+</record>
+<record>
+  <date>2020-07-08T18:37:09</date>
+  <millis>1594226229702</millis>
+  <sequence>5</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>22</thread>
+  <message>Connected database successfully...</message>
+</record>
