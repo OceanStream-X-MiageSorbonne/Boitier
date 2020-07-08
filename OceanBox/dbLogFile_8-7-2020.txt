@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-07-08T15:51:18</date>
+  <millis>1594216278148</millis>
+  <sequence>0</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Driver Loaded Successfully</message>
+</record>
+<record>
+  <date>2020-07-08T15:51:18</date>
+  <millis>1594216278154</millis>
+  <sequence>1</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connecting to a selected database...</message>
+</record>
+<record>
+  <date>2020-07-08T15:51:18</date>
+  <millis>1594216278505</millis>
+  <sequence>2</sequence>
+  <logger>DB Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connected database successfully...</message>
+</record>
+</log>

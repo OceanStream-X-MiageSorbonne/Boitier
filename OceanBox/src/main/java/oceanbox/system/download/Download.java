@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import oceanbox.ReglagesDeTest;
 import oceanbox.propreties.ClientPropreties;
-
 import oceanbox.system.Contenu;
 import oceanbox.system.bdd.DatabaseLoader;
 import oceanbox.system.ftp.RecupVideoFromServer;
@@ -30,7 +30,7 @@ public class Download {
 	private Map<Integer, Video> videosInfos;
 	private Contenu contenu;
 	private RecupVideoFromServer serverStuff;
-	
+
 	public Download(Contenu contenu) {
 		this.contenu = contenu;
 	}
@@ -41,8 +41,10 @@ public class Download {
 	public void initDownload() {
 		timeToDownload = new Timer();
 		//timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
-		timeToDownload.schedule(new DownloadTask(), Date.from(LocalDateTime.now().plusSeconds(10).atZone(ZoneId.systemDefault()).toInstant()));
-
+		// ----------------------------------------------------------------------
+		objectVideosInfo = new VideosInfos();
+		long total = objectVideosInfo.getTotalDurationOfVideos();
+		timeToDownload.schedule(new DownloadTask(), Date.from(LocalDateTime.now().plusSeconds(total - contenu.repereForDiffusion()).atZone(ZoneId.systemDefault()).toInstant()));
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class Download {
 	 * 
 	 * @return : la Date du prochain téléchargement
 	 */
-	@SuppressWarnings("unused") // pour le dev --> à remettre pour la mise en prod
+	@SuppressWarnings("unused")
 	private Date initTimeBeforeDownload() {
 
 		objectVideosInfo = new VideosInfos();
@@ -65,9 +67,9 @@ public class Download {
 		int minutes = Integer.parseInt(times[1]);
 		int seconds = Integer.parseInt(times[2]);
 
-		ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth(), hour, minutes, seconds);
+		ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth() + 1, hour, minutes, seconds);
 
-		ldt = ldt.plus((long) ((((24.0 * 3600.0) / total) - 1) * total), ChronoUnit.SECONDS);
+		ldt = ldt.minus((long) total, ChronoUnit.SECONDS);
 
 		try {
 			ClientPropreties.setPropretie("nextDownloadTime",
@@ -76,7 +78,7 @@ public class Download {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println(Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant()));
 		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
@@ -87,19 +89,30 @@ public class Download {
 
 		@Override
 		public void run() {
-			
 			objectVideosInfo = new VideosInfos();
+			DatabaseLoader.setPropretiesFromDatabase();
+			// Ce qui est ci-dessous évite les conflits en testant sur un ordinateur
+			try {
+				ReglagesDeTest.initPersonalSettings();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+			// ---------------------------------------------------------------------
 			
-			// Enlever ce commentaire une fois en prod
-			// DatabaseLoader.setPropretiesFromDatabase();
-
 			serverStuff = RecupVideoFromServer.getInstance();
 			videosInfos = objectVideosInfo.getVideosInfos();
+
+			if (serverStuff.getPrefixeNomVideo().equals(videosInfos.get(1).getDate() + "_")) {
+				System.out.println(">>>>>>> J+1 déjà en mémoire");
+				initDownload();
+				return;
+			}
+
+			System.out.println(">>>>>>> Début du téléchargement J+1");
 
 			int n = 0;
 			int[] infosCurrentVideo;
 			for (int i : serverStuff.getVideosFiles()) {
-
 				n = i;
 				infosCurrentVideo = contenu.getInfosCurrentVideo(videosInfos, contenu.repereForDiffusion(), false);
 				if (infosCurrentVideo[0] <= i)
@@ -111,14 +124,14 @@ public class Download {
 						}
 
 				serverStuff.ftpsDownloadFile(i);
-				
-				System.out.println(i);
 			}
 
-			for (int j = n + 1; j <= videosInfos.size(); j++) {
-
-				serverStuff.deleteLocalOldFile(j);
+			if (n > 0) {
+				for (int j = n + 1; j <= videosInfos.size(); j++) {
+					serverStuff.deleteLocalOldFile(j);
+				}
 			}
+			System.out.println(">>>>>>> Fin du téléchargement");
 			
 			serverStuff.uploadFtpLogFile();
 

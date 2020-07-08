@@ -26,8 +26,6 @@ public class FtpsConnectionHandler {
 	 * via une connexion sécurisée (FTPS)
 	 */
 	public static FTPSClient ftpsConnection(RemoteLogger logger) {
-		//ftpsClient = new FTPSClient();
-
 		if(!FTPS_CLIENT.isConnected()) {
 			try {
 				FTPS_CLIENT.connect(FTP_IP, FTP_PORT);

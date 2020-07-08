@@ -1,21 +1,19 @@
-#Fri Jun 26 10:23:24 CEST 2020
-MediaInfoCMD=/usr/bin/mediainfo
-oceanBoxNumber=0
-ftpPassword=Stream2020
-FtpLogPath=ftpLogFile.log
-dbIP=37.187.107.122
+#Wed Jul 08 15:51:18 CEST 2020
 ftpUser=ocean_ftp
-VlcCMD=/usr/bin/vlc
-dbPort=3306
-videoPath=/home/mathieuridet/Videos/OceanBox/
-ftpLogFileName=logFtpRasp0_25-6-2020.txt
+ftpPassword=Stream2020
+ftpLogPath=UNKNOWN
 ftpVideoPath=/default_video/
-remoteLogPath=\\logs\\
-dbUser=ocean_bdd
-dbLogFileName=dbLogFile_25-6-2020.txt
-oceanBoxIP=127.0.1.1
-ftpIP=37.187.107.122
-ftpPort=21
-localLogPath=
-DbLogPath=dbLogFile.txt
 dbPassword=OceanBox2020
+dbIP=37.187.107.122
+remoteLogPath=UNKNOWN
+ftpIP=37.187.107.122
+dbPort=3306
+videoPath=/Users/abdelbenamara/Movies/OceanBox/
+ftpPort=21
+localLogPath=UNKNOWN
+mediaInfoCMD=/usr/local/bin/mediainfo
+dbLogPath=UNKNOWN
+vlcCMD=/Applications/VLC.app/Contents/MacOS/VLC
+oceanBoxNumber=0
+dbUser=ocean_bdd
+oceanBoxIP=192.168.1.17

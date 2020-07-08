@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
+import oceanbox.utils.ConstructLogFileName;
 import oceanbox.utils.loggers.LocalLogger;
 
 /**
@@ -19,10 +20,10 @@ import oceanbox.utils.loggers.LocalLogger;
  */
 public class DatabaseLoader {
 
-	private static final String DB_LOG_FILE_NAME = "dbLogFileName";
+	private static final String DB_LOG_FILE_NAME = "dbLogFile";
 	
 	// File logger
-	static final LocalLogger logger = new LocalLogger("DB Logger", SystemPropreties.getPropretie(DB_LOG_FILE_NAME));
+	static final LocalLogger logger = new LocalLogger("DB Logger", ConstructLogFileName.getDbLogFileName(DB_LOG_FILE_NAME));
 	
 	// JDBC driver's name
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -130,8 +131,8 @@ public class DatabaseLoader {
 
 				SystemPropreties.setPropretie("videoPath", resultat.getString("videoPath"));
 				SystemPropreties.setPropretie("mediaInfoCMD", resultat.getString("mediaInfoCMD"));
-				SystemPropreties.setPropretie("ftpLogPath", resultat.getString("ftpLogPath"));
 				SystemPropreties.setPropretie("vlcCMD", resultat.getString("vlcCMD"));
+				SystemPropreties.setPropretie("ftpLogPath", resultat.getString("ftpLogPath"));
 				SystemPropreties.setPropretie("remoteLogPath", resultat.getString("remoteLogPath"));
 				SystemPropreties.setPropretie("localLogPath", resultat.getString("localLogPath"));
 				SystemPropreties.setPropretie("dbLogPath", resultat.getString("dbLogPath"));
