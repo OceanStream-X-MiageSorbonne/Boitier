@@ -52,6 +52,8 @@ public class SystemPropreties {
 		// Log settings
 		defaultProperties.put("ftpLogPath", "ftpLogFile.log");
 		defaultProperties.put("dbLogPath", "dbLogFile.txt");
+		defaultProperties.put("localLogPath", "UNKNOWN");
+		defaultProperties.put("remotLogPath", "UNKNOWN");
 		
 		//CMDs
 		defaultProperties.put("mediaInfoCMD", "/usr/bin/mediainfo");

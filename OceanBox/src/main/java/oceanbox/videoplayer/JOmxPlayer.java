@@ -23,8 +23,7 @@ public class JOmxPlayer implements VideoPlayer {
 
 		cmd = "omxplayer";
 		cmd += " --advanced";
-		cmd += " --pos " + time + " ";
-		cmd += " --aspect-mode fill ";
+		cmd += " --pos " + time;
 		cmd += " " + videoPath;
 
 		ProcessBuilder playerBuilder = new ProcessBuilder("sh", "-c", cmd);
