@@ -8,15 +8,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.logging.Level;
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.propreties.SystemPropreties;
+import oceanbox.utils.ConstructLogFileName;
+import oceanbox.utils.loggers.LocalLogger;
 
 /**
- * Cette classe récupère les informations dans la base de données et les
- * écrit dans les fichiers de propriétés
+ * Cette classe récupère les informations dans la base de données et les écrit
+ * dans les fichiers de propriétés
  */
 public class DatabaseLoader {
 
+	private static final String DB_LOG_FILE_NAME = "dbLogFile";
+	
+	// File logger
+	static final LocalLogger logger = new LocalLogger("DB Logger", ConstructLogFileName.getDbLogFileName(DB_LOG_FILE_NAME));
+	
 	// JDBC driver's name
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
@@ -37,12 +45,18 @@ public class DatabaseLoader {
 
 			try {
 				Class.forName(JDBC_DRIVER);
+				logger.log(Level.INFO, "Driver Loaded Successfully");
 			} catch (ClassNotFoundException ex) {
+				logger.log(Level.INFO, "Driver Failed To Load");
+				logger.log(Level.INFO, ex.getMessage());
 			}
 
 			// Open a connection
+			logger.log(Level.INFO, "Connecting to a selected database...");
 
 			conn = DriverManager.getConnection("jdbc:mysql://" + HOST + ":" + PORT + "/oceandatabase", USER, PASS);
+
+			logger.log(Level.INFO, "Connected database successfully...");
 
 		} catch (SQLException se) {
 			// Handle errors for JDBC
@@ -59,18 +73,18 @@ public class DatabaseLoader {
 	private static void dbDeconnexion() {
 
 		try {
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
+			conn.close();
+
+		} catch (SQLException ex) {
+			logger.log(Level.SEVERE, ex.toString());
+		}
 	}
 
 	/**
-	 * Cette méthode permet de mettre à jour les fichiers de propriétés à
-	 * partir des informations stockées dans la base de données. A noter que l'on
-	 * met à jour l'IP locale stockée dans la base de données à chaque appel de
-	 * cette méthode
+	 * Cette méthode permet de mettre à jour les fichiers de propriétés à partir des
+	 * informations stockées dans la base de données. A noter que l'on met à jour
+	 * l'IP locale stockée dans la base de données à chaque appel de cette méthode
 	 */
 	public static void setPropretiesFromDatabase() {
 
@@ -117,16 +131,16 @@ public class DatabaseLoader {
 
 				SystemPropreties.setPropretie("videoPath", resultat.getString("videoPath"));
 				SystemPropreties.setPropretie("mediaInfoCMD", resultat.getString("mediaInfoCMD"));
-				SystemPropreties.setPropretie("ftpLogPath", resultat.getString("ftpLogPath"));
 				SystemPropreties.setPropretie("vlcCMD", resultat.getString("vlcCMD"));
+				SystemPropreties.setPropretie("ftpLogPath", resultat.getString("ftpLogPath"));
 				SystemPropreties.setPropretie("remoteLogPath", resultat.getString("remoteLogPath"));
 				SystemPropreties.setPropretie("localLogPath", resultat.getString("localLogPath"));
 				SystemPropreties.setPropretie("dbLogPath", resultat.getString("dbLogPath"));
 
 			}
 
-		} catch (SQLException | IOException e) {
-			e.printStackTrace();
+		} catch (SQLException | IOException ex) {
+			logger.log(Level.SEVERE, ex.toString());
 		}
 
 		dbDeconnexion();
@@ -149,8 +163,8 @@ public class DatabaseLoader {
 			preparedStatement.setString(2, SystemPropreties.getPropretie("oceanBoxNumber"));
 			preparedStatement.executeUpdate();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException ex) {
+			logger.log(Level.INFO, ex.toString());
 		}
 
 		dbDeconnexion();

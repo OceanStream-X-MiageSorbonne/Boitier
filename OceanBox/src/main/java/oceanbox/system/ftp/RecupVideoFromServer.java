@@ -8,44 +8,52 @@ import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 import oceanbox.propreties.SystemPropreties;
+import oceanbox.utils.ConstructLogFileName;
+import oceanbox.utils.loggers.RemoteLogger;
 import oceanbox.system.ftp.FtpsConnectionHandler;;
+
 /**
  * Cette classe permet de lancer les téléchargements des vidéos qui sont sur un
  * serveur FTP
  */
 public class RecupVideoFromServer {
-	
 
+	private RemoteLogger logger;
 	private Set<Integer> videosFiles;
 	private String cheminDistant;
 	private String prefixeNomVideo;
 	private String suffixeNomVideo;
 	private String cheminLocal;
 	private static FTPSClient ftpsClient;
-	
+
 	/*
-	public RecupVideoFromServer() {
-		setVideoRegex();
-		setVideosFiles();
-	}
-	*/
-	
-	// ************************* Implémentation du Singleton *************************************
+	 * public RecupVideoFromServer() { setVideoRegex(); setVideosFiles(); }
+	 */
+
+	// ************************* Implémentation du Singleton *************************
 	private static RecupVideoFromServer INSTANCE = null;
 
 	private RecupVideoFromServer() {
-		setVideoRegex();
-		setVideosFiles();
+		logger = new RemoteLogger("FTP Logger",
+				ConstructLogFileName.getFtpLogFileName("logFtpRasp", SystemPropreties.getPropretie("oceanBoxNumber")));
 	}
-	
+
 	public static RecupVideoFromServer getInstance() {
-		if(INSTANCE == null) INSTANCE = new RecupVideoFromServer();
+		if (INSTANCE == null)
+			INSTANCE = new RecupVideoFromServer();
 		return INSTANCE;
 	}
-	//*************************************************************************************
+	// *******************************************************************************
+
+	public void uploadFtpLogFile() {
+		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
+		logger.uploadLogFileOnServer(ftpsClient);
+		FtpsConnectionHandler.ftpsDeconnection(logger);
+	}
 
 	/**
 	 * Cette méthode télécharge la video ayant le numéro souhaité
@@ -53,34 +61,37 @@ public class RecupVideoFromServer {
 	 * @param numVideo : le numéro de la vidéo à télécharger
 	 */
 	public void ftpsDownloadFile(int numVideo) {
-		ftpsClient = FtpsConnectionHandler.ftpsConnection();
+		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
 
 		String nomVideoVoulu = prefixeNomVideo + numVideo + suffixeNomVideo;
 		try {
 			File fichierlocal = new File(cheminLocal + nomVideoVoulu);
+			System.out.println(fichierlocal);
 			fichierlocal.createNewFile();
 
 			OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(fichierlocal, false));
 
-			System.out.println(" *** D�but du t�l�chargement : " + nomVideoVoulu + " ***");
+			System.out.println(" *** Début du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			logger.log(Level.INFO, " *** Début du téléchargement du fichier : " + nomVideoVoulu + " ***");
 			ftpsClient.retrieveFile(cheminDistant + nomVideoVoulu, outputStream);
-			System.out.println(" *** Fin du t�l�chargement du fichier : " + nomVideoVoulu + " ***");
+			logger.log(Level.INFO, " *** Fin du téléchargement du fichier : " + nomVideoVoulu + " ***");
+			System.out.println(" *** Fin du téléchargement du fichier : " + nomVideoVoulu + " ***");
 
 			// Téléchargement du paquet terminé, on ferme les flux
 			outputStream.close();
-			
+
 			deleteLocalOldFile(numVideo);
 
 			// On ferme la connexion FTP
-			FtpsConnectionHandler.ftpsDeconnection();
-			
+			FtpsConnectionHandler.ftpsDeconnection(logger);
+
 		} catch (IOException e) {
 			// LOGGER.error(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if (ftpsClient.isConnected()) {
 				// On ferme la connexion FTP
-				FtpsConnectionHandler.ftpsDeconnection();
+				FtpsConnectionHandler.ftpsDeconnection(logger);
 			}
 		}
 	}
@@ -93,11 +104,8 @@ public class RecupVideoFromServer {
 	public void deleteLocalOldFile(int numVideo) {
 		// Suppression de l'ancien paquet en local
 		for (String nomVideo : new File(cheminLocal).list()) {
-			if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo)) {
-				System.out.println(" *** Suppression de : " + cheminLocal + nomVideo + " ***");
-				(new File(cheminLocal + nomVideo)).delete();
-			}
-			
+			if (!nomVideo.startsWith(prefixeNomVideo) && nomVideo.endsWith(numVideo + suffixeNomVideo))
+				new File(cheminLocal + nomVideo).delete();
 		}
 	}
 
@@ -105,8 +113,8 @@ public class RecupVideoFromServer {
 	 * Cette méthode initialise le Set " videosFiles " avec les numéros des vidéos à
 	 * télécharger sur le serveur
 	 */
-	private void setVideosFiles() {
-		ftpsClient = FtpsConnectionHandler.ftpsConnection();
+	public void setVideosFiles() {
+		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
 		videosFiles = new TreeSet<Integer>();
 		try {
 			for (FTPFile paquet : ftpsClient.listFiles(cheminDistant)) {
@@ -124,12 +132,12 @@ public class RecupVideoFromServer {
 	 * Cette méthode initialise les informations nécessaires au téléchargement des
 	 * vidéos du jour suivant
 	 */
-	private void setVideoRegex() {
+	public void setVideoRegex() {
 		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
 		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
-		//prefixeNomVideo = "25-6-2020_";
-		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() + "_";
+		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue()
+				+ "-" + LocalDateTime.now().getYear() + "_";
 	}
 
 	/**
@@ -142,6 +150,20 @@ public class RecupVideoFromServer {
 		return videosFiles;
 	}
 
+	/**
+	 * Cette méthode modifie le préfixe des noms des vidéos à télécharger
+	 * 
+	 * @param prefixeNomVideo
+	 */
+	public void setPrefixeNomVideo(String prefixeNomVideo) {
+		this.prefixeNomVideo = prefixeNomVideo;
+	}
+
+	/**
+	 * Cette méthode renvoie le préfixe des noms des vidéos à télécharger
+	 * 
+	 * @return : une String contenant le préfixe
+	 */
 	public String getPrefixeNomVideo() {
 		return prefixeNomVideo;
 	}
