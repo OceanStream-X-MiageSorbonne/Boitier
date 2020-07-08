@@ -30,7 +30,7 @@ public class ClientPropreties {
 		defaultProperties = new HashMap<String, String>();
 
 		// User settings
-		defaultProperties.put("userName", "-1");
+		defaultProperties.put("userId", "0");
 		defaultProperties.put("userName", "name");
 		defaultProperties.put("userType", "type");
 

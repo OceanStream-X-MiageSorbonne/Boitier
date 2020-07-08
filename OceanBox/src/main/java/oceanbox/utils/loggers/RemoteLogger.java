@@ -28,9 +28,10 @@ public class RemoteLogger {
 	 */
 	public RemoteLogger(String loggerName, String fileName) {
 		logger = new LocalLogger(loggerName, fileName);
-		remoteFileName = SystemPropreties.getPropretie("remoteLogPath")
-				+ SystemPropreties.getPropretie("ftpLogFileName");
-		localFileName = SystemPropreties.getPropretie("localLogPath") + SystemPropreties.getPropretie("ftpLogFileName");
+		String remotePath = SystemPropreties.getPropretie("remoteLogPath").equalsIgnoreCase("unknown") ? "/logs/" : SystemPropreties.getPropretie("remoteLogPath");
+		String localPath = SystemPropreties.getPropretie("localLogPath").equalsIgnoreCase("unknown") ? "" : SystemPropreties.getPropretie("localLogPath");
+		remoteFileName = remotePath + fileName;
+		localFileName = localPath + fileName;
 	}
 
 	/**
@@ -75,12 +76,14 @@ public class RemoteLogger {
 		// Store file on server
 		if (fis != null) {
 			try {
-				if(ftpsClient.storeFile(remoteFileName, fis)) {
+				boolean test = ftpsClient.storeFile(remoteFileName, fis);
+				System.out.println(test);
+				if(test) {
 					logger.log(Level.INFO, "Stockage fichier sur serveur OK");
-					System.out.println("Stockage fichier sur serveur OK !!!!!");
+					System.out.println("Stockage fichier sur serveur OK");
 				} else {
 					logger.log(Level.INFO, "Stockage fichier sur serveur NOT OK");
-					System.out.println("Stockage fichier sur serveur NOT OK !!!!!");
+					System.out.println("Stockage fichier sur serveur NOT OK");
 				}
 			} catch (IOException e) {
 				logger.log(Level.WARNING, "Stockage fichier sur serveur NOT OK");

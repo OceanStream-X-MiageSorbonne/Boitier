@@ -16,39 +16,20 @@ import oceanbox.system.download.Download;
 public class App {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		
+
 		// On initialise les fichiers de propriétés puis on les complète avec les
 		// informations qui sont sur la base de données
 		SystemPropreties.initPropreties();
 		ClientPropreties.initPropreties();
 		DatabaseLoader.setPropretiesFromDatabase();
 
-		// -----------------------------------------------------------------------------------
-
-		// Modifiez la ligne ci-dessous pour aller chercher les videos au bon endroit
-		//SystemPropreties.setPropretie("videoPath", "/Users/abdelbenamara/Movies/OceanBox/");
-		//SystemPropreties.setPropretie("videoPath", "/Users/daekc/Desktop/video/");
-		SystemPropreties.setPropretie("videoPath", "/home/mathieuridet/Videos/OceanBox/");
-		//SystemPropreties.setPropretie("videoPath", "/home/pi/OceanBox/video/");
-
-
-		// Les properties ci-dessous influent directement sur l'application
-		ClientPropreties.setPropretie("wakingHour", "08:30:00");
-		ClientPropreties.setPropretie("activateStandby", "true");
-		ClientPropreties.setPropretie("timeBeforeStandby", "00:00:20");
-		
-		//SystemPropreties.setPropretie("vlcCMD", "/Applications/VLC.app/Contents/MacOS/VLC");
-		SystemPropreties.setPropretie("vlcCMD", "/usr/bin/vlc");
-		
-		SystemPropreties.setPropretie("mediaInfoCMD", "/usr/local/bin/mediainfo");
-		SystemPropreties.setPropretie("mediaInfoCMD", "/usr/bin/mediainfo");
-
-		// -----------------------------------------------------------------------------------
+		// Ce qui est ci-dessous évite les conflits en testant sur un ordinateur
+		ReglagesDeTest.initPersonalSettings();
+		// ---------------------------------------------------------------------
 
 		Contenu c = new Contenu();
 		Download d = new Download(c);
 		d.initDownload();
 		c.initVideos();
-		
 	}
 }

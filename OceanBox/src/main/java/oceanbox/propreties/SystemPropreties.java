@@ -57,14 +57,6 @@ public class SystemPropreties {
 		defaultProperties.put("mediaInfoCMD", "/usr/bin/mediainfo");
 		defaultProperties.put("vlcCMD", "/usr/bin/vlc");
 		
-		//defaultProperties.put("remoteLogPath", "\\logs\\");
-		//defaultProperties.put("localLogPath", "/OceanBox/src/main/resources/properties/");
-		//defaultProperties.put("localLogPath", "");
-		//defaultProperties.put("ftpLogFileName", ConstructLogFileName.getFtpLogFileName("logFtpRasp", defaultProperties.get("oceanBoxNumber")));
-		//defaultProperties.put("dbLogFileName", ConstructLogFileName.getDbLogFileName("dbLogFile"));
-		//defaultProperties.put("dbLogPath", "");
-		//defaultProperties.put("ftpLogPath","");
-
 	}
 
 	/**

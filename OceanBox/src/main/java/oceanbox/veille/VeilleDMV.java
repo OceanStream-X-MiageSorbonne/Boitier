@@ -22,7 +22,7 @@ public class VeilleDMV implements Veille {
 	public VeilleDMV(Contenu c) {
 		contenu = c;
 		this.sleepMode = false;
-		if (ClientPropreties.getPropretie("activateStandby").equals("true")) {
+		if (ClientPropreties.getPropretie("activateStandby").equals("1")) {
 			initMotionSensorListner();
 		}
 		
@@ -30,14 +30,10 @@ public class VeilleDMV implements Veille {
 	}
 
 	private void initMotionSensorListner() {
-		initVeille();
-		
-		System.out.println("Starting Pi4J Motion Sensor Example");					
-		
+		initVeille();				
 		// create gpio controller			
 		final GpioController gpioSensor = GpioFactory.getInstance(); 
 		final GpioPinDigitalInput sensor = gpioSensor.provisionDigitalInputPin(RaspiPin.GPIO_07, PinPullResistance.PULL_DOWN);			
-		System.out.println(sensor.getPin());
 		// create and register gpio pin listener			
 		sensor.addListener(new GpioPinListenerDigital() {			
 		    @Override		
@@ -52,14 +48,14 @@ public class VeilleDMV implements Veille {
 
 	@Override
 	public void goInVeille() {
-		System.out.println(">>> Into veille");
+		System.out.println(">>> Get in veille !");
 		sleepMode = true;
 		contenu.stopDiffusion();
 	}
 
 	@Override
 	public void update() {
-		if (!sleepMode && ClientPropreties.getPropretie("activateStandby").equals("true")) {
+		if (!sleepMode && ClientPropreties.getPropretie("activateStandby").equals("1")) {
 			pushVeille();
 		} else {
 			goOutVeille();
@@ -68,22 +64,20 @@ public class VeilleDMV implements Veille {
 
 	@Override
 	public void goOutVeille() {
-		System.out.println(">>> get out");
-		if (ClientPropreties.getPropretie("activateStandby").equals("true"))
+		System.out.println(">>> Get out veille");
+		if (ClientPropreties.getPropretie("activateStandby").equals("1"))
 			initVeille();
 		sleepMode = false;
 	}
 
 	@Override
 	public void pushVeille() {
-		System.out.println(">>> push");
 		timeBeforeVeille.cancel();
 		initVeille();
 	}
 
 	@Override
 	public void initVeille() {
-		System.out.println(">>> Init veille");
 		timeBeforeVeille = new Timer();
 		timeBeforeVeille.schedule(new VeilleTask(), initMiliSecondsBeforeClose());
 	}

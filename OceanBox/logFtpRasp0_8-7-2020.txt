@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-07-08T15:51:19</date>
+  <millis>1594216279238</millis>
+  <sequence>3</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>FTPS Connection OK</message>
+</record>
+<record>
+  <date>2020-07-08T15:51:19</date>
+  <millis>1594216279799</millis>
+  <sequence>4</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Stockage fichier sur serveur OK</message>
+</record>
+<record>
+  <date>2020-07-08T15:51:19</date>
+  <millis>1594216279827</millis>
+  <sequence>5</sequence>
+  <logger>FTP Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.loggers.LocalLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>FTPS Déconnexion OK</message>
+</record>
+</log>

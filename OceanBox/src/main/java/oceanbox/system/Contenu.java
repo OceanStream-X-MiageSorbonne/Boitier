@@ -8,9 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import oceanbox.propreties.ClientPropreties;
 import oceanbox.veille.Veille;
-//import oceanbox.veille.VeilleDMV;
 import oceanbox.veille.VeilleScanner;
-//import oceanbox.videoplayer.JOmxPlayer;
 import oceanbox.videoplayer.JVlcPlayer;
 import oceanbox.videoplayer.Video;
 import oceanbox.videoplayer.VideoPlayer;
@@ -34,6 +32,9 @@ public class Contenu {
 		veille = new VeilleScanner(this);
 		videoPlayer = new JVlcPlayer();
 		diffusionStart = -1;
+		objectVideosInfo = new VideosInfos();
+		videosInfos = objectVideosInfo.getVideosInfos();
+		totalDurationOfVideo = objectVideosInfo.getTotalDurationOfVideos();
 	}
 
 	/**

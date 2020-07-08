@@ -12,14 +12,15 @@ import java.util.logging.Level;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 import oceanbox.propreties.SystemPropreties;
+import oceanbox.utils.ConstructLogFileName;
 import oceanbox.utils.loggers.RemoteLogger;
 import oceanbox.system.ftp.FtpsConnectionHandler;;
+
 /**
  * Cette classe permet de lancer les téléchargements des vidéos qui sont sur un
  * serveur FTP
  */
 public class RecupVideoFromServer {
-	
 
 	private RemoteLogger logger;
 	private Set<Integer> videosFiles;
@@ -28,29 +29,27 @@ public class RecupVideoFromServer {
 	private String suffixeNomVideo;
 	private String cheminLocal;
 	private static FTPSClient ftpsClient;
-	
+
 	/*
-	public RecupVideoFromServer() {
-		setVideoRegex();
-		setVideosFiles();
-	}
-	*/
-	
+	 * public RecupVideoFromServer() { setVideoRegex(); setVideosFiles(); }
+	 */
+
 	// ************************* Implémentation du Singleton *************************************
 	private static RecupVideoFromServer INSTANCE = null;
 
 	private RecupVideoFromServer() {
-		logger = new RemoteLogger("ftpLogger", SystemPropreties.getPropretie("ftpLogFileName"));
+		logger = new RemoteLogger("FTP Logger",
+				ConstructLogFileName.getFtpLogFileName("logFtpRasp", SystemPropreties.getPropretie("oceanBoxNumber")));
 		setVideoRegex();
 		setVideosFiles();
 	}
-	
+
 	public static RecupVideoFromServer getInstance() {
-		if(INSTANCE == null) INSTANCE = new RecupVideoFromServer();
+		if (INSTANCE == null)
+			INSTANCE = new RecupVideoFromServer();
 		return INSTANCE;
 	}
-	//*************************************************************************************
-	
+	// ********************************************************************************************
 
 	public void uploadFtpLogFile() {
 		ftpsClient = FtpsConnectionHandler.ftpsConnection(logger);
@@ -87,7 +86,7 @@ public class RecupVideoFromServer {
 
 			// On ferme la connexion FTP
 			FtpsConnectionHandler.ftpsDeconnection(logger);
-			
+
 		} catch (IOException e) {
 			// LOGGER.error(e.getMessage());
 			e.printStackTrace();
@@ -139,8 +138,9 @@ public class RecupVideoFromServer {
 		cheminDistant = SystemPropreties.getPropretie("ftpVideoPath");
 		cheminLocal = SystemPropreties.getPropretie("videoPath");
 		suffixeNomVideo = ".mp4";
-		//prefixeNomVideo = "25-6-2020_";
-		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue() + "-" + LocalDateTime.now().getYear() + "_";
+		// prefixeNomVideo = "25-6-2020_";
+		prefixeNomVideo = LocalDateTime.now().plusDays(1).getDayOfMonth() + "-" + LocalDateTime.now().getMonthValue()
+				+ "-" + LocalDateTime.now().getYear() + "_";
 	}
 
 	/**
@@ -151,5 +151,9 @@ public class RecupVideoFromServer {
 	 */
 	public Set<Integer> getVideosFiles() {
 		return videosFiles;
+	}
+
+	public String getPrefixeNomVideo() {
+		return prefixeNomVideo;
 	}
 }
