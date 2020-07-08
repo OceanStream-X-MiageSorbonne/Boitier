@@ -1,9 +1,0 @@
-- Install Balena Etchar
-- Install Raspberry Pi OS (32-bits) with desktop
-- connectique
-- Branchement detecteur de mouvement
-- Preciser copie auto-start
-- mettre vidéo
-- transfert de fichier
-- Ajouter à la chaine devOps 
-- chmod +x OceanBox.sh

@@ -48,7 +48,6 @@ public class Download {
 	 * 
 	 * @return : la Date du prochain téléchargement
 	 */
-	@SuppressWarnings("unused")
 	private Date initTimeBeforeDownload() {
 
 		objectVideosInfo = new VideosInfos();
@@ -63,9 +62,9 @@ public class Download {
 		int minutes = Integer.parseInt(times[1]);
 		int seconds = Integer.parseInt(times[2]);
 
-		ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth(), hour, minutes, seconds);
+		ldt = LocalDateTime.of(ldt.getYear(), ldt.getMonth(), ldt.getDayOfMonth() + 1, hour, minutes, seconds);
 
-		ldt = ldt.plus((long) ((((24.0 * 3600.0) / total) - 1) * total), ChronoUnit.SECONDS);
+		ldt = ldt.minus((long) total, ChronoUnit.SECONDS);
 
 		try {
 			ClientPropreties.setPropretie("nextDownloadTime",
