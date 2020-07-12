@@ -3,12 +3,12 @@ package oceanbox;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import oceanbox.propreties.ClientPropreties;
-import oceanbox.propreties.SystemPropreties;
-
-import oceanbox.system.Contenu;
-import oceanbox.system.bdd.DatabaseLoader;
-import oceanbox.system.download.Download;
+import oceanbox.system.Content;
+import oceanbox.system.Download;
+import oceanbox.utils.OceanLogger;
+import oceanbox.utils.bdd.DatabaseLoader;
+import oceanbox.utils.propreties.ClientProperties;
+import oceanbox.utils.propreties.SystemProperties;
 
 /**
  * Cette classe est le point d'entrée de l'application
@@ -19,15 +19,21 @@ public class App {
 
 		// On initialise les fichiers de propriétés puis on les complète avec les
 		// informations qui sont sur la base de données
-		SystemPropreties.initPropreties();
-		ClientPropreties.initPropreties();
+		SystemProperties.initProperties();
+		ClientProperties.initProperties();
+
+		// Ce qui est ci-dessous évite les conflits en testant sur un ordinateur
+		ReglagesDeTest.initPersonalSettings();
+		// ---------------------------------------------------------------------
+
+		OceanLogger.initLogger();
 		DatabaseLoader.setPropretiesFromDatabase();
 
 		// Ce qui est ci-dessous évite les conflits en testant sur un ordinateur
 		ReglagesDeTest.initPersonalSettings();
 		// ---------------------------------------------------------------------
 
-		Contenu c = new Contenu();
+		Content c = new Content();
 		Download d = new Download(c);
 		d.initDownload();
 		c.initVideos();
