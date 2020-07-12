@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"oceanbox"},{"l":"oceanbox.propreties"},{"l":"oceanbox.system"},{"l":"oceanbox.system.bdd"},{"l":"oceanbox.system.download"},{"l":"oceanbox.system.ftp"},{"l":"oceanbox.veille"},{"l":"oceanbox.videoplayer"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"oceanbox"},{"l":"oceanbox.system"},{"l":"oceanbox.utils"},{"l":"oceanbox.utils.bdd"},{"l":"oceanbox.utils.ftp"},{"l":"oceanbox.utils.propreties"},{"l":"oceanbox.veille"},{"l":"oceanbox.videosettings"}]
