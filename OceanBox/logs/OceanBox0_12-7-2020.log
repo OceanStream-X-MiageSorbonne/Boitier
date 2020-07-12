@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-07-12T00:40:05</date>
+  <millis>1594507205347</millis>
+  <sequence>0</sequence>
+  <logger>Ocean Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.OceanLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Driver Loaded Successfully</message>
+</record>
+<record>
+  <date>2020-07-12T00:40:05</date>
+  <millis>1594507205349</millis>
+  <sequence>1</sequence>
+  <logger>Ocean Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.OceanLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connecting to oceandatabase...</message>
+</record>
+<record>
+  <date>2020-07-12T00:40:05</date>
+  <millis>1594507205686</millis>
+  <sequence>2</sequence>
+  <logger>Ocean Logger</logger>
+  <level>INFO</level>
+  <class>oceanbox.utils.OceanLogger</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Connected to oceandatabase successfully !</message>
+</record>
+</log>
