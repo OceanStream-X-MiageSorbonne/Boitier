@@ -1,8 +1,8 @@
 oceanbox
-oceanbox.propreties
 oceanbox.system
-oceanbox.system.bdd
-oceanbox.system.download
-oceanbox.system.ftp
+oceanbox.utils
+oceanbox.utils.bdd
+oceanbox.utils.ftp
+oceanbox.utils.propreties
 oceanbox.veille
-oceanbox.videoplayer
+oceanbox.videosettings
