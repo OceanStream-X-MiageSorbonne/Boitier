@@ -12,12 +12,11 @@ import oceanbox.utils.propreties.ClientProperties;
  */
 public class VeilleScanner implements Veille {
 
-	private Content content;
 	private Timer timeBeforeStandby;
 	private Boolean sleepMode;
+	private static VeilleScanner VEILLE_INSTANCE = new VeilleScanner();
 
-	public VeilleScanner(Content c) {
-		this.content = c;
+	public VeilleScanner() {
 		this.sleepMode = false;
 		Thread VeilleScannerThread = new Thread(() -> {
 			if (ClientProperties.getPropertie("activateStandby").equals("1"))
@@ -28,8 +27,10 @@ public class VeilleScanner implements Veille {
 				entry = sc.next();
 				if (entry.equals("sleep"))
 					goInStandby();
-				else
+				else {
+					System.out.println(">>> Motion Detected!");
 					update();
+				}
 			}
 			sc.close();
 			System.exit(0);
@@ -38,10 +39,18 @@ public class VeilleScanner implements Veille {
 		VeilleScannerThread.start();
 	}
 
+	public static VeilleScanner getInstance() {
+		if (VEILLE_INSTANCE == null)
+			VEILLE_INSTANCE = new VeilleScanner();
+
+		return VEILLE_INSTANCE;
+	}
+
 	@Override
 	public void goInStandby() {
+		System.out.println(">>> Get in veille !");
 		sleepMode = true;
-		content.stopDiffusion();
+		Content.getInstance().stopDiffusion();
 
 	}
 
@@ -56,6 +65,7 @@ public class VeilleScanner implements Veille {
 
 	@Override
 	public void goOutStandby() {
+		System.out.println(">>> Get out veille");
 		if (ClientProperties.getPropertie("activateStandby").equals("1"))
 			initStandby();
 		sleepMode = false;

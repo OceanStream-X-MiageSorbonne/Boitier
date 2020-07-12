@@ -15,16 +15,22 @@ import oceanbox.utils.propreties.ClientProperties;
  */
 public class VeilleDMV implements Veille {
 
-	private Content content;
 	private Timer timeBeforeStandby;
 	private Boolean sleepMode;
+	private static VeilleDMV VEILLE_INSTANCE = new VeilleDMV();
 
-	public VeilleDMV(Content c) {
-		content = c;
+	public VeilleDMV() {
 		this.sleepMode = false;
 		if (ClientProperties.getPropertie("activateStandby").equals("1")) {
 			initMotionSensorListner();
 		}
+	}
+	
+	public static VeilleDMV getInstance() {
+		if (VEILLE_INSTANCE == null)
+			VEILLE_INSTANCE = new VeilleDMV();
+
+		return VEILLE_INSTANCE;
 	}
 
 	private void initMotionSensorListner() {
@@ -51,7 +57,7 @@ public class VeilleDMV implements Veille {
 	public void goInStandby() {
 		System.out.println(">>> Get in veille !");
 		sleepMode = true;
-		content.stopDiffusion();
+		Content.getInstance().stopDiffusion();
 	}
 
 	@Override

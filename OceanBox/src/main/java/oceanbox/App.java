@@ -22,19 +22,30 @@ public class App {
 		SystemProperties.initProperties();
 		ClientProperties.initProperties();
 
-		// Ce qui est ci-dessous évite les conflits en testant sur un ordinateur
-		ReglagesDeTest.initPersonalSettings();
-		// ---------------------------------------------------------------------
+		// ---------------------------------------------
+		// Pour tester sur ordinateur uniquement
+		try {
+			ReglagesDeTest.initPersonalSettings();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		// ---------------------------------------------
 
 		OceanLogger.initLogger();
 		DatabaseLoader.setPropretiesFromDatabase();
 
-		// Ce qui est ci-dessous évite les conflits en testant sur un ordinateur
-		ReglagesDeTest.initPersonalSettings();
-		// ---------------------------------------------------------------------
+		// ---------------------------------------------
+		// Pour tester sur ordinateur uniquement
+		try {
+			ReglagesDeTest.initPersonalSettings();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		// ---------------------------------------------
 
-		Content c = new Content();
-		Download d = new Download(c);
+		Content c = Content.getInstance();
+		Download d = Download.getInstance();
+
 		d.initDownload();
 		c.initVideos();
 	}
