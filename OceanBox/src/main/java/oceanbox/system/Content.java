@@ -28,13 +28,21 @@ public class Content {
 	private int diffusionStart;
 	private Veille veille;
 	private boolean noContent;
+	private static Content CONTENT_INSTANCE = new Content();
 
 	public Content() {
-		veille = new VeilleScanner(this);
+		veille = VeilleScanner.getInstance();
 		videoPlayer = JVlcPlayer.getInstance();
 		diffusionStart = -1;
 		objectVideosInfos = VideosInfos.getInstance(true);
 		initInfosOfVideos();
+	}
+
+	public static Content getInstance() {
+		if (CONTENT_INSTANCE == null)
+			CONTENT_INSTANCE = new Content();
+
+		return CONTENT_INSTANCE;
 	}
 
 	/**
@@ -42,7 +50,7 @@ public class Content {
 	 */
 	public void initInfosOfVideos() {
 		objectVideosInfos.initVideosInfos();
-		
+
 		videosInfos = objectVideosInfos.getVideosInfos();
 
 		totalDurationOfVideos = objectVideosInfos.getTotalDurationOfVideos();

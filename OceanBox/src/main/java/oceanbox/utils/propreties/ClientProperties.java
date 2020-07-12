@@ -19,7 +19,7 @@ public class ClientProperties {
 
 	protected static Properties props;
 	protected static Map<String, String> defaultProperties;
-	// protected static String path = "/home/pi/OceanBox/properties/";
+	// protected static String path = "/home/pi/OceanBox/properties/ClientProperties.properties";
 	protected static String path = "/Users/abdelbenamara/eclipse-workspace-java/Boitier/OceanBox/properties/ClientProperties.properties";
 
 	private ClientProperties() {

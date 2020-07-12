@@ -29,10 +29,18 @@ public class Download {
 	private VideosInfos objectVideosInfos;
 	private Map<Integer, Video> videosInfos;
 	private Content content;
+	private static Download DOWNLOAD_INSTANCE = new Download();
 
-	public Download(Content c) {
-		content = c;
+	public Download() {
+		content = Content.getInstance();
 		objectVideosInfos = VideosInfos.getInstance(false);
+	}
+
+	public static Download getInstance() {
+		if (DOWNLOAD_INSTANCE == null)
+			DOWNLOAD_INSTANCE = new Download();
+
+		return DOWNLOAD_INSTANCE;
 	}
 
 	/**
@@ -40,24 +48,7 @@ public class Download {
 	 */
 	public void initDownload() {
 		timeToDownload = new Timer();
-		// timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
-
-		// ----------------------------------------------------------------------
-
-		objectVideosInfos.initVideosInfos();
-
-		long total = objectVideosInfos.getTotalDurationOfVideos();
-
-		Date nextDownload;
-
-		if (total == 0)
-			nextDownload = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
-		else
-			nextDownload = Date.from(LocalDateTime.now().plusSeconds(total - content.repereForDiffusion())
-					.atZone(ZoneId.systemDefault()).toInstant());
-
-		System.out.println(nextDownload.toString());
-		timeToDownload.schedule(new DownloadTask(), nextDownload);
+		timeToDownload.schedule(new DownloadTask(), initTimeBeforeDownload());
 	}
 
 	/**
@@ -65,7 +56,6 @@ public class Download {
 	 * 
 	 * @return : la Date du prochain téléchargement
 	 */
-	@SuppressWarnings("unused")
 	private Date initTimeBeforeDownload() {
 
 		objectVideosInfos.initVideosInfos();
@@ -107,14 +97,15 @@ public class Download {
 			objectVideosInfos.initVideosInfos();
 
 			DatabaseLoader.setPropretiesFromDatabase();
-
-			// Ce qui est ci-dessous évite les conflits en testant sur un ordinateur
+			
+			// ---------------------------------------------
+			// Pour tester sur ordinateur uniquement
 			try {
 				ReglagesDeTest.initPersonalSettings();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			// ---------------------------------------------------------------------
+			// ---------------------------------------------
 
 			videosInfos = objectVideosInfos.getVideosInfos();
 
